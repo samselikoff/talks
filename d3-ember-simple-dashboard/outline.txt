@@ -1,0 +1,66 @@
+# Why use a framework at all?
+  - like everything, separation of concerns
+  - want your data separate from your visualizations/charts
+  	...which means you'll want to store your data in an organized way (models + controllers)
+  - event handling
+		...which means you'll want separate objects to handle each chart + its events atomically 
+	- will you want routing?
+	- if you start to make all this stuff along the way - why reinvent the wheel?
+
+# Why use Ember in particular? How can it help my interactive dashboards + visualization projects?
+	- persistent controllers
+	- binding & computed properties
+	- easy routing
+	- fixtures
+
+# I want to work with stand-alone D3 charts.
+  - not building an ember charting library
+  - a backbone charting library is more reasonable, because requiring backbone as a dependency is way less overhead than requiring ember. 
+  - But the main reason is, many people have already made their own d3 reusable charts, so it would be nice to be able to incorporate them into your ember project.
+
+
+# Build it
+
+- dependencies: d3, bootstrap, ember-data, moment, bootstrap-datepicker
+
+0. Mock it up
+  - want to show revenue gains/losses across companies, per month
+
+1. Scaffold
+	- application template contains our controls (datepicker). Will drive our routes.
+
+2. Datepicker
+	- create month resource
+	- create application controller
+		- needs month, so create month controller
+		- talk about application controller, knows lots of things, good to share data
+	- create datepicker view
+ 	- Changing the url. Tempting to want to use the datepicker to drive everything in this app. But good to tie its data to the model too, in case we add some other component in the future that can change the month.
+ 	- always think in terms of 2-way binding, will save you down the road. so make sure the datepicker is getting its ui from the data too.
+
+3. Companies bar chart of new sales (route driven data)
+	- stored models
+	- using companies array controller. made automatically.
+	- data store, adapter, fixtures
+	- make a view to wrap our d3 chart
+		- update when all els in array are loaded
+	- loading
+
+4. Add fee increases and attritions (ui driven data)
+	- we'll add filters separate from ui
+		- some considerations: bar chart separate from filters.
+		- reusable bar chart
+		- other filters
+	- everything driven from controller
+
+5. Add pie (extensible)
+	- we see benefit of filter separate from graphs
+	
+
+
+# Closing thoughts
+
+- Of course, more than one way to do it
+- Maybe you want your data manipulation methods on your views, if your controller gets crowded
+	- but maybe this is bad for sharing
+- can bootstrap initial data (e.g. previous 6 months)
