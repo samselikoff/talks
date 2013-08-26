@@ -58,7 +58,7 @@
 
     App.MonthController = Ember.ObjectController.extend({
       title: function() {
-        return moment(this.get('id')).format('MMMM YYYY');
+        return moment(this.get('id'), 'MMM-YYYY').format('MMMM YYYY');
       }.property('model')
     });
 
@@ -71,10 +71,9 @@
       didInsertElement: function() {
         var _this = this;
 
-        this.$().datepicker({'format': 'M yyyy','minViewMode': 'months'})
+        this.$().datepicker({'format': 'M-yyyy','minViewMode': 'months'})
           .on('changeDate', function(e) {
-            var id = $(this).datepicker().data('date').replace(" ", "-");
-            _this.get('controller').transitionToRoute('month', App.Month.find(id));
+            _this.get('controller').transitionToRoute('month', App.Month.find( e.format() ));
           });
 
         this.$('.month.active').removeClass('active');
@@ -86,11 +85,8 @@
       },
 
       update: function() {
-        debugger;
-        var month = moment( this.get('controller.controllers.month.id') );
-        this.$().datepicker('hide');
-        this.$().datepicker('setDate', month.toDate());
-        this.$().datepicker('show');
+        var month = moment( this.get('controller.controllers.month.id'), 'MMM-YYYY' );
+        this.$().datepicker('update', month.toDate());
       }.observes('controller.controllers.month.content')
 
     });
