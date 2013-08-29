@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Ember and D3</title>
+  <link rel="stylesheet" href="libs/bootstrap/bootstrap.css">
+  <link rel="stylesheet" href="libs/datepicker.css">
+  <link rel="stylesheet" href="libs/bootstrap-glyphicons.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <script type="text/x-handlebars">
+    <div class="title">
+      <h1>Ember and D3</h1>
+      <h2>Flexibility</h2>
+    </div>
+
+    <div class="content">
+      <div id="left-panel" class="text-center">
+        <div class="loading">
+          {{ outlet loading }}
+        </div>
+        {{view App.DatepickerView}}
+      </div>
+      
+      <div id="center-panel" class="container-fluid">
+        {{outlet}}
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="index">
+    <h3 class='text-center muted thin'>Select a month</h3>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="month">
+    <h1 class='text-center margin-bottom-large'>{{ title }}</h1>
+
+    <div class="text-center">
+      <ul class="nav nav-pills filters margin-left">
+        {{#view App.FilterView value="newContracts"}}<a>New Contracts</a>{{/view}}
+        {{#view App.FilterView value="feeIncreases"}}<a>Fee Increases</a>{{/view}}
+        {{#view App.FilterView value="attritions"}}<a>Attritions</a>{{/view}}
+      </ul>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-7">
+        {{view App.BarGraph 
+          isLoadedBinding="controller.controllers.companies.model.isLoaded" 
+          dataBinding="controller.controllers.companies.data"
+        }}
+      </div>
+      <div class="col-lg-5">
+        {{view App.PieGraph 
+          isLoadedBinding="controller.controllers.companies.model.isLoaded" 
+          dataBinding="controller.controllers.companies.data"
+        }}
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="loading">
+    <img src="img/loading.gif">
+  </script>
+
+  <script src="libs/d3.v3.min.js"></script>
+  <script src="libs/jquery-1.9.1.js"></script>
+  <script src="libs/handlebars-1.0.0-rc.4.js"></script>
+  <script src="libs/ember-1.0.0-rc.6.1.js"></script>
+  <script src="libs/ember-data-latest.js"></script>
+  <script src="libs/bootstrap-datepicker.js"></script>
+  <script src="libs/moment.min.js"></script>
+  <script src="libs/charts/BarChart.js"></script>
+  <script src="libs/charts/PieChart.js"></script>
+
+  <script>
+
+    App = Ember.Application.create();
+
+    App.Router.map(function() {
+      this.resource('month', { path: '/:month_id' });
+    });
+    App.LoadingRoute = Ember.Route.extend({
+      renderTemplate: function() {
+        if (this.controllerFor('application').get('currentPath')) {
+          this.render('loading', {into: 'application', outlet: 'loading'});
+        } 
+      }
+    });
+    App.MonthRoute = Ember.Route.extend({
+      setupController: function(controller, model) {
+        controller.set('model', model);
+        this.controllerFor('companies').set('model', model.get('companies'));
+      }
+    });
+
+
+    // Controllers
+    App.ApplicationController = Ember.Controller.extend({
+      needs: ['month']
+    });
+
+    App.MonthController = Ember.ObjectController.extend({
+      needs: ['companies'],
+      title: function() {
+        return moment(this.get('id'), 'MMM-YYYY').format('MMMM YYYY');
+      }.property('this.model')
+    });
+
+    App.CompaniesController = Ember.ArrayController.extend({
+      filter: 'newContracts',
+
+      data: function() {
+        if (this.get('model.isLoaded')) {
+          var _this = this;
+
+          var data = this.map(function(company) {
+            return {
+              category: company.get('name'),
+              count: company.get( _this.get('filter') ),
+            };
+          });
+        }
+        return data;
+      }.property('model.isLoaded', 'filter')
+    })
+
+
+    // Views
+    App.FilterView = Ember.View.extend({
+      tagName: 'li',
+      classNameBindings: ['active'],
+
+      active: function() {
+        return this.get('controller.controllers.companies.filter') == this.get('value');
+      }.property('controller.controllers.companies.filter'),
+
+      click: function() {
+        this.get('controller.controllers.companies').set('filter', this.get('value'));
+      }
+    })
+
+    App.BarGraph = Ember.View.extend({
+      classNames: ['chart'],
+
+      chart: BarChart()
+        .margin({left: 40, top: 40, bottom: 80, right: 40})
+        .oneColor('#BE3600')
+        .rotateAxisLabels(true)
+        // .hideAxisLabels(true)
+        // .noTicks(true)
+        // .staticDataLabels(true)
+        ,
+
+      didInsertElement: function() {
+        Ember.run.once(this, 'updateChart');
+      },
+
+      updateChart: function() {
+        if (this.get('isLoaded')) {
+
+          d3.select(this.$()[0])
+            .data([ this.get('data') ])
+            .call(this.get('chart'));
+        }
+      }.observes('data')
+
+    });
+
+    App.PieGraph = Ember.View.extend({
+      classNames: ['chart'],
+
+      chart: PieChart()
+        .oneColor('#BE3600')
+        .labelColor('white')
+        .labelSize('11px')
+        // .margin({left: 40, top: 40, bottom: 50, right: 40})
+        // .hideAxisLabels(true)
+        // .noTicks(true)
+        // .staticDataLabels(true)
+        ,
+
+      didInsertElement: function() {
+        Ember.run.once(this, 'updateChart');
+      },
+
+      updateChart: function() {
+        if (this.get('isLoaded')) {
+
+          d3.select(this.$()[0])
+            .data([ this.get('data') ])
+            .call(this.get('chart'));
+        }
+      }.observes('data')
+    });
+
+
+    App.DatepickerView = Ember.View.extend({
+
+      classNames: ['dp'],
+
+      didInsertElement: function() {
+        var _this = this;
+
+        this.$().datepicker({'format': 'M-yyyy','minViewMode': 'months'})
+          .on('changeDate', function(e) {
+            _this.get('controller').transitionToRoute('month', App.Month.find( e.format() ));
+          });
+
+        this.$('.month.active').removeClass('active');
+
+        if (this.get('controller.controllers.month.content')) {
+          this.update();
+        }
+
+      },
+
+      update: function() {
+        var month = moment( this.get('controller.controllers.month.id'), 'MMM-YYYY' );
+        this.$().datepicker('update', month.toDate());
+      }.observes('controller.controllers.month.content')
+
+    });
+
+  </script>
+
+  <script src="libs/models.js"></script>  
+
+</body>
+</html>
