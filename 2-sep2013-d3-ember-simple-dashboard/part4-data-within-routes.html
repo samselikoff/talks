@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Ember and D3</title>
+  <link rel="stylesheet" href="libs/bootstrap/bootstrap.css">
+  <link rel="stylesheet" href="libs/datepicker.css">
+  <link rel="stylesheet" href="libs/bootstrap-glyphicons.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Libs -->
+  <script src="libs/d3.v3.min.js"></script>
+  <script src="libs/jquery-1.9.1.js"></script>
+  <script src="libs/handlebars-1.0.0.js"></script>
+  <script src="libs/ember-1.0.0.js"></script>
+  <script src="libs/ember-data-1.0.0-beta.2.js"></script>
+  <script src="libs/bootstrap-datepicker.js"></script>
+  <script src="libs/moment.min.js"></script>
+  <script src="libs/charts/BarChart.js"></script>
+  <script src="libs/charts/PieChart.js"></script>
+
+
+  <!-- Templates -->
+  <script type="text/x-handlebars">
+    <header class="title">
+      <h1>Ember and D3</h1>
+      <h2>Data within routes</h2>
+    </header>
+
+    <div class="content">
+      <div id="left-panel" class="text-center">
+        <div class="loading">
+          {{ outlet loading }}
+        </div>
+        {{monthly-datepicker month=controller.controllers.monthlyReport.date action="getMonthlyReport"}}
+      </div>
+      
+      <div id="center-panel" class="container-fluid">
+        {{outlet}}
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="index">
+    <h3 class='text-center muted thin'>Select a month</h3>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="monthlyReport">
+    <h1 class='text-center margin-bottom-large'>{{ title }}</h1>
+
+    <div class="row">
+      <div class="col-lg-6 col-lg-offset-3">
+        <div class="bordered">
+
+          <ul class="nav nav-pills filters">
+            {{filter-item value="newContracts" label="New Contracts" filter=controller.controllers.companies.filter}}
+            {{filter-item value="feeIncreases" label="Fee Increases" filter=controller.controllers.companies.filter}}
+            {{filter-item value="attritions" label="Attritions" filter=controller.controllers.companies.filter}}
+          </ul>
+
+          {{bar-chart data=controller.controllers.companies.data isLoaded=controller.controllers.companies.model.isLoaded}}
+
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="loading">
+    <img src="img/loading.gif">
+  </script>
+
+  <!-- Components -->
+  <script type="text/x-handlebars" data-template-name="components/monthly-datepicker"></script>
+  <script type="text/x-handlebars" data-template-name="components/bar-chart"></script>
+  <script type="text/x-handlebars" data-template-name="components/pie-chart"></script>
+  <script type="text/x-handlebars" data-template-name="components/filter-item">
+    <a>{{label}}</a>
+  </script>
+
+
+  <script>
+
+    /* Application    
+    ********************/
+    App = Ember.Application.create();
+    App.ApplicationAdapter = DS.FixtureAdapter.extend({ latency: 400 });
+
+    /* Models
+    ********************/
+    App.MonthlyReport = DS.Model.extend({
+      date: function() {
+        return moment( this.get('id'), 'MMM-YYYY' );
+      }.property('model'),
+
+      companies: DS.hasMany('company', { async: true })
+    });
+
+    App.Company = DS.Model.extend({
+      monthlyReport: DS.belongsTo('monthly-report'),
+      name: DS.attr('string'),
+      newContracts: DS.attr('number'),
+      feeIncreases: DS.attr('number'),
+      attritions: DS.attr('number'),
+    });
+
+
+    /* Routes
+    ********************/
+    App.Router.map(function() {
+      this.resource('monthlyReport', { path: '/:monthlyReport_id' });
+    });
+    App.IndexRoute = Ember.Route.extend({
+      setupController: function(controller, model) {
+        this.controllerFor('monthlyReport').set('content', null);
+        this.controllerFor('companies').set('content', null);
+      }
+    });
+    App.LoadingRoute = Ember.Route.extend({
+      renderTemplate: function() {
+        if (this.controllerFor('application').get('currentPath')) {
+          this.render('loading', {into: 'application', outlet: 'loading'});
+        } 
+      }
+    });
+    App.MonthlyReportRoute = Ember.Route.extend({
+      setupController: function(controller, model) {
+        var _this = this;
+
+        controller.set('model', model);
+        model.get('companies').then(function(companies) {
+          _this.controllerFor('companies').set('model', companies);
+        });
+      }
+    });
+
+
+    /* Controllers
+    ********************/
+    App.ApplicationController = Ember.Controller.extend({
+      needs: ['monthlyReport'],
+      actions: {
+        getMonthlyReport: function(id) {
+          this.transitionToRoute('monthlyReport', this.get('store').find('monthlyReport', id ));
+        }
+      }
+    });
+
+    App.MonthlyReportController = Ember.ObjectController.extend({
+      needs: ['companies'],
+      title: function() {
+        return this.get('date').format('MMMM YYYY');
+      }.property('model')
+    });
+
+    App.CompaniesController = Ember.ArrayController.extend({
+      filter: 'newContracts',
+
+      data: function() {
+        if (!this.get('model.isLoaded')) {return;}
+
+        var _this = this;
+        var data = this.map(function(company) {
+          return {
+            category: company.get('name'),
+            count: company.get( _this.get('filter') ),
+          };
+        });
+
+        return data;
+      }.property('model', 'filter')
+    })
+
+
+    /* Components
+    ********************/
+    App.FilterItemComponent = Ember.Component.extend({
+      tagName: 'li',
+      classNameBindings: ['active'],
+
+      active: function() {
+        return this.get('filter') == this.get('value');
+      }.property('filter'),
+
+      click: function() {
+        this.set('filter', this.get('value'));
+      }
+    });
+
+    App.BarChartComponent = Ember.Component.extend({
+      classNames: ['chart'],
+
+      chart: BarChart()
+        .margin({left: 40, top: 40, bottom: 80, right: 40})
+        .manyColors(true)
+        .colors(['#be3600', '#ff4b00', '#ff6100', '#ff7600', '#ff8c00']) 
+        // .oneColor('#BE3600')
+        .rotateAxisLabels(true)
+        // .hideAxisLabels(true)
+        // .noTicks(true)
+        // .staticDataLabels(true)
+        ,
+
+      didInsertElement: function() {
+        Ember.run.once(this, 'update');
+      },
+
+      update: function() {
+        if (this.get('isLoaded')) {
+          d3.select(this.$()[0])
+            .data([ this.get('data') ])
+            .call(this.get('chart'));
+        }
+      }.observes('data')
+    }); 
+
+    App.MonthlyDatepickerComponent = Ember.Component.extend({
+      classNames: ['dp'],
+
+      didInsertElement: function() {
+        var _this = this;
+        this.$().datepicker({format: 'M-yyyy',minViewMode: 'months'})
+          .on('changeDate', function(e) {
+            _this.sendAction('action', e.format());
+          });
+        
+        this.update();
+      },
+
+      update: function() {
+        if (this.get('month')) {
+          this.$().datepicker('update', this.get('month').toDate());
+        } else {
+          this.$('.month.active').removeClass('active');
+        }
+      }.observes('month')
+    });
+
+  </script>
+
+  <script src="libs/test-data.js"></script>  
+
+
+</body>
+</html>

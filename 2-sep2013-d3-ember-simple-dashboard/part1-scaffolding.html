@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Ember and D3</title>
+  <link rel="stylesheet" href="libs/bootstrap/bootstrap.css">
+  <link rel="stylesheet" href="libs/datepicker.css">
+  <link rel="stylesheet" href="libs/bootstrap-glyphicons.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Libs -->
+  <script src="libs/d3.v3.min.js"></script>
+  <script src="libs/jquery-1.9.1.js"></script>
+  <script src="libs/handlebars-1.0.0.js"></script>
+  <script src="libs/ember-1.0.0.js"></script>
+  <script src="libs/ember-data-1.0.0-beta.2.js"></script>
+  <script src="libs/bootstrap-datepicker.js"></script>
+  <script src="libs/moment.min.js"></script>
+  <script src="libs/charts/BarChart.js"></script>
+  <script src="libs/charts/PieChart.js"></script>
+
+  <!-- Templates -->
+  <script type="text/x-handlebars">
+    <header class="title">
+      <h1>Ember and D3</h1>
+      <h2>Scaffolding</h2>
+    </header>
+
+    <div class="content">
+      <div id="left-panel" class="text-center">
+        <h3>The datepicker</h3>
+      </div>
+      
+      <div id="center-panel" class="container-fluid">
+        {{outlet}}
+      </div>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="index">
+    <h3 class='text-center muted thin'>Select a month</h3>
+  </script>
+
+  <script>
+    App = Ember.Application.create();
+  </script>
+
+</body>
+</html>
