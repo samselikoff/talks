@@ -1,0 +1,851 @@
+<div class="slides">
+    <section>
+        <h1>
+            <br>
+            </h1>
+<h1>
+<span style="font-size: 135.72px;">Ember and d3</span>
+            <br>
+</h1>
+<p>
+            <font style="font-size: 32px;">interactive dashboards</font>
+        </p>
+    </section>
+    <section>
+        <h2>
+            <br>
+        </h2>
+<h2>
+        <br>
+        </h2>
+<h2>Audience</h2>
+<div>
+<ul>
+<li>
+<span style="text-align: center;">Beginner to intermediate D3</span>
+        <br>
+</li>
+<li>
+<span style="text-align: center;">Little to no experience with JS MV*</span>
+        <br>
+</li>
+<li>
+        <span style="text-align: center;">Want to incorporate D3 into applications (e.g., a &nbsp;dashboard)</span>
+    </li>
+<li>
+    <span style="text-align: center;">Curious about Ember!</span>
+</li>
+</ul>
+<div>
+<br>
+</div>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+</section>
+<section>
+    <h2>
+        <br>
+    </h2>
+<h2>
+    <br>
+</h2>
+<h2>
+<br>
+</h2>
+<h2>first things first...</h2>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+</section>
+<section>
+    <h2>
+<img src="https://s3.amazonaws.com/media-p.slid.es/uploads/samselikoff/images/65507/cat.gif" style="width: 816.4947171429023px; height: 610.6793556213379px; max-height: none; max-width: none;">
+    <br>
+</h2>
+</section>
+<section>
+    <h2>
+        <br>
+    </h2>
+<h2>
+    <br>
+</h2>
+<h2>never heard of d3?</h2>
+<div>You should check it out!</div>
+<div>
+<br>
+</div>
+<div>
+<a href="https://github.com/mbostock/d3/wiki/Gallery">Examples</a>
+</div>
+</section>
+<section>
+    <h2>
+        <span style="font-family: inherit; font-style: inherit; font-variant: inherit; font-weight: inherit; color: rgb(238, 238, 238); text-transform: uppercase; text-align: center; display: inline !important; float: none;">
+            <br>
+        </span>
+    </h2>
+<h2>
+    <span style="font-family: inherit; font-style: inherit; font-variant: inherit; font-weight: inherit; color: rgb(238, 238, 238); text-transform: uppercase; text-align: center; display: inline !important; float: none;">
+        <br>
+    </span>
+    </h2>
+<h2>
+<span style="font-family: inherit; font-style: inherit; font-variant: inherit; font-weight: inherit; color: rgb(238, 238, 238); text-transform: uppercase; text-align: center; display: inline !important; float: none;">So, You're leveling up in D3</span>
+    <br>
+</h2>
+<div>Why use a framework?</div>
+<div>
+    <br>
+    </div>
+<div>Like in everything...</div>
+</section>
+<section>
+    <h2>
+        <br>
+        </h2>
+<h2>
+<span style="font-size: 75.96px;">Separation of concerns</span>
+        <br>
+</h2>
+<div>
+<div style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;">
+<ul>
+<li>Store your data somewhere</li>
+<li>Handle events</li>
+<li>Will you want routing?</li>
+<li>Reusable components</li>
+</ul>
+<div style="text-align: left;">
+        <br>
+    </div>
+</div>
+<div style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;">Why reinvent the wheel?</div>
+</div>
+</section>
+<section>
+    <h2>
+        <br>
+    </h2>
+<h2>why ember?</h2>
+<div>
+    <ul>
+<li>
+<span>Datavis is about data. Ember gives you</span>
+    <br>
+</li>
+<ul>
+<li>
+    <span>data bindings</span>
+</li>
+<li>
+<span style="text-align: center;">computed properties</span>
+</li>
+<li>
+<span style="text-align: center;">observers</span>
+</li>
+</ul>
+<li>
+<span>Persistent controllers</span>
+<br>
+</li>
+<li>
+<span>Easy routing</span>
+<br>
+</li>
+<li>
+<span>Fixtures (in ember-data)</span>
+<br>
+</li>
+<li>
+<span>Mixins</span>
+<br>
+</li>
+</ul>
+</div>
+</section>
+<section>
+    <h2>
+        <br>
+    </h2>
+<h2>
+    <br>
+    </h2>
+<h2>Ok, i'm convinced</h2>
+<div>But I don't want to tie down my D3 work to Ember</div>
+</section>
+<section>
+    <h2>
+        <br>
+    </h2>
+<div>
+    <br>
+</div>
+<p>We'll add a loose layer&nbsp;</p>
+<p>around your existing D3 work</p>
+<p>
+<br>
+</p>
+<p>
+</p>
+<ul>
+<li>Not building an Ember charting library</li>
+<ul>
+<li>Actually, if we were, would probably suggest something like Backbone</li>
+</ul>
+<li>Also, there's tons of D3 code + examples out there. We should be able to incorporate these into an Ember project</li>
+</ul>
+</section>
+<section>
+    <h2>
+<br>
+    <br>
+</h2>
+<h2>
+    <br>
+    </h2>
+<h2>So lets get started!</h2>
+</section>
+<section>
+    <h2>MOCKUp</h2>
+<img src="https://s3.amazonaws.com/media-p.slid.es/uploads/samselikoff/images/65488/Photo_Aug_07__11_30_56_PM.jpg">
+</section>
+<section>
+    <h2>Mockup</h2>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<ul>
+<li>Show company revenues per month</li>
+<li>Datepicker</li>
+<li>2 charts</li>
+<li>Some filters</li>
+</ul>
+</div>
+</section>
+<section>
+    <h2>Dependencies</h2>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div>Ember starter kit, and</div>
+<div>
+<br>
+</div>
+<div>
+<ul>
+<li>d3.js</li>
+<li>bootstrap</li>
+<li>ember-data</li>
+<li>moment.js</li>
+<li>bootstrap-datepicker</li>
+<li>my d3 charts</li>
+</ul>
+</div>
+<div>
+<br>
+</div>
+</section>
+<section>
+    <h2>
+        <br>
+        </h2>
+<h2>
+<span style="font-size: 75.96px;">scaffolding</span>
+        <br>
+</h2>
+<div>
+        <span>(part 1)</span>
+    </div>
+</section>
+<section>
+    <h2>
+        <br>
+    </h2>
+<h2>Scaffolding</h2>
+<div>
+    <br>
+</div>
+<div>
+<ul>
+<li>
+<span style="text-align: center;">Application template is persistent</span>
+<br>
+</li>
+<ul>
+<li>Datepicker will be here</li>
+<li>Center panel contains {{outlet}}</li>
+</ul>
+</ul>
+</div>
+</section>
+<section>
+    <h2>
+    <span style="font-size: 75.96px;">Scaffolding</span>
+</h2>
+<p>Application template</p>
+<p>
+    <br>
+</p>
+<div>
+    <div style="text-align: left; ">
+<pre><code> &lt;script type="text/x-handlebars"&gt;
+    &lt;div class="title"&gt;
+      &lt;h1&gt;Ember and D3&lt;/h1&gt;
+      &lt;h2&gt;Scaffolding&lt;/h2&gt;
+    &lt;/div&gt;
+
+    &lt;div class="content"&gt;
+      &lt;div id="left-panel" class="text-center"&gt;
+        &lt;h3&gt;The datepicker&lt;/h3&gt;
+      &lt;/div&gt;
+      
+      &lt;div id="center-panel" class="container"&gt;
+        {{outlet}}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/script&gt;</code></pre>
+</div>
+</div>
+</section>
+<section>
+    <h2>scaffolding</h2>
+<p>Index template</p>
+<div>
+    <br>
+</div>
+<div>
+<pre><code> &lt;script type="text/x-handlebars" data-template-name="index"&gt;
+    &lt;h3 class='text-center muted thin'&gt;Select a month&lt;/h3&gt;
+  &lt;/script&gt;</code></pre>
+</div>
+<br>
+<div>App</div>
+<div>
+<br>
+</div>
+<div>
+<pre><code> &lt;script&gt;
+    App = Ember.Application.create();
+  &lt;/script&gt;</code></pre>
+</div>
+<br>
+</section>
+<section>
+    <h2>
+        <br>
+    </h2>
+<h2>
+    <br>
+    </h2>
+<h2>datepicker</h2>
+<div>(part 2)</div>
+</section>
+<section>
+    <h2>datepicker</h2>
+<div>Month resource</div>
+<div>
+    <ul style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;">
+        <li>Each month can be identfied by a URL</li>
+    </ul>
+</div>
+<div>
+<br>
+</div>
+<div>
+<pre><code>App.Router.map(function() {
+    this.resource('month', { path: '/:month_id' });
+});</code></pre>
+</div>
+<div>
+<br>
+</div>
+</section>
+<section>
+    <h2>datepicker</h2>
+<div>Models</div>
+<div>
+<pre><code>App.Store = DS.Store.extend({
+  adapter: DS.FixtureAdapter.create({ latency: 400 })
+});
+
+App.Month = DS.Model.extend({
+  test: DS.attr('number'),
+  companies: DS.hasMany('App.Company')
+});
+
+App.Company = DS.Model.extend({
+  month: DS.belongsTo('App.Month'),
+  name: DS.attr('string'),
+  newContracts: DS.attr('number'),
+  feeIncreases: DS.attr('number'),
+  attritions: DS.attr('number'),
+});</code><code><br></code><code>// Generate some random test data, then</code><code>App.Month.FIXTURES = months;
+App.Company.FIXTURES = companies;<br></code></pre>
+</div>
+<br>
+</section>
+<section>
+    <h2>datepicker</h2>
+<div>
+    <span style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;">
+        <br>
+    </span>
+</div>
+<div>
+<span style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;">Our datepicker will need to be able to find months.</span>
+</div>
+<div>
+<span style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;">
+    <br>
+</span>
+</div>
+<div>
+<span style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;">Since the datepicker lives in the ApplicationTemplate, we need to teach the ApplicationController where to look.</span>
+</div>
+<div>
+<span style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;">
+    <br>
+</span>
+</div>
+<div>
+<pre><code>App.ApplicationController = Ember.Controller.extend({
+    needs: ['month']
+});</code></pre>
+</div>
+<div>
+<span style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;">
+    <br>
+</span>
+</div>
+</section>
+<section>
+    <h2>Datepicker</h2>
+<div style="max-height: none; max-width: none;">
+<pre><code><font style="font-size: 18px;"> App.DatepickerView = Ember.View.extend({
+      classNames: ['dp'],
+      didInsertElement: function() {
+        var _this = this;
+
+        this.$().datepicker({'format': 'M yyyy','minViewMode': 'months'})
+          .on('changeDate', function(e) {
+            var id = $(this).datepicker().data('date').replace(" ", "-");
+            _this.get('controller').transitionToRoute(</font></code><code><font style="font-size: 18px;">               'month', App.Month.find(id)</font></code><code><font style="font-size: 18px;">            );
+          });
+        this.$('.month.active').removeClass('active');
+
+        if (this.get('controller.controllers.month.content')) {
+          this.update();
+        }
+
+      },
+</font></code></pre>
+</div>
+<br>
+</section>
+<section>
+    <h2>datepicker</h2>
+<div>
+<span>Need to ensure two-way binding</span>
+    <br>
+    <span>
+        <font style="font-size: 24px;">In the future some other component could change the date</font>
+    </span>
+    <br>
+</div>
+<div>
+    <br>
+</div>
+<div>
+<pre><code>       update: function() {
+         var month = moment(&nbsp;</code><code><span style="font-family: monospace;">            this.get('controller.controllers.month.id') );</span></code><code>         this.$().datepicker('hide');
+         this.$().datepicker('setDate', month.toDate());
+         this.$().datepicker('show');
+       }.observes('controller.controllers.month.content')
+    });</code></pre>
+</div>
+<br>
+</section>
+<section>
+    <h2>datepicker</h2>
+<div>Computed property on month</div>
+<div>
+    <br>
+</div>
+<div>
+<pre><code> App.MonthController = Ember.ObjectController.extend({
+    title: function() {
+        return moment(this.get('id')).format('MMMM YYYY');
+    }.property('this.model')
+ });</code></pre>
+</div>In our template,<div>
+<br>
+</div>
+<div>
+<pre><code> &lt;script type="text/x-handlebars" data-template-name="month"&gt;
+    &lt;h1&gt;{{ title }}&lt;/h1&gt;
+ &lt;/script&gt;</code></pre>
+</div>
+<br>
+</section>
+<section>
+    <h2>
+        <br>
+    </h2>
+<h2>
+    <br>
+    </h2>
+<h2>data from routes</h2>
+<div>(part 3)</div>
+</section>
+<section>
+    <h2>data from routes</h2>
+<div>First of all, ajax loading</div>
+<div>
+<pre><code> App.LoadingRoute = Ember.Route.extend({
+     &nbsp;</code><code>      renderTemplate: function() {
+        if (this.controllerFor('application').get('currentPath')) {
+          this.render('loading', {</code><code>            into: 'application',</code><code>            outlet: 'loading'</code><code>          });
+        } 
+      }</code><code>
+ });</code></pre>
+</div>
+<br>
+</section>
+<section>
+    <h2>data from routes</h2>
+<div>Ajax loading</div>
+<div>
+<pre><code> &lt;script type="text/x-handlebars"&gt;</code><code>   ...</code><code>      &lt;div id="left-panel" class="text-center"&gt;
+        &lt;div class="loading"&gt;
+          {{ outlet loading }}
+        &lt;/div&gt;
+        {{view App.DatepickerView}}
+      &lt;/div&gt;<br></code><code>    ...</code><code> &lt;/script&gt;</code></pre>
+</div>
+<pre><code> &lt;script type="text/x-handlebars" data-template-name="loading"&gt;
+    &lt;img src="img/loading.gif"&gt;
+  &lt;/script&gt;</code></pre>
+<br>
+</section>
+<section>
+    <h2>Data from routes</h2>
+<div>Next, the data.</div>
+<div>Where does it come from?</div>
+<div>CompaniesController.</div>
+<div>
+    <br>
+</div>
+<div>
+<pre><code>App.CompaniesController = Ember.ArrayController.extend({
+  data: function() {
+    if (this.get('model.isLoaded')) {
+      var data = this.map(function(company) {
+        return {
+          category: company.get('name'),
+          count: company.get('newContracts'),
+        };
+      });
+    }
+    return data;
+  }.property('model.isLoaded')
+});</code></pre>
+</div>
+<br>
+</section>
+<section>
+    <h2>data from routes</h2>
+<div>Don't forget to teach months about companies!</div>
+<div>
+    <br>
+</div>
+<div>
+<pre><code>App.MonthController = Ember.ObjectController.extend({
+  needs: ['companies'],
+  title: function() {
+    return moment(this.get('id')).format('MMMM YYYY');
+  }.property('this.model')
+});</code></pre>
+</div>
+<br>
+</section>
+<section>
+    <h2>data from routes</h2>
+<div>The bar graph</div>
+<div>
+<pre><code>App.BarGraph = Ember.View.extend({
+  classNames: ['chart'],
+
+  chart: BarChart()
+    .margin({left: 40, top: 40, bottom: 80, right: 40})
+    .oneColor('#BE3600')
+    .rotateAxisLabels(true)
+    // .hideAxisLabels(true)
+    // .noTicks(true)
+    // .staticDataLabels(true)
+    ,
+
+  didInsertElement: function() {
+    Ember.run.once(this, 'updateChart');
+  },
+
+  updateChart: function() {
+    if (this.get('loaded')) {
+
+      d3.select(this.$()[0])
+        .data([ this.get('data') ])
+        .call(this.get('chart'));
+    }
+  }.observes('data')
+
+});</code></pre>
+</div>Where do 'loaded' and 'data' come from?</section>
+<section>
+    <h2>data from routes</h2>
+<div>The context of the template</div>
+<div>
+    <br>
+</div>
+<div>
+<pre><code>{{view App.BarGraph 
+  loadedBinding="controller.controllers.companies.model.isLoaded" 
+  dataBinding="controller.controllers.companies.data"
+}}</code></pre>
+</div>
+<br>
+<div>And now we have a reusable bar graph!</div>
+<div>
+<br>
+</div>
+<div>With a chart I made before I knew Ember!</div>
+</section>
+<section>
+    <h2>
+        <br>
+    </h2>
+<h2>
+    <br>
+    </h2>
+<h2>data within routes</h2>
+<div>(part 4)</div>
+</section>
+<section>
+    <h2>data within routes</h2>
+<div>First, the data</div>
+<div>
+<pre><code>App.CompaniesController = Ember.ArrayController.extend({
+<font color="#00ff00">  filter: 'newContracts',
+</font>
+  data: function() {
+    if (this.get('model.isLoaded')) {
+<font color="#00ff00">      var _this = this;
+</font>
+      var data = this.map(function(company) {
+        return {
+          category: company.get('name'),
+<font color="#00ff00">          count: company.get( _this.get('filter') ),
+</font>        };
+      });
+    }
+    return data;
+<font color="#00ff00">  }.property('model.isLoaded', 'filter')
+</font>});</code></pre>
+</div>
+<br>
+</section>
+<section>
+    <h2>data within routes</h2>
+<div>Now the buttons</div>
+<div>
+<pre><code>&lt;ul class="nav nav-pills filters"&gt;
+
+  {{#view App.FilterView value="newContracts"}}
+  	&lt;a&gt;New Contracts&lt;/a&gt;
+  {{/view}}
+
+  {{#view App.FilterView value="feeIncreases"}}
+  	&lt;a&gt;Fee Increases&lt;/a&gt;
+  {{/view}}
+  
+  {{#view App.FilterView value="attritions"}}
+  	&lt;a&gt;Attritions&lt;/a&gt;
+  {{/view}}</code><code>
+&lt;/ul&gt;</code></pre>
+</div>
+<br>
+</section>
+<section>
+    <h2>data within routes</h2>
+<div>The filter view</div>
+<div>
+<pre><code>App.FilterView = Ember.View.extend({
+  tagName: 'li',
+  classNameBindings: ['active'],
+
+  active: function() {
+    return this.get('controller.controllers.companies.filter') == this.get('value');
+  }.property('controller.controllers.companies.filter'),
+
+  click: function() {
+    this.get('controller.controllers.companies').set('filter', this.get('value'));
+  }
+});</code></pre>
+</div>
+<br>
+</section>
+<section>
+    <h2>data within routes</h2>
+<div>
+<span style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;">That's it! Everything else works!</span>
+    <div style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;">With Ember, your app scales - complexity doesn't</div>
+</div>
+<div style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;">
+    <br>
+</div>
+<div style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal;">Some considerations:</div>
+<div>
+<ul>
+<li>We added the filters separate from the chart</li>
+<ul>
+<li>Could be together under one parent view</li>
+</ul>
+<li>All data driven from controller</li>
+<ul>
+<li>Promotes data sharing + performance gains</li>
+<li>..but if too many views from one controller, could make a case that some of the data manipulation should be on the view</li>
+</ul>
+</ul>
+</div>
+</section>
+<section>
+    <h2>
+        <br>
+    </h2>
+<h2>
+    <br>
+    </h2>
+<h2>Flexibility</h2>
+<div>(part 5)</div>
+</section>
+<section>
+    <h2>flexibility</h2>
+<div>Create the pie chart</div>
+<div>
+<pre><code> App.PieGraph = Ember.View.extend({
+  classNames: ['chart'],
+
+  chart: PieChart()
+    .oneColor('#BE3600')
+    .labelColor('white')
+    .labelSize('11px')
+    // .margin({left: 40, top: 40, bottom: 50, right: 40})
+    // .hideAxisLabels(true)
+    // .noTicks(true)
+    // .staticDataLabels(true)
+    ,
+
+  didInsertElement: function() {
+    Ember.run.once(this, 'updateChart');
+  },
+
+  updateChart: function() {
+    if (this.get('loaded')) {
+
+      d3.select(this.$()[0])
+        .data([ this.get('data') ])
+        .call(this.get('chart'));
+    }
+  }.observes('data')
+});</code></pre>
+</div>
+<br>
+</section>
+<section>
+    <h2>flexibility</h2>
+<div>Add it to the template</div>
+<div>
+    <br>
+</div>
+<div>
+<pre><code>{{view App.PieGraph 
+  loadedBinding="controller.controllers.companies.model.isLoaded" 
+  dataBinding="controller.controllers.companies.data"
+}}</code></pre>
+</div>
+<br>
+<div>All done!</div>
+</section>
+<section>
+    <h2>
+        <br>
+    </h2>
+<h2>Other things to explore</h2>
+<div>
+    <br>
+</div>
+<div>
+<ul>
+<li>Mixins - ways to add properties to classes</li>
+<ul>
+<li>resizable</li>
+<li>draggable</li>
+<li>sortable</li>
+</ul>
+<li>Components</li>
+<ul>
+<li>isolated view elements</li>
+</ul>
+<li>Base/generic views</li>
+<ul>
+<li>E.g., I see a base class for the bar/pie charts</li>
+</ul>
+</ul>
+</div>
+</section>
+<section>
+    <h2 style="font-style: normal; font-variant: normal;">
+<br class="Apple-interchange-newline">That's all for now!
+</h2>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div style="text-align: left;">
+<h2 style="font-style: normal; font-variant: normal; text-align: center;">SAM SELIKOFF</h2>
+<div style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal; text-align: center;">www.samselikoff.com</div>
+<div style="font-size: 36.60322189331055px; font-style: normal; font-variant: normal; text-align: center;">@samselikoff</div>
+</div>
+</section>
+</div>
