@@ -1,0 +1,8 @@
+{{input value=name action='addShow'}}
+<button {{action 'addShow'}}>Add show</button>
+
+<ul>
+	{{#each shows}}
+		<li>{{this}}</li>
+	{{/each}}
+</ul>
