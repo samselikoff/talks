@@ -85,6 +85,7 @@ test('favorite shows renders', function(){
 +   equal(list.length, 1, 'there is a show list');
 +   equal(shows.length, 0, 'there are no shows in the list');
   });
+```
 
 There's no list, so we add the ul. Our tests are passing.
 
