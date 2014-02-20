@@ -1,0 +1,57 @@
+<html>
+	<body>
+		<script src="d3.v3.min.js" charset="utf-8"></script>
+		<script>
+			var svg = d3.select("body").append("svg")
+			    .attr("width", 720)
+			    .attr("height", 440)
+			  .append("g")
+			    .attr("transform", "translate(0,168)");
+
+			svg.append('text')
+ 				.attr("y", -155)
+				.attr("x", 360)
+				.text("Selection")
+				.style("font-weight", "bold");
+	
+
+			var data = svg.append("g").attr("transform", "translate(300, 20)");
+			data.append("circle")
+				.style("fill", "#3182bd")
+				.style('opacity', .25)
+				.style("stroke", "black")
+				.style("stroke-width", "2px")
+				;
+			data.append("text")
+				.attr("y", -130)
+				.attr("x", -20)
+				.text("Representation")
+				.style("font-weight", "bold");
+			data.append("text").attr("x", -50).text("Enter");
+
+			svg.append("text").attr("x", 360).attr('y', 20).text("Update");
+
+			var elements = svg.append("g").attr("transform", "translate(420, 20)");
+			elements.append("circle")
+					.style("fill", "#e6550d")
+					.style("stroke", "black")
+					.style("stroke-width", "2px")
+					.style('opacity', .25);
+			elements.append("text")
+					.attr("y", -130)
+					.attr("x", 20)
+					.text("Current DOM")
+					.style("font-weight", "bold");
+			elements.append("text").attr("x", 50).text("Exit");
+
+			svg.selectAll("circle")
+			    .attr("r", 110);
+
+			svg.selectAll("text")
+			    .attr("dy", ".35em")
+			    .attr("text-anchor", "middle");
+
+
+		</script>
+	</body>
+</html>

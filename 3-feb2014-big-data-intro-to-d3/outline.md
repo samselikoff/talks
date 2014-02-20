@@ -1,94 +1,228 @@
 Big data intro to d3
-====================
 
-Intro
------
-[set the stage for the 'why' of data vis]
+Setup:
+http://d3js.org/
+http://bl.ocks.org/mbostock/3943967
+file:///Users/SamSelikoff/Dropbox/Projects/talks/3-feb2014-big-data-intro-to-d3/final.html
+file:///Users/SamSelikoff/Dropbox/Projects/talks/3-feb2014-big-data-intro-to-d3/test.html
+http://square.github.io/crossfilter/
+http://square.github.io/cubism/demo/
 
-Big data is a buzzword, but what's the idea behind it? An incomprehensible amount of information. Data so 'big' it's impossible to understand at face value.
+1: Intro
 
-People in big data know this, and have a solution: use data visualizations. Visualizations help distill lots of info down into something we humans can understand, primarily in two ways.
+Who works in big data?
+Who works with web technologies?
+Prereq for this talk is HTML, CSS, JS
 
-First, sometimes we have data and we know what it says, but data vis lets us communicate it simply
+2: Why data vis?
+Big data really means incomprehensible
+One solution is data vis. Helps in two ways: communication, exploration
 
-	[show a paragraph of information, then show a time series chart]
-	"Looks like our company's not doing so well"
+3: Explaining
 
-Sometimes we have so much data, we just need to convert it into a form that helps us explore it:
+Which is easier to understand?
 
-	[show calendar chart of daily stock prices]
-	"Our best month was January!"
+4: Exploring
 
-This is why datavis is important to big data.
+Insightful view into massive amount of data
+
+5: What is D3? 
+
+Stands for data-driven documents
+
+Document = DOM. What does this mean? 
+A parsed document
+Style-able and programmable
+We develop tools for this
+But our tools are for GUI programming
+We want data vis
+
+Data vis is about relating elements to data. Look at it in vanilla javascript:
+
+6: JS vs D3
+
+Verbose!
+
+D3 is more terse. But more, we’re seeing a glimpse of the data-driven part. Notice the function.
+
+So d3 is really about providing an API suitable for creating and transforming the DOM in a data-driven way.
+
+7: D3 is not
+
+a DOM query lib
+A compatibility layer
+a charting library
+easy
+proprietary tech. web standards!
+
+8: So how will d3 help us?
+
+D3 is low level. 
+We give up convenience, in exchange for control and power
+
+9: Learning D3
+Plenty of awesome examples out there
+[show]
+Today, I want to focus on some higher-level concepts via an example
+
+10: What we’re building
+
+Not very exciting. But, good starting point.
+
+Remember, this is SVG. Standards talk. 
+Not an external resource. Look with inspector.
+
+So let’s dive in
+
+11: Initial document
+
+And data.
+
+[Show in Chrome with inspector]
+
+12: First, need an <svg>
+
+D3 is global object - think $
+And similar to $, lets us select, and perform operations
+
+[Show both in Chrome]
+
+So think of a selection as an object that wraps around DOM elements
+Wrapping your head around selections is one of the main hurdles to learn D3
+
+13: Append returns a new selection
+
+14: Make the bars
+
+Six data points, could just `append` six times.
+
+[Show in Chrome]
+
+But this isn’t very data-driven. Clearly we need something better.
+
+Before we get there, need to dive deeper into selections
+
+15: Selecting arrays
+
+We’ve seen selecting one element
+But d3 gives us another way to product selections: selectAll
+
+Now, we’ve seen two kinds of selections
+So what is a selection? A single object? A group?
+Think of it at a higher-level than the actual elements
+It’s a managing object. 
+It knows about elements in the DOM, 
+but it knows more
+
+16: Selections enable declarative programming
+
+Earlier we changed the background-color of ‘body’.
+Could use loops to do the same thing to paragraphs
+But selections should be thought of as a single object. Act on the selection itself
+Clearly, this is more terse, but also more powerful.
+Opens the door for new things
 
 
-Whats D3?
---------------
-
-D3 means data-driven documents. That sounds useful for big data!
-
-The document here refers to the DOM. Who can tell me what that is? I actually don't know. OK so it's an agreed-upon set of terms for accessing info from documents, changing documents, etc. Think of CSS queries, DOM events, etc. The stuff we're familiar with.
-
-The point is we usually write out our HTML by hand. Our browsers parse the HTML and convert it into a DOM Tree-like thing, which we can then style with CSS and manipulate with Javascript. 
-
-We get better with JS and do cooler things, and use libraries like jQuery to make it easier. But most of the time we're doing things related to GUI programming.
-
-But - we want to do data vis! And data vis is about relating elements in the visualization (e.g bars, circles, points) to data (e.g. a time series). 
-
-Doing this with vanilla javascript is verbose; lets set the heights of some hypothetical bars in our document:
-
-		var data = [1, 4, 16, 5, 9, 2];
-
-		var bars = document.getElementsByTagName("bar");
-		for (var i = 0; i < bars.length; i++) {
-		  var bar = bars.item(i);
-		  bar.style.setProperty("height", data[i], null);
-		}
-
-With d3, its
-
-		var data = [1, 4, 16, 5, 9 2];
-
-		d3.selectAll('bar')
-			.attr('height', function(d) {return data[i];});
-
-Here we're getting a glimpse of d3 in action. We'll go into detail on this works soon, but notice what's going on: we can set the height using a function; and this function is 'smart' - it knows about our data. 
-
-So d3 is really about providing an appropriate API for creating and transforming the DOM in a data-driven way: hence data-driven documents. 
+**** [Questions?]
 
 
-Is and isn't
-------------
+17. Selecting no elements
 
-So d3 gives us charts? No! I didn't say that. I said d3 is an api. That sounds pretty low-level, right? It is. Just like javascript gives us document.getElementsByTagName, d3 gives us d3.selectAll. It doesn't give us d3.beautifulUnicornChart. Its low-level, small, performant. It's an API for creating data-driven documents.
+This is interesting
+Currently, our dom has 6 <rect>s, and we can select them
 
-It's not a charting/mapping library. There are plenty that are written _using_ d3, because d3 is a great api for creating data-driven documents (like data visualizaitons).
+[Show .selectAll in Chrome}
 
-It's not a compatability layer. It does take care of some cross-browser quirks related to created data-driven docs.
+But what if we select them before they exist?
+Clearly, will return null, right? Or empty set?
+Vacuous CSS rule
+jQuery select elements that don’t exist
+Vacuous return value?
 
-Also, you shoud know that D3 is about web standards. Remember, the D for document means DOM. THat's web standards talk: HTML, javascript, CSS. No flash, no crazy java applet plugin. This stuff works with browsers, out of the box. Which makes it super nice if you're used to usign the browser's inspector.
+No. Selections are higher-level that DOM elements. They can represent elements that happen not to exist in the DOM.
+
+In this case, bars doesn’t refers to anything in the DOM
+But it does represent an array of <rect>
+
+18. Selections have two pieces
+
+An abstract representation. “A body tag.” “An array of rect elements.” It’s almost like a Platonic abstraction, a world of pure elements
+The actual elements in the DOM as it currently exists. For example, the 6 rects in the DOM that we see in the inspector
+
+Having both pieces is the secret to d3’s power
+
+Now, you may have figured out, d3 can compare both pieces
+The actual elements come from the DOM
+But how do we specify the abstract representation?
+So far, either a single element, or an array
+How big is the array? What elements are in the array?
+
+19. The data join
+
+Data join lets us specify our representations. Like this:
+
+Now we have a selection, but one that is bound to data. 
+D3 knows exactly what it represents
+
+Now d3 can compare both pieces, telling us where they’re the same and different.
+
+These produce 3 subselections
+
+20. Subselections
+
+[venn diagram]
+
+Explain the three subselections
+Remember, they’re not just <rect>’s, they’re <rect>’s tied to a piece of data
+
+So, how does this look in practice?
+
+21. Creating the bars
+
+DOM is empty
+So all the rect’s are in our enter subselection
+Access them, then bring them into the DOM
+
+[in Chrome]
+
+There they are in the DOM!
+
+22. Where does the data live?
+
+DOM, not in JS
+
+[in Chrome]
+
+This means selections are transient.
+
+[Reselect in Chrome, show data]
+
+Congratulations, you’ve learned some of the most difficult concepts in d3!
 
 
-SO how will it help us?
------------------------
 
-Remember when we talked about the two ways data vis can help us? Explaining and exploring?
+**** [Questions?]
 
-If you're focused on exploring, d3 can be awesome. But, it's hard to learn. If you need to crank out 12 pie charts and 3 bar charts by the end of the week, you probably shouldn't write those from scratch using d3. Use one of the libraries that exist.
+23. Data-driven transformations
 
-Sometimes, though, existing solutions aren't enough, and you need custom ways to explore your data. For example, the calendar chart I showed in the beginning:
+Bound data lets us drive transformations with data
+Finish the bar chart
 
-	[calendar chart]
+24. What next?
 
-This is a pretty crazy cool chart. And I don't think it's available in excel's built in charts. The point is, d3 is low-level, which means if you can dream it, you can build it. Learning D3 can be a great way to explore your specific data, becausse you have complete control over the representation and interaction.
+We haven’t scratched the surface
 
-It's also good for explaining - again, because of the control.
+25. Applications to big data
 
-	[show nytimes connections between grammys]
+There are massive amount of examples of companies using d3
+[go through list]
 
-The authors wanted to explain these relationships. They could have written an article laying out the facts of the relationships, but this visualization is much more insightful. Again, not found in excel. So if you have a specific idea or concept you want to explain - which people in big data often do - learning d3 can give you the power to do so in unique and effective ways.
-
-
-Ok, lets learn it!
-------------------
-
+At end of the day, “big data” doesn’t necessarily mean “plotting 1 billion points in a scatter plot”. 
+There will be an analytics component
+Cleaning, aggregation/reduction, filtering, selection
+What d3 does is , given some focused set of data, provides developers with a means of transforming it into effective visualizions
+Visualizations that efficiently convey incredible amounts of information
+More and more humans are being brought into the analysis part of big data
+instead of just using an algorithm, and looking at the results
+Dynamic, real-time visualizations give us a completely new way to interact with our data
+This will be key as we move forward 

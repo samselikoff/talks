@@ -1,0 +1,31 @@
+<html>
+	<body>
+		<script src="d3.v3.min.js" charset="utf-8"></script>
+		<script>
+			var nums = [80, 53, 125, 200, 28, 97];
+
+			// Example of using a d3 selection
+			// d3.select('body').style('background-color', 'blue');
+
+			// Storing a d3 selection in a variable
+			var svg = d3.select('body').append('svg');
+
+			// Naive approach
+			// svg.append('bar');
+			// svg.append('bar');
+			// svg.append('bar');
+			// svg.append('bar');
+			// svg.append('bar');
+			// svg.append('bar');
+
+			// Data-driven approach
+			svg.selectAll('rect')
+					.data(nums)
+				.enter().append('rect')
+					.attr('width', 20)
+					.attr('height', function(d) {return d;})
+					.attr('y', function(d) {return 200 - d;})
+					.attr('transform', function(d, i) {return 'translate(' + i*30 + ', 0)';});
+		</script>
+	</body>
+</html>
