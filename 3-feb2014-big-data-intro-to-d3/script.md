@@ -1,5 +1,5 @@
-Big data intro to d3
-====================
+An Intro to D3
+==============
 
 [I will assume you understand the basics of HTML, CSS and JS]
 
