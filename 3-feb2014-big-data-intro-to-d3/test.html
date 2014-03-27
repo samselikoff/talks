@@ -2,7 +2,19 @@
 	<body>
 		<script src="d3.v3.min.js" charset="utf-8"></script>
 		<script>
-			var nums = [80, 53, 125, 200, 28, 97];
+		    var nums = [80, 53, 125, 200, 28, 97];
+
+	    var svg = d3.select('body').append('svg')
+	      .attr('height', 200)
+	      .attr('width', 200)
+
+	    var bars = svg.selectAll('rect')
+	      .data(nums);
+
+	    bars.enter().append('rect');
+
+
+			// var nums = [80, 53, 125, 200, 28, 97];
 
 			// var svg = d3.select("body").append('svg');
 
