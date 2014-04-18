@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<html>
+
+<body>
+  <div id="demo">
+    <div class="company-list"></div>
+    <div class="chart"></div>
+  </div>
+
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/underscore/underscore.js"></script>
+  <script src="/bower_components/backbone/backbone.js"></script>
+  <script src="/bower_components/d3/d3.js"></script>
+  <!-- Our bubble chart -->
+  <script src="bubble-chart.js"></script>
+
+  <script>
+
+  // {
+  //  "name": "companies",
+  //  "children": [
+  //   {"name": "Wayne Enterprises", "size": 3938},
+  //   {"name": "Stark Enterprises", "size": 3812},
+  //   {"name": "Acme Corp", "size": 6714},
+  //   {"name": "Dunder Mifflin", "size": 743}
+  //  ]
+  // }
+
+
+  var CompanyCollection = Backbone.Collection.extend({
+    chartData: function() {
+      return {
+        name: 'compaines',
+        children: this.map(function(c) { 
+          return {name: c.get('name'), size: c.get('revenue')};
+        })
+      }
+    }
+  });
+
+  var companies = new CompanyCollection([
+    {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
+    {name: "Stark Enterprises", revenue: 3812, cost: 823},
+    {name: "Acme Corp", revenue: 6714, cost: 2990},
+    {name: "Dunder Mifflin", revenue: 743, cost: 1304}
+  ]);
+
+  var CompaniesView = Backbone.View.extend({
+
+    initialize: function() {
+      this.listenTo(this.collection, "change add remove", this.render);
+      this.render();
+    },
+
+    template: _.template(
+      '<ul><% _.each(companies, function(company) { %> <li><strong><%= company.name %></strong>: revenue: <%= company.revenue %>, cost: <%= company.cost %></li> <% }); %></ul>'
+    ),
+
+    render: function() {
+      // this.$el.html(this.template(this.model.attributes));
+      this.$el.html(this.template({
+        companies: this.collection.toJSON()
+      }));
+
+      return this;
+    }
+
+  });
+
+  var list = new CompaniesView({
+    el: '.company-list',
+    collection: companies
+  });
+
+  var BubbleChartView = Backbone.View.extend({
+
+    chart: d3.charts.bubble(),
+
+    initialize: function() {
+      this.listenTo(this.collection, "change add remove", this.render);
+
+      this.render();
+    },
+
+    render: function() {
+      d3.select(this.el)
+        .datum(this.collection.chartData())
+        .call(this.chart);
+
+      return this;
+    }
+
+  });
+
+  var bubbles = new BubbleChartView({
+    el: '.chart',
+    collection: companies
+  });
+
+  // bubbles.render();
+
+  // companies.push({name: "Sam3 Inc"+Math.random(), revenue: Math.random()*10000, cost: 1423})
+
+  // debugger;
+  // var bubbles = d3.charts.bubble();
+  // d3.select('#chart')
+  //     .datum(companies.chartData())
+  //     .call(bubbles);
+
+
+
+  </script>
+</body>
+</html>

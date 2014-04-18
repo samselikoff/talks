@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+
+<body>
+  <div id="demo">
+    <div class="company-list"></div>
+  </div>
+
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/underscore/underscore.js"></script>
+  <script src="bower_components/backbone/backbone.js"></script>
+  <script>
+
+  // var Company = Backbone.Model.extend({});
+
+  var companies = new Backbone.Collection([
+    {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
+    {name: "Stark Enterprises", revenue: 3812, cost: 823},
+    {name: "Acme Corp", revenue: 6714, cost: 2990},
+    {name: "Dunder Mifflin", revenue: 743, cost: 1304}
+  ]);
+
+  var CompaniesView = Backbone.View.extend({
+
+    initialize: function() {
+      this.listenTo(this.collection, "change add remove", this.render);
+      this.render();
+    },
+
+    template: _.template(
+      '<ul><% _.each(companies, function(company) { %> <li><strong><%= company.name %></strong>: revenue: <%= company.revenue %>, cost: <%= company.cost %></li> <% }); %></ul>'
+    ),
+
+    render: function() {
+      // this.$el.html(this.template(this.model.attributes));
+      this.$el.html(this.template({
+        companies: this.collection.toJSON()
+      }));
+
+      return this;
+    }
+
+  });
+
+  var list = new CompaniesView({
+    el: '.company-list',
+    collection: companies
+  });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<html>
+
+  <head>
+    <style>
+      body, a, a:focus, a:active {
+        color: #333;
+      }
+
+      .company-list {
+        list-style-type: none;
+      }
+        .company-list a {
+          display: block;
+          padding: 1em;
+          text-decoration: none;
+        }
+        .company-list a:hover {
+          background-color: #eee;
+        }
+        .company-list a.active {
+          background-color: #999;
+          color: white;
+        }
+      .detail {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 1em;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/handlebars/handlebars.js"></script>
+    <script src="/bower_components/ember/ember.js"></script>
+    
+    <script type="text/x-handlebars" id="companies">
+      <ul class="company-list">
+        {{#each}}
+          <li>{{link-to name 'company' this}}</li>
+        {{/each}}
+      </ul>
+
+      <div class="detail">
+        {{outlet}}
+      </div> 
+    </script>
+
+    <script type="text/x-handlebars" id="companies/index">
+      <p>Select a company</p>
+    </script>
+
+    <script type="text/x-handlebars" id="company">
+      <h2>{{name}}</h2>
+
+      <p>Last year we made {{revenue}}. Costs were {{cost}}.<p>
+
+    </script>
+
+    <script>
+      App = Ember.Application.create();
+
+      App.Router.map(function() {
+        this.resource('companies', { path: '/' }, function() {
+          this.resource('company', { path: '/:company_id' });
+        });
+      });
+
+      App.CompaniesRoute = Em.Route.extend({
+        model: function() {
+          // Typically, make an AJAX request
+          return [
+            {id: 1, name: "Wayne Enterprises", revenue: 3938, cost: 1423},
+            {id: 2, name: "Stark Enterprises", revenue: 3812, cost: 823},
+            {id: 3, name: "Acme Corp", revenue: 6714, cost: 2990},
+            {id: 4, name: "Dunder Mifflin", revenue: 743, cost: 1304}
+          ];
+        }
+      });
+
+      App.CompanyRoute = Em.Route.extend({
+        model: function(params) {
+          return this.modelFor('companies').findBy('id', +params.company_id);
+        }
+      })
+
+    </script>
+  </body>
+
+</html>
