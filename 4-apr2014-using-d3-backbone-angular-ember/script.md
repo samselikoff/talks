@@ -35,18 +35,18 @@ These abstractions take time, both because you have to learn to 'think' in terms
 
 Still, a growing number of people seem to be convinced that frameworks are proving their worth. The benefits that frameworks provide - when used appropriately, and for the correct problems - seem to be worth it. These benefits include consistency, organization, collaborative solutions to problems, code reuse, less time spent on trivial decision-making, and others.
 
-Once we get "on board" with a framework, we start to think of certain pieces of our app in terms of the framework. Depending on the surface area of the framework, the amount of pieces in your app like this varies. But, for example, if we use a framework that provides a "router", we think of how our application moves through routes in terms of this particular object. It's not like we're ignoring everything we know about software, or putting aside our specific domain; but we definitely learn to think "in terms of the framework."
+Once we get "on board" with a framework, we start to think of certain pieces of our app in terms of the framework. Depending on the surface area of the framework, the amount of pieces in your app like this varies. But, for example, if we use a framework that provides a "router", we think of how our application moves through routes in terms of this particular object. It's not like we're ignoring everything we know about software, or putting aside our specific domain; but we definitely adopt architectural suggestions and learn to think "in terms of the framework."
 
 
 ### Where does D3 come in?
 
-So how does D3 fit into all this? Well, visualizations have recently become more prominent in web applications. Companies like Chart.io, Localytics, and Square feature visualizations as some of the main features of their web applications.
+So how does D3 fit into all this? Well, visualizations have recently become more prominent in web applications. Companies like Square, Chart.io, Localytics, and Plotly feature visualizations as some of the main features of their web applications.
 
 This means the code related to visualizations is also becoming larger, and more complex. But building interactive data visualizations in web applications is a relatively new phenomeon, and there's a lot we're still discovering. Because of this, it's easy for developers to think of the visualizations in their application as completely separate from all the other 'standard' pieces.
 
 Also, examples from D3's community tend to be one-off, isolated. This is great for understanding and sharing code, but when it comes time to incorporate modularly into your bigger app, this isn't super helpful. Similarly, D3 code tends to be procedural, which also makes it difficult to incorporate into our applications, which tend to be object-oriented. The examples tend to be a set of instructions to produce a particular visualization, rather than an object with an interface, etc. There is [some work](/chart) in this area, but again, the majority of examples don't implement this.
 
-For all these reasons, developers often write their data vis code separately, outside of the idioms of the framework - or more generally, your application's architecture. But this leads to the same problems that we saw at the beginning. It's just as easy to write highly coupled code that mixes concerns for data vis as it is for standard components.
+For all these reasons, it's easy for developers to write their data vis code separately, outside of the idioms of the framework - or more generally, your application's architecture. But this leads to the same problems that we saw at the beginning. It's just as easy to write highly coupled code that mixes concerns for data vis as it is for standard components.
 
 
 ### How coupled will my D3 code be?
@@ -222,7 +222,6 @@ The template itself is simple:
   <% }); %>
 </ul>
 ```
-
 
 This is in a string right now, but as they get more complex, you typically save them in a separate file.
 
@@ -1021,25 +1020,350 @@ Now we have a reusable `company-detail` component, and we can pass in any object
 ```js
 App.CompanyDetailComponent = Em.Component.extend({
   
-  didInsetElement: function() {
-    this.$().tooltip(); // some fake jQuery plugin
+  didInsertElement: function() {
+    this.get('element').tooltip(); // some fake jQuery plugin
   }
   
 });
 ```
 
-As you may have guessed, the actual JavaScript code behind teh component - what we see here - is where we'll incorporate our D3 chart.
+As you may have guessed, the actual JavaScript code behind the component - what we see here - is where we'll incorporate our D3 chart.
 
 
 ### D3 view
 
-So why did I go over this? Well it's important to understand how routes work, because they are so central to Ember. Getting the routes set up correctly ensures that as your application grows in complexity, all the data will always be synced up and everythign will be in the right place. We'll now incorporate our bubble chart into our app in such a way that it honors this relationsihp with the router.
+So why did I go over this? It's important to understand how routes work, because they are so central to Ember. Getting the routes set up correctly ensures that as your application grows in complexity, all the data will always be synced up and everythign will be in the right place. We'll now incorporate our bubble chart into our app in such a way that it honors this relationsihp with the router.
 
+We'll essentially take the same approach as we did with Angular: wrap our bubble chart in a component. Our `CompanyDetail` component had a template and no code; our D3 component will be the opposite. We don't really need to specify a template, a single tag will do just fine. And we'll need to write some JavaScript code to actually instantiate our bubble chart, and set the options, just like we did in Angular.
+
+First, we create the component, and assign our bubble chart to a property:
+
+```javascript
+App.BubbleChartComponent = Em.Component.extend({
+  chart: d3.charts.bubble()
+    .emptyMessage('No companies.'),
+});
+```
+
+Here we can set any static options on our chart. We could also bind properties (e.g. the empty message) to variables we pass in when we render our chart in the HTML.
+
+If we want to customize our HTML element a little bit without writing a completely separate template, we have some options. For example, we can add a class name to the element, to let us style it:
+
+```diff
+App.BubbleChartComponent = Em.Component.extend({
++ classNames: 'bubble-chart',
+
+  chart: d3.charts.bubble()
+    .emptyMessage('No companies.'),
+});
+```
+
+Now let's write the D3 code. We'll add a `draw` method, and use our bubble chart's api:
+
+```diff
+App.BubbleChartComponent = Em.Component.extend({
+  classNames: 'bubble-chart',
+
+  chart: d3.charts.bubble()
+    .emptyMessage('No companies.'),
+
++ draw: function() {
++   d3.select(this.get('element'))
++     .data([ this.get('data') ])
++     .call(this.get('chart'));
++ }
+});
+```
+
+After selecting the view's HTML element this with D3, we bind the data using `this.get('data')`. But you'll notice, we haven't defined the property `data`. Where does it come from?
+
+Well, the idea here is similar to Angular. We're going to pass the data in when we render our component - so it will come from teh context of hte template. `data` is actually a property local tot he component's scope. This is again one of the benefits of components: their scope is isolated, and they require all their data to be explicitly passed in.
+
+When we render it in our handlebars template, we'll do something like this:
+
+```html
+{{bubble-chart data=chartData}}
+```
+
+and that's where the data will come from. But what is `chartData`?
+
+In Ember, Controllers are used to decorate models. THey provide a place to do data manipulation and massaging to the raw data that's stored in our models, which comes from the server. Each route has its own controller - so when we're looking at the overall list of companies, we're actually alreayd using a CompaniesController. It's just that because we haven't had to overwrite the default functionality, Ember went ahead and created one for us.
+
+In this case, the `CompaniesController` is the perfect place to add a function that manipulates our companies models into a format our bubble chart expects. Let's redefine the controller, and add the function.
+
+We'll define the controller as an `ArrayController`, since it represents an array of models:
+
+```js
+App.CompaniesController = Em.ArrayController.extend({
+
+  chartData: function() {
+    return {
+      name: 'companies',
+      children: this.map(function(c) {
+        return {
+          name: c.name,
+          size: c.revenue
+        };
+      })
+    };
+  }.property('content')
+
+});
+```
+
+Here we see the familiar data format our chart expects. We're returning an object with the children equal to plain objects. `this` refers to the array of companies, so we simply map it to an array containing only the data we need: name and size.
+
+You'll notice the `property('content')` declaration at the end. This is a special type of function in Ember known as a computed property. Computed properties let you treat functions as if they were just properties storing data - so in the template we can put {{chartData}} - but whose data will be recalculated in the event one of their dependencies change. You specify dependencies as paramters to `.property()`. In essence, it's an easy way to set up your dependency graph. Also, CPs can depend on other CPs and they all lazily recalculate.
+
+Here, we specify `content` as a dependency. `content` represents the actual array of models this controller is currently representing - so if the collection changes, this proeprty will be recalculated.
+
+So, we now have the data we need in the format our chart expects. We render our bubble chart:
+
+``html
+{{bubble-chart data=chartData}}
+```
+
+and our bubble chart component now has a local `data` property that not only equals the initial value of our `chartData` computed property, but will update itself every time `chartData` changes.
+
+Our chart renders! Now, let's add a dropdown to control whether revenue or cost is displayed. We can use Ember's select view to help us out:
+
+```hbs
+{{view Em.Select 
+    content = 
+    optionValuePath =
+    optionLabelPath =
+    value =
+}}
+```
+
+When using this, we actually feed it data from a JavaScript array. We can just add the array to our controller:
+
+```diff
+App.CompaniesController = Em.ArrayController.extend({
+
++ items: [
++   {item: 'revenue', label: 'Revenue'},
++   {item: 'cost', label: 'Cost'}
++ ],
+
+  ...
+```
+
+and then link the select box to that data:
+
+```hbs
+{{view Em.Select 
+    content = items
+    optionValuePath = 'content.item'
+    optionLabelPath = 'content.label'
+    value = selectedItem
+}}
+```
+
+We've bound the selected dropdown item to a `selectedItem` property on our controller. Now let's alter our `chartData` function to use it:
+
+```diff
+App.CompaniesController = Em.ArrayController.extend({
+  chartData: function() {
++   var self = this;
+
+    return {
+      name: 'companies',
+      children: this.map(function(c) {
+        return {
+          name: c.name,
+-         size: c.revenue
++         size: c[self.get('selectedItem')]
+        };
+      })
+    };
+- }.property('content')
++ }.property('content', 'selectedItem')
+});
+```
+
+That's it - our chart automatically responds, because we already told it to re-draw every time its `data` property changes, and now that changes every time `selectedItem` changes. Pretty cool!
+
+### Enhancing our chart
+
+Now, wouldn't it be great if users could view the company details not only by selecting the links on the left, but also the bubbles in our chart? This is what we're going to add.
+
+When we used the link helpers, they automatically took care of transitioning us to new routes when we clicked them. Behind the scenes, the link helper responds to the mouse click, and in the event handler calls `this.transitionTo('company', model)`. We want to do something similar when our user clicks on a bubble.
+
+We can use _actions_ to add custom event handlers to our components. Within our component code, we send an action in response to some event. Then, in our application code, we respond to the action, and do whatever we want. Let's see how it works.
+
+We want to trigger an action when the user clicks a bubble. First, we add this trigger within our bubble chart.
+
+We'll use `d3.dispatch` to dispatch an event. We'll call the event 'select', since the user is selecting a bubble:
+
+```js
+// bubble-chart.js
+var dispatch = d3.dispatch('select');
+
+...
+
+// Events
+nodes.on('click', function(d, i) {
+  dispatch.select(this, d, i);
+});
+```
+
+We'll also add an accessor to our dispatcher, so code outside of the bubble chart - like our component - can subscribe to the event.
+
+```js
+chart.dispatch = function(_) {
+  if (!arguments.length) return dispatch;
+
+  dispatch = _;
+
+  return chart;
+};
+```
+
+We've now augmented our bubble chart again with new functionality. Note that this has nothing to do with Ember yet - our stand-alone bubble chart now allows whoever's using it easily respond to click events on the bubbles, and do something with the data or DOM node.
+
+Now in our component, we can respond to the chart's event and trigger an action within our Ember app. We'll do it in the `didInsertElement` hook:
+
+```diff
+App.BubbleChartComponent = Em.Component.extend({
+  classNames: 'bubble-chart',
+
+  chart: d3.charts.bubble()
+    .emptyMessage('No companies.'),
+
++ didInsertElement: function() {
++   this.get('chart').dispatch().on('select', function(el, d, i) {
++     self.sendAction('action', d, i);
++   });
++ },
+
+  draw: function() {
+    d3.select(this.get('element'))
+      .data([ this.get('data') ])
+      .call(this.get('chart'));
+  }.observes('data').on('didInsertElement')
+
+});
+```
+
+Now our component emits an action whenever a bubble is clicked, passing along the data and index of the clicked bubble. In our handlebars we can give the action a name:
+
+```diff
+- {{bubble-chart data=chartData}}
++ {{bubble-chart data=chartData action='selectCompany'}}
+```
+
+and respond to it in our route:
+
+```js
+App.CompaniesRoute = Em.Route.extend({
+
+  model: function() {
+    ...
+  },
+
+  actions: {
+    selectCompany: function(d, i) {
+      this.transitionTo('company', this.controller.objectAt(i));
+    }
+  }
+```
+
+Now, clicking the bubbles navigates our app - and the links stay in sync!
+
+<aside>We're using the index here to find which company to transition to, which is easy but only works in simple situations. In a more complex app, you'd want to use an id instead, which would involve you passing that data into your bubble chart, and having the chart emit it on the event.</aside>
+
+One final piece: it'd be nice if the bubbles showed us which company route we're on. Let's enhance the chart again, and give it some concept of its 'state': which data point has been selected. The strategy is to add an active class to the node that has been selected.
+
+Now, we always have to think in terms of two-way binding. Think about the links for a second. When we click the link, the link helper gets the active class (that's how we could style it), and the app transitions. But if the app transitions some other way besides clicking the link - typing in the URL, using the back button, clicking on a bubble - the link still gets the active class. So when thinking about our bubbles, we don't want to just add an active class in the click event handler for the bubble, because someting else could make a company active.
+
+Instead, let's abstract away from _what_ may trigger a new selected company, and instead just add a generic method to our bubble chart:
+
+```js
+// bubble-chart.js
+chart.select = function(index) {
+  nodes.classed('active', function(d, i) {
+    return i === index;
+  });
+};
+```
+
+Now, whoever's using this chart can just invoke `chart.select(i)`, and the _ith_ node will get an active class. We can then use CSS to style the node.
+
+How do we hook this up to our Ember app? Well, we want the selected bubble to be bound to the currently active company. First, we can make a computed property on our `CompaniesController` that we'll be able to pass into our bubble chart. This CP should represent the currently selected company:
+
+```js
+App.CompaniesController = Em.ArrayController.extend({
+  ...
+  needs: 'company',
+  selectedCompany: Em.computed.alias('controllers.company.model')
+});
+
+// Need to redefine this for `needs` above
+App.CompanyController = Em.ObjectController.extend();
+``` 
+
+There's a small trick we need to do to make this fully work. As it is currently written, `selectedCompany` will represent the company model as we navigate between models. But if we go back to the `CompaniesRoute`, `selectedCompany` will still be set to the last model that was chosen. This is becasue controllers are persistent in Ember, even when you leave route.
+
+Since we want `selectedCompany` to be null when the user navigates back to the `CompaniesRoute`, we can force the `CompanyController`'s content to be null whenever the user leaves the route:
+
+```js
+// App.CompanyRoute
+deactivate: function() {
+  this.controller.set('content', null);
+}
+```
+
+Now, our CP faithfully represents the current model, including null if the user has not selected any model. We'll now pass this CP into our bubble chart component
+
+```html
+{{bubble-chart data=chartData 
+    action='selectCompany'
+    selectedItem=selectedCompany }}
+```
+
+and update our component to invoke our bubble chart's "select" method whenever the `selectedCompany` property changes:
+
+```diff
+App.BubbleChartComponent = Em.Component.extend({
+  classNames: 'bubble-chart',
+
+  chart: d3.charts.bubble()
+    .emptyMessage('No companies.'),
+
+  didInsertElement: function() {
+    var self = this;
+ 
+    this.get('chart').dispatch().on('select', function(el, d, i) {
+      self.sendAction('action', d, i);
+    });
+  },
+
+  draw: function() {
+    d3.select(this.get('element'))
+      .data([ this.get('data') ])
+      .call(this.get('chart'));
+
+    this.update();
+  }.observes('data').on('didInsertElement'),
+
++ update: function() {
++   this.get('chart').selectItem(this.get('selectedItem'));
++ }.observes('selectedItem')
+
+});
+```
+
+Our app now works as expected - you can navigate between routes using the list, the bubbles, the URL, and the back/forward buttons, and everything stays in sync!
 
 
 ### Some things to consider
 
+- Notice, our bubble chart - and Ember component - don't know about "companies." So we've kept our code very decoupled - the "companies" part of it only comes in the template, from teh context of where we're rendering the actual chart. Pretty cool!
+
 - Ember data
+
+- Computed properties are awesome
 
 
 

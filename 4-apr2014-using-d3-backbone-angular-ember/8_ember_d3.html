@@ -5,26 +5,68 @@
 
   <head>
     <style>
+      body {
+        width: 960px;
+        margin: 0 auto;
+        padding: 1em;
+      }
+
       body, a, a:focus, a:active {
         color: #333;
       }
 
       .company-list {
+        width: 400px;
+        float: left;
+        margin: 1em;
+        padding: 0;
         list-style-type: none;
       }
         .company-list a {
           display: block;
-          padding: 1em;
+          padding: 0.4em;
           text-decoration: none;
         }
         .company-list a:hover {
           background-color: #eee;
         }
         .company-list a.active {
-          background-color: #999;
+          background-color: #f86c55;
           color: white;
         }
+
+      select {
+        float: left;
+        margin-top: 1em;
+      }
+
+      .bubble-chart {
+        float: left;
+        width: 400px;
+
+      }
+        .bubble-chart .node {
+          cursor: pointer;
+        }
+        .bubble-chart circle {
+          fill: #f8f8f8 !important;
+          stroke: #bbb;
+          stroke-width: 2px;
+        }
+        .bubble-chart .node:hover circle {
+          stroke: #f86c55;
+        }
+        .bubble-chart text {
+          fill: #f86c55 !important;
+        }
+        .bubble-chart .node.active circle {
+          fill: #f86c55 !important;
+        }
+        .bubble-chart .node.active text {
+          fill: white !important;
+        }
       .detail {
+        clear: both;
         border: 1px solid #ddd;
         border-radius: 4px;
         padding: 1em;
@@ -37,13 +79,29 @@
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/handlebars/handlebars.js"></script>
     <script src="/bower_components/ember/ember.js"></script>
+
+    <script src="/bower_components/d3/d3.js"></script>
+    <!-- Our bubble chart -->
+    <script src="bubble-chart3.js"></script>
+
     
     <script type="text/x-handlebars" id="companies">
+
       <ul class="company-list">
         {{#each}}
           <li>{{link-to name 'company' this}}</li>
         {{/each}}
       </ul>
+
+      {{view Em.Select 
+          content=items 
+          optionValuePath='content.item'
+          optionLabelPath='content.label'
+          value=selectedItem}}
+
+      {{bubble-chart data=chartData
+          action='selectCompany'
+          selectedItem=selectedCompanyIndex }}
 
       <div class="detail">
         {{outlet}}
@@ -63,6 +121,7 @@
         <h2>{{name}}</h2>
 
         <p>Last year we made {{revenue}}. Costs were {{cost}}.<p>
+        <p>The profit was <strong>{{profit}}</strong>.</p>
       {{/with}} 
     </script>
 
@@ -84,17 +143,82 @@
             {id: 3, name: "Acme Corp", revenue: 6714, cost: 2990},
             {id: 4, name: "Dunder Mifflin", revenue: 743, cost: 1304}
           ];
+        },
+
+        actions: {
+          selectCompany: function(d, i) {
+            this.transitionTo('company', this.controller.objectAt(i));
+          }
         }
       });
 
       App.CompanyRoute = Em.Route.extend({
         model: function(params) {
           return this.modelFor('companies').findBy('id', +params.company_id);
-        }
+        },
+
+        deactivate: function() {
+          this.controller.set('content', null);
+        },
       });
 
-      App.CompanyDetailComponent = Em.Component.extend({
+      App.CompaniesController = Em.ArrayController.extend({
 
+        needs: ['company'],
+
+        selectedCompanyIndex: function() {
+          return this.indexOf(this.get('controllers.company.model'));
+        }.property('controllers.company.model'),
+
+        items: [{item: 'revenue', label: 'Revenue'}, {item: 'cost', label: 'Cost'}],
+
+
+        chartData: function() {
+          var self = this;
+
+          return {
+            name: 'companies',
+            children: this.map(function(c) {
+              return {
+                name: c.name,
+                size: c[self.get('selectedItem')]
+              };
+            })
+          };
+        }.property('content', 'selectedItem')
+      });
+
+      App.CompanyController = Em.ObjectController.extend({
+        profit: function() {
+          return this.get('revenue') - this.get('cost');
+        }.property('revenue')
+      });
+
+      App.BubbleChartComponent = Em.Component.extend({
+        classNames: 'bubble-chart',
+
+        chart: d3.charts.bubble()
+          .emptyMessage('No companies.'),
+
+        didInsertElement: function() {
+          var self = this;
+
+          this.get('chart').dispatch().on('select', function(el, d, i) {
+            self.sendAction('action', d, i);
+          });
+        },
+
+        draw: function() {
+          d3.select(this.get('element'))
+            .data([ this.get('data') ])
+            .call(this.get('chart'));
+
+          this.update();
+        }.observes('data').on('didInsertElement'),
+
+        update: function() {
+          this.get('chart').selectItem(this.get('selectedItem'));
+        }.observes('selectedItem')
       });
 
     </script>

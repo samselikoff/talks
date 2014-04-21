@@ -21,7 +21,7 @@
           background-color: #eee;
         }
         .company-list a.active {
-          background-color: #999;
+          background-color: #f86c55;
           color: white;
         }
       .detail {
@@ -55,10 +55,15 @@
     </script>
 
     <script type="text/x-handlebars" id="company">
-      <h2>{{name}}</h2>
+      {{company-detail company=this}}
+    </script>
 
-      <p>Last year we made {{revenue}}. Costs were {{cost}}.<p>
+    <script type="text/x-handlebars" id="components/company-detail">
+      {{#with company}}
+        <h2>{{name}}</h2>
 
+        <p>Last year we made {{revenue}}. Costs were {{cost}}.<p>
+      {{/with}} 
     </script>
 
     <script>
@@ -86,7 +91,11 @@
         model: function(params) {
           return this.modelFor('companies').findBy('id', +params.company_id);
         }
-      })
+      });
+
+      App.CompanyDetailComponent = Em.Component.extend({
+
+      });
 
     </script>
   </body>

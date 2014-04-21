@@ -5,6 +5,11 @@
 
   <head>
     <style>
+      body {
+        width: 960px;
+        margin: 0 auto;
+      } 
+
       .left-panel {
         float: left;
         width: 300px;
@@ -18,6 +23,18 @@
         width: 450px;
         height: 450px;
       }
+
+      .chart-panel circle {
+        /*fill: #f8f8f8 !important;
+        stroke: #bbb;*/
+        fill: #E52A3A !important;
+        stroke: #B3B3B3;
+        stroke-width: 2px;
+      }
+      .chart-panel text {
+        fill: white;
+      }
+
 
     </style>
   </head>
@@ -63,6 +80,8 @@
           {name: "Dunder Mifflin", revenue: 743, cost: 1304}
         ];
 
+
+
         $scope.$watch('query', function(q) {
           $scope.filteredCompanies = $filter('filter')($scope.companies, q);
         });
@@ -94,7 +113,6 @@
 
         return {
           restrict: 'E',
-          // template: '<p>{{message}}</p><div class="chart"></div>',
           scope: {
             data: '=',
             emptyMessage: '@'
