@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<html>
+<head>
+  <style>
+    .active {
+      background-color: #eee;
+    }
+  </style>
+</head>
+<body ng-app="d3-demo">
+
+  <div ng-controller="CompaniesCtrl">
+
+    <div class="left-panel">
+      <input type="text" ng-model="query" placeholder="Filter">
+      <form>
+        <input type="radio" ng-model="selectedItem" value="revenue">Revenue
+        <input type="radio" ng-model="selectedItem" value="cost">Cost
+      </form> 
+
+      <company-info ng-repeat="c in companies | filter:query" company="c" selected-item="selectedItem" ></company-info>
+
+    </div>
+
+  </div>
+
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/angular/angular.js"></script>
+  <script>
+    angular.module('d3-demo', [])
+
+      .controller('CompaniesCtrl', ['$scope', function($scope) {
+
+        // $scope.query = "miff";
+        $scope.selectedItem = "revenue";
+
+        $scope.companies = [
+          {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
+          {name: "Stark Enterprises", revenue: 3812, cost: 823},
+          {name: "Acme Corp", revenue: 6714, cost: 2990},
+          {name: "Dunder Mifflin", revenue: 743, cost: 1304}
+        ];
+
+    }])
+
+    .directive('companyInfo', function() {
+      return {
+        restrict: 'E',
+        template: '<h3>{{company.name}}</h3><p>The {{selectedItem}} was {{company[selectedItem] | currency}}</p>',
+        scope: {
+          company: '=',
+          selectedItem: '='
+        }
+      };
+    })
+
+    ;
+  </script>
+
+</body>
+</html>

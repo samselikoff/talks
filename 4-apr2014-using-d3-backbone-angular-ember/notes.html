@@ -1,0 +1,201 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>html { font-size: 100%; overflow-y: scroll; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+
+body{
+  color:#444;
+  font-family:Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman',
+              "Hiragino Sans GB", "STXihei", "微软雅黑", serif;
+  font-size:12px;
+  line-height:1.5em;
+  background:#fefefe;
+  width: 45em;
+  margin: 10px auto;
+  padding: 1em;
+  outline: 1300px solid #FAFAFA;
+}
+
+a{ color: #0645ad; text-decoration:none;}
+a:visited{ color: #0b0080; }
+a:hover{ color: #06e; }
+a:active{ color:#faa700; }
+a:focus{ outline: thin dotted; }
+a:hover, a:active{ outline: 0; }
+
+span.backtick {
+  border:1px solid #EAEAEA;
+  border-radius:3px;
+  background:#F8F8F8;
+  padding:0 3px 0 3px;
+}
+
+::-moz-selection{background:rgba(255,255,0,0.3);color:#000}
+::selection{background:rgba(255,255,0,0.3);color:#000}
+
+a::-moz-selection{background:rgba(255,255,0,0.3);color:#0645ad}
+a::selection{background:rgba(255,255,0,0.3);color:#0645ad}
+
+p{
+margin:1em 0;
+}
+
+img{
+max-width:100%;
+}
+
+h1,h2,h3,h4,h5,h6{
+font-weight:normal;
+color:#111;
+line-height:1em;
+}
+h4,h5,h6{ font-weight: bold; }
+h1{ font-size:2.5em; }
+h2{ font-size:2em; border-bottom:1px solid silver; padding-bottom: 5px; }
+h3{ font-size:1.5em; }
+h4{ font-size:1.2em; }
+h5{ font-size:1em; }
+h6{ font-size:0.9em; }
+
+blockquote{
+color:#666666;
+margin:0;
+padding-left: 3em;
+border-left: 0.5em #EEE solid;
+}
+hr { display: block; height: 2px; border: 0; border-top: 1px solid #aaa;border-bottom: 1px solid #eee; margin: 1em 0; padding: 0; }
+
+
+pre , code, kbd, samp { 
+  color: #000; 
+  font-family: monospace; 
+  font-size: 0.88em; 
+  border-radius:3px;
+  background-color: #F8F8F8;
+  border: 1px solid #CCC; 
+}
+pre { white-space: pre; white-space: pre-wrap; word-wrap: break-word; padding: 5px 12px;}
+pre code { border: 0px !important; padding: 0;}
+code { padding: 0 3px 0 3px; }
+
+b, strong { font-weight: bold; }
+
+dfn { font-style: italic; }
+
+ins { background: #ff9; color: #000; text-decoration: none; }
+
+mark { background: #ff0; color: #000; font-style: italic; font-weight: bold; }
+
+sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
+
+ul, ol { margin: 1em 0; padding: 0 0 0 2em; }
+li p:last-child { margin:0 }
+dd { margin: 0 0 0 2em; }
+
+img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
+
+table { border-collapse: collapse; border-spacing: 0; }
+td { vertical-align: top; }
+
+@media only screen and (min-width: 480px) {
+body{font-size:14px;}
+}
+
+@media only screen and (min-width: 768px) {
+body{font-size:16px;}
+}
+
+@media print {
+  * { background: transparent !important; color: black !important; filter:none !important; -ms-filter: none !important; }
+  body{font-size:12pt; max-width:100%; outline:none;}
+  a, a:visited { text-decoration: underline; }
+  hr { height: 1px; border:0; border-bottom:1px solid black; }
+  a[href]:after { content: " (" attr(href) ")"; }
+  abbr[title]:after { content: " (" attr(title) ")"; }
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { content: ""; }
+  pre, blockquote { border: 1px solid #999; padding-right: 1em; page-break-inside: avoid; }
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+  @page :left { margin: 15mm 20mm 15mm 10mm; }
+  @page :right { margin: 15mm 10mm 15mm 20mm; }
+  p, h2, h3 { orphans: 3; widows: 3; }
+  h2, h3 { page-break-after: avoid; }
+}
+</style><title>notes</title></head><body><p><strong>1. Intro</strong>  </p>
+<ul>
+<li>This is a talk about what I've learned. Things I wish I knew before.</li>
+<li>JavaScript applications are becoming complex</li>
+<li>
+<p>Frameworks attempt to solve the same problem: provide you with architecture
+<strong>2. Architecture</strong>  </p>
+</li>
+<li>
+<p>All apps have architecture</p>
+</li>
+<li>Goal of a framework is to enforce good practices</li>
+</ul>
+<p><strong>3. Bad code</strong></p>
+<ul>
+<li>Most would agree this is a mess</li>
+<li>Your code may not look like this, even w/o framework<ul>
+<li>But frameworks help you avoid this</li>
+</ul>
+</li>
+</ul>
+<p><strong>4. Solutions</strong></p>
+<p><strong>5. Costs and benefits</strong></p>
+<ul>
+<li>TANSTAAFL. Learning framework's abstractions is involved</li>
+<li>You learn to 'think in terms' of framework </li>
+<li>Still, growing number seem convinced</li>
+<li>Varies: framework surface area</li>
+</ul>
+<p><strong>6. Where does D3 fit in?</strong></p>
+<ul>
+<li>Data vis is becoming more prominent in apps</li>
+</ul>
+<p><strong>7. [images]</strong></p>
+<ul>
+<li>D3 code is becoming larger/complex</li>
+<li>Easy to treat D3 as completely separate</li>
+<li>D3 examples tend to be one-off and isolated</li>
+</ul>
+<p><strong>8. Solution </strong></p>
+<ol>
+<li>Encapsulate. When using a frameowrk we're building an object-oriented system. Important to treat D3 code this way.</li>
+<li>Integrate. Think in terms of the framework's architecture.</li>
+<li>
+<p>Embrace. Framework's idioms will open up new possibilities for d3 code </p>
+</li>
+<li>
+<p>Don't need to couple your d3 code to the framework.</p>
+</li>
+<li>
+<p>Essentially, the thesis is: in apps where you're using a framework, and where D3 code is prominent, treat your D3 code as first-class, and embrace the framework's idioms.</p>
+</li>
+</ol>
+<p>Benefits:
+    - reusability
+    - collaboration
+    - encapsulation
+    - testability</p>
+<p>Take the lessons we're learning from frameworks, and not miss out on them.</p>
+<p><strong>9. Frameworks </strong></p>
+<ul>
+<li>
+<p>Why these?</p>
+<ul>
+<li>Popular</li>
+<li>Sufficiently different</li>
+</ul>
+</li>
+<li>
+<p>In all three, D3 has most to do with the View layer of MVC</p>
+</li>
+<li>
+<p>For the rest of this talk, we'll be building up a chart to use with all frameworks</p>
+<ul>
+<li>Each framework shapes our thinking about the chart</li>
+<li>Influence the public api</li>
+</ul>
+</li>
+</ul></body></html>

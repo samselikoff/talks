@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<html>
+
+  <head>
+    <style>
+      body {
+        width: 960px;
+        margin: 0 auto;
+      } 
+
+      .left-panel {
+        float: left;
+        width: 300px;
+      }
+
+      .chart-panel {
+        border: 1px solid #999;
+        margin: 1em;
+        padding: 1em;
+        float: left;
+        width: 450px;
+        height: 450px;
+      }
+
+      .chart-panel circle {
+        /*fill: #f8f8f8 !important;
+        stroke: #bbb;*/
+        fill: #E52A3A !important;
+        stroke: #B3B3B3;
+        stroke-width: 2px;
+      }
+      .chart-panel .node text {
+        fill: white;
+      }
+
+
+    </style>
+  </head>
+
+  <body ng-app="d3-demo">
+
+    <div id="demo" ng-controller="CompaniesCtrl">
+
+      <div class="left-panel">
+        <input type="text" ng-model="query" placeholder="Filter">
+        <form>
+          <input type="radio" ng-model="selectedItem" value="revenue">Revenue
+          <input type="radio" ng-model="selectedItem" value="cost">Cost
+        </form> 
+
+        <company-info ng-repeat="c in filteredCompanies" company="c" selected-item="selectedItem" >
+        </company-info>
+      </div>
+
+      <div class="chart-panel">
+        <bubble-chart data="chartData" empty-message="No companies."></bubble-chart>
+      </div>
+    </div>
+
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
+    <script src="/bower_components/d3/d3.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <!-- Our bubble chart -->
+    <script src="/bubble-chart2.js"></script>
+
+    <script>
+      angular.module('d3-demo', [])
+
+      .controller('CompaniesCtrl', ['$scope', '$filter', function($scope, $filter) {
+
+        // $scope.query = "miff";
+        $scope.selectedItem = "revenue";
+
+        $scope.companies = [
+          {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
+          {name: "Stark Enterprises", revenue: 3812, cost: 823},
+          {name: "Acme Corp", revenue: 6714, cost: 2990},
+          {name: "Dunder Mifflin", revenue: 743, cost: 1304}
+        ];
+
+
+        $scope.$watch('query', function(q) {
+          $scope.filteredCompanies = $filter('filter')($scope.companies, q);
+        });
+
+        $scope.$watchCollection('[filteredCompanies, selectedItem]', function(arr) {
+          $scope.chartData = {
+            name: 'companies',
+            children: arr[0].map(function(c) { 
+              return {name: c.name, size: c[arr[1]]};
+            })
+          };
+        });
+
+      }])
+
+      .directive('companyInfo', function() {
+        return {
+          restrict: 'E',
+          template: '<h3>{{company.name}}</h3><p>The {{selectedItem}} was {{company[selectedItem]}}</p>',
+          scope: {
+            company: '=',
+            selectedItem: '='
+          }
+        };
+      })
+
+      .directive('bubbleChart', function() {
+        var chart = d3.charts.bubble();
+
+        return {
+          restrict: 'E',
+          scope: {
+            data: '='
+          },
+
+          link: function(scope, element, attrs) {
+            chart.emptyMessage(attrs.emptyMessage);
+
+            scope.$watch('data', function(data) {
+
+              d3.select(element[0])
+                .datum(data)
+                .call(chart);
+
+            });
+          }
+        };
+      })
+      ;
+
+    </script>
+
+  </body>
+
+</html>

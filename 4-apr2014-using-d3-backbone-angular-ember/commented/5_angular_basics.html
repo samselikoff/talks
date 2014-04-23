@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<html>
+<head>
+  <style>
+    .active {
+      background-color: #eee;
+    }
+  </style>
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+</head>
+
+<!-- Step 2: Specify areas of the DOM to be managed -->
+<!--<body ng-app="d3-demo">
+  <div ng-controller="CompaniesCtrl"> -->
+
+<body>
+  <div>
+
+    <div class="left-panel">
+
+      <!-- Step 5: Add a search box & model -->
+      <!-- <input type="text" ng-model="query" placeholder="Filter"> -->
+
+      <!-- Step 6: Add a selector (& model to scope below) -->
+      <!-- <input type="radio" ng-model="selectedItem" value="revenue">Revenue
+      <input type="radio" ng-model="selectedItem" value="cost">Cost -->
+
+      <!-- Step 3: Create list of companies -->
+      <!-- Step 4: Add a filter -->
+      <!-- Step 6: Add a selector & model -->
+      <!-- <div ng-repeat="c in companies">
+        <h3>{{c.name}}</h3><p>The revenue was {{c.revenue}}</p>
+      </div> -->
+
+      <!-- Step 7: Directive -->
+      <!-- <company-info ng-repeat="c in companies | filter:query" company="c" selected-item="selectedItem" ></company-info> -->
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+
+    angular.module('d3-demo', [])
+
+    /*
+      Step 1: Controllers present data to the template
+    */
+    // .controller('CompaniesCtrl', ['$scope', function($scope) {
+
+    //   /*
+    //     Step 6: Add a selector
+    //   */
+    //   // $scope.selectedItem = "revenue";
+
+    //   $scope.companies = [
+    //     {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
+    //     {name: "Stark Industries", revenue: 3812, cost: 823},
+    //     {name: "Acme Corp", revenue: 6714, cost: 2990},
+    //     {name: "Dunder Mifflin", revenue: 743, cost: 1304}
+    //   ];
+
+    // }])
+
+    /*
+      Step 7: Directive
+    */
+    // .directive('companyInfo', function() {
+    //   return {
+    //     restrict: 'E',
+    //     template: '<h3>{{company.name}}</h3><p>The {{selectedItem}} was {{company[selectedItem] | currency}}</p>',
+    //     scope: {
+    //       company: '=',
+    //       selectedItem: '='
+    //     }
+    //   };
+    // })
+
+    ;
+  </script>
+
+</body>
+</html>

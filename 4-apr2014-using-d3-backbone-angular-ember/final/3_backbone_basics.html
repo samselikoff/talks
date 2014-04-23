@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+
+<body>
+  <div id="demo">
+    <div class="company-list"></div>
+  </div>
+
+  <!-- Dependencies -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/underscore/underscore.js"></script>
+  <script src="bower_components/backbone/backbone.js"></script>
+
+  <script>
+
+  /* 
+    Step 1: Create a collection
+  */
+  var companies = new Backbone.Collection([
+    {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
+    {name: "Stark Enterprises", revenue: 3812, cost: 823},
+    {name: "Acme Corp", revenue: 6714, cost: 2990},
+    {name: "Dunder Mifflin", revenue: 743, cost: 1304}
+  ]);
+
+  /* 
+    Step 2: Create a view
+  */
+  var CompaniesView = Backbone.View.extend({
+
+    initialize: function() {
+      this.listenTo( this.collection, "change add remove", this.render );
+      this.render();
+    },
+
+    /* 
+     Step 3: Render
+    */
+    render: function() {
+      this.$el.html(this.template({
+        companies: this.collection.toJSON()
+      }));
+
+      return this;
+    },
+
+    template: _.template(
+      '<ul><% _.each(companies, function(company) { %>' +
+        '<li><strong><%= company.name %></strong>: revenue: <%= company.revenue %>, cost: <%= company.cost %></li>' +
+      '<% }); %></ul>'
+    )
+
+  });
+
+
+  /*
+    Step 4: Instantiate
+  */
+  var list = new CompaniesView({
+    el: '.company-list',
+    collection: companies
+  });
+
+  /*
+    Step 5: See the events work
+  */
+  // companies.at(3).set('name', "Schrute Farms");
+  // companies.at(3).destroy()
+
+  </script>
+</body>
+
+</html>

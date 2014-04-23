@@ -10,6 +10,8 @@ d3.charts.bubble = function() {
         .sort(null)
         .size([diameter-margin.left, diameter-margin.top])
         .padding(1.5),
+
+      // Enhancement: empty data
       emptyMessage = 'No data';
 
   function chart(selection) {
@@ -30,6 +32,7 @@ d3.charts.bubble = function() {
       var g = svg.select("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+      // Enhancement: empty data
       if (!data.children.length) {
         g.html('')
           .append('text')
@@ -101,6 +104,7 @@ d3.charts.bubble = function() {
     return chart;
   };
 
+  // Enhancement: empty data
   chart.emptyMessage = function(_) {
     if (!arguments.length) return emptyMessage;
 

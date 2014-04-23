@@ -48,6 +48,8 @@ Also, examples from D3's community tend to be one-off, isolated. This is great f
 
 For all these reasons, it's easy for developers to write their data vis code separately, outside of the idioms of the framework - or more generally, your application's architecture. But this leads to the same problems that we saw at the beginning. It's just as easy to write highly coupled code that mixes concerns for data vis as it is for standard components.
 
+We want the same benefits frameworks give us in our d3 code.
+
 
 ### How coupled will my D3 code be?
 
@@ -69,6 +71,8 @@ The thesis of this talk is essentially this: in applications where you're using 
   - Collaboration (share Ember components, Angular directives, etc.)
   - and more
 
+We want to take the lessons we're learnign from the frameworks, and not miss out on them in our D3 code.
+
 Admittedly this is a young game. Patterns around both D3 and more generally large Javascript applications are still emerging. But we have learned some things about developing web applications in recent years, and it's important that we incorporate these lessons into our D3 code as well.
 
 Now, there are a lot of frameworks out there, but we're going to focus on three: Backbone, Angular and Ember. We do this both because of their popularity, and because the goals of the three frameworks are different enough that we'll be able to illustrate how to use D3 in different contexts.
@@ -76,6 +80,7 @@ Now, there are a lot of frameworks out there, but we're going to focus on three:
 In all three frameworks, D3 code has most to do with the view layer of MVC.
 
 For the rest of this talk, we're actually going to build up a chart that we can use with all three frameworks. We're going to see how each framework shapes our thinking about the chart as an object. It will influence the public api that we give the chart. Finally we'll see how to use the chart in each framework.
+
 
 
 Object-orientizing our chart
@@ -116,7 +121,7 @@ It's a big nested tree. For our purposes, we aren't worried about the hierarchy.
  "name": "companies",
  "children": [
   {"name": "Wayne Enterprises", "size": 3938},
-  {"name": "Stark Enterprises", "size": 3812},
+  {"name": "Stark Industries", "size": 3812},
   {"name": "Acme Corp", "size": 6714},
   {"name": "Dunder Mifflin", "size": 743}
  ]
@@ -164,7 +169,7 @@ Say we have a list of companies, similar to the data we used for the bubble char
 ```js
 [
   {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
-  {name: "Stark Enterprises", revenue: 3812, cost: 823},
+  {name: "Stark Industries", revenue: 3812, cost: 823},
   {name: "Acme Corp", revenue: 6714, 2990},
   {name: "Dunder Mifflin", revenue: 743, 1304}
 ]
@@ -175,7 +180,7 @@ In Backbone, we store arrays of objects in `collections`. It's as simple as:
 ```js
 var companies = new Backbone.Collection([
   {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
-  {name: "Stark Enterprises", revenue: 3812, cost: 823},
+  {name: "Stark Industries", revenue: 3812, cost: 823},
   {name: "Acme Corp", revenue: 6714, cost: 2990},
   {name: "Dunder Mifflin", revenue: 743, cost: 1304}
 ]);
@@ -196,7 +201,9 @@ var CompaniesView = Backbone.View.extend({
   },
 
   template: _.template(
-    '<ul><% _.each(companies, function(company) { %> <li><strong><%= company.name %></strong>: revenue: <%= company.revenue %>, cost: <%= company.cost %></li> <% }); %></ul>'
+    '<ul><% _.each(companies, function(company) { %>' +
+      '<li><strong><%= company.name %></strong>: revenue: <%= company.revenue %>, cost: <%= company.cost %></li>' +
+    '<% }); %></ul>'
   ),
 
   render: function() {
@@ -260,7 +267,7 @@ For the first question, the natural place is our Backbone collections. Typically
 ```diff
 - var companies = new Backbone.Collection([
 -   {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
--   {name: "Stark Enterprises", revenue: 3812, cost: 823},
+-   {name: "Stark Industries", revenue: 3812, cost: 823},
 -   {name: "Acme Corp", revenue: 6714, cost: 2990},
 -   {name: "Dunder Mifflin", revenue: 743, cost: 1304}
 - ]);
@@ -278,7 +285,7 @@ For the first question, the natural place is our Backbone collections. Typically
 + 
 + var companies = new CompanyCollection([
 +   {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
-+   {name: "Stark Enterprises", revenue: 3812, cost: 823},
++   {name: "Stark Industries", revenue: 3812, cost: 823},
 +   {name: "Acme Corp", revenue: 6714, cost: 2990},
 +   {name: "Dunder Mifflin", revenue: 743, cost: 1304}
 + ]);
@@ -321,6 +328,7 @@ companies.at(0).destroy()
 
 Looking good.
 
+
 ### Some things to consider
 
 Note that there are many unanswered questions:
@@ -329,7 +337,7 @@ Note that there are many unanswered questions:
  - **View hierarchy.**
  - **Lazy rendering.**
 
-View managements can get hairy with d3 views, as some approaches you would take with more standard views won't work with d3. For example, in our examples we added a call to render on init, so the view rendered itself as soon as it was instantiated. In our example, we also passed it an existing dom element, so it rendered directly to the DOM. But another approach is to manually append the view to the DOM. One way to do this is for some other object ot instnatiate the view, call render, populating the views .el property with the rendered template, adn then appending that `el` to the document. For this to work, the html is created in memory. In d3, we can't do this. D3 needs a dom element that exists in the live DOM in order to render. So, if your application is doing something like this, you'll have to rethink it a bit. You could have `render` simplay append a blank div with a class, and then have another method `renderChart` that actually renders the chart - though now your managing object would have to know this, too.
+View managements can get hairy with d3 views, as some approaches you would take with more standard views won't work with d3. For example, in our examples we added a call to render on init, so the view rendered itself as soon as it was instantiated. In our example, we also passed it an existing dom element, so it rendered directly to the DOM. But another approach is to manually append the view to the DOM. One way to do this is for some other object ot instnatiate the view, call render, populating the views .el property with the rendered template, adn then appending that `el` to the document. For this to work, the html is created in memory. In d3, we can't do this. D3 needs a dom element that exists in the live DOM in order to render. So, if your application is doing something like this, you'll have to rethink it a bit. You could have `render` simplay append a blank div with a class, and then call another `renderChart` method that actually renders the chart - but the managing view would have to know about this.
 
 
 Angular
@@ -343,7 +351,7 @@ Directives are similar in purpose to Backbone views: they are designed to encaps
 
 ### Simple view
 
-To render data to our DOM, we first need somewhere to store the data. In Backbone, we created a collection to store our data. In Angular, there aren't any special objects that represent models or arrays of models; we just use plain on Javascript arrays and objects. However, to make the data available to our template, we use controllers.
+To render data to our DOM, we first need somewhere to store the data. In Backbone, we created a collection to store our data. In Angular, there aren't any special objects that represent models or arrays of models; we just use plain old Javascript arrays and objects. However, to make the data available to our template, we use controllers.
 
 We can make a controller for our companies like this:
 
@@ -354,7 +362,7 @@ angular.module('d3-demo', [])
 
     $scope.companies = [
       {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
-      {name: "Stark Enterprises", revenue: 3812, cost: 823},
+      {name: "Stark Industries", revenue: 3812, cost: 823},
       {name: "Acme Corp", revenue: 6714, cost: 2990},
       {name: "Dunder Mifflin", revenue: 743, cost: 1304}
     ];
@@ -375,12 +383,14 @@ Now, in our template we can initiate an Angular app, and designate which portion
 
 Template syntax in Angular uses {{. Let's create a list of our companies:
 
-```html
+```diff
 <body ng-app="d3-demo">
   <div ng-controller="CompaniesCtrl">
-    <div ng-repeat="c in companies">
-      <h3>{{company.name}}</h3><p>The revenue was {{company.revenue}}</p>
-    </div>
+
++   <div ng-repeat="c in companies">
++     <h3>{{c.name}}</h3><p>The revenue was {{c.revenue}}</p>
++   </div>
+
   </div>
 </body>
 ```
@@ -426,7 +436,7 @@ Now, let's add a filter to our list. This turns out to be rather simple. The `ng
 ...
 ```
 
-we'll only see companies who have "Enterprise somewhere in their properties.
+we'll only see companies who have 'Enterprise' somewhere in their properties.
 
 Instead of hard-coding the filter in, let's add a search box. We'll bind the text of the search box to a new model on our scope, and use that as our filter:
 
@@ -643,7 +653,7 @@ Let's add a function in our main controller that formats the data for our chart:
 
   $scope.companies = [
     {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
-    {name: "Stark Enterprises", revenue: 3812, cost: 823},
+    {name: "Stark Industries", revenue: 3812, cost: 823},
     {name: "Acme Corp", revenue: 6714, cost: 2990},
     {name: "Dunder Mifflin", revenue: 743, cost: 1304}
   ];
@@ -795,12 +805,14 @@ Now we can specify the option in our directive. We could set it directly on our 
   return {
     restrict: 'E',
     scope: {
-      data: '='
+      data: '=',
++     emptyMessage: '@'
     },
 
     link: function(scope, element, attrs) {
 
       scope.$watch('data', function(data) {
++       chart.emptyMessage(scope.emptyMessage);
 
         d3.select(element[0])
           .datum(data)
@@ -868,7 +880,7 @@ App.CompaniesRoute = Em.Route.extend({
     // Typically, make an AJAX request
     return [
       {id: 1, name: "Wayne Enterprises", revenue: 3938, cost: 1423},
-      {id: 2, name: "Stark Enterprises", revenue: 3812, cost: 823},
+      {id: 2, name: "Stark Industries", revenue: 3812, cost: 823},
       {id: 3, name: "Acme Corp", revenue: 6714, cost: 2990},
       {id: 4, name: "Dunder Mifflin", revenue: 743, cost: 1304}
     ];
@@ -1374,14 +1386,19 @@ Wrapping up
 
 - It's an iterative process. YOu build your d3 chart as OOP in isolation, and wrap it in a framework primitive. When you need new functionality, you go back to the chart and add it in a framework-agnostic way, exposing a hook for your framework objects to use. In this way you build a highly reusable chart, while still ending up with objects in your framework that are encpasulated and semantic, not just containers for 50 lines of D3. Also, you'll see patterns: you begin to expose core primitives of your charts, rather than options (i.e. expose the axis rather than axis.ticks, axis.tickSize, etc.). Makes them even more reusable.
 
-
-
  - There's definitely otehr approaches. http://alexandros.resin.io/angular-d3-svg/. Some people think using Ember or Angular makes D3's data binding redundant. But if you 
 
 - Which framework is the best for D3? Answer, probably depends on scale. Though I'm most familiar with Ember, and use it even for "smaller" things now.
 
 - Framework binding vs. D3 binding
 
+- Make sure to clean up d3 event listeners
+
+- There's definitely a cost to keeping D3 code separate. Perhaps it sometimes makes sense to use the framework's primitives and write your D3 directly in them. Keeping it separate essentially makes you have to think about two apis: your chart's apis, and the apis of your components/directives/views. But you end up with charts that are reusable outside of the framework, which is a plus. Not to mention if you're using a library like d3.chart, which is specifically built for building reusable charts. However, inheritance and framework primitives like mixins may help you here as well. It's fine though, actually teh specific implementation technique you choose isn't that relevant. You can use d3.chart, you can use Ember mixins. The larger point is the same: take the lessons from teh freamworks, apply them to your d3 layer as well.
+
+  - Also, nice to have the use of the API in the directive, clearly separate from the chart itself. Makes it clear what's customizable.
+
+But the kind of work i've done, moving across many different projects and reusing a lot of code, it makes sense. Especially w/d3.chart.
 
 https://www.youtube.com/watch?v=Hd2rye9a9kk&feature=youtu.be
 https://github.com/milroc/d3.MVC
