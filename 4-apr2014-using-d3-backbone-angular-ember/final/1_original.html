@@ -1,18 +1,11 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
 
-h1 {
-  color: #3182bd;
-  margin-left: 1em;
-}
+<head>
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/original.css">
+</head>
 
-text {
-  font: 10px sans-serif;
-  fill: white;
-}
-
-</style>
 <body>
   <h1>Let's get it done</h1>
 </body>
@@ -33,7 +26,7 @@ var svg = d3.select("body").append("svg")
     .attr("height", diameter)
     .attr("class", "bubble");
 
-d3.json("companies.json", function(error, root) {
+d3.json("/companies.json", function(error, root) {
   console.log(root);
   console.log(bubble.nodes(classes(root)));
   var node = svg.selectAll(".node")

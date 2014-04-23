@@ -1,0 +1,9 @@
+body {
+  font-family: sans-serif;
+  width: 960px;
+  margin: 1em auto;
+}
+
+.nav h1 {
+  text-align: center;
+}

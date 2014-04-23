@@ -2,7 +2,7 @@
  "name": "companies",
  "children": [
   {"name": "Wayne Enterprises", "size": 3938},
-  {"name": "Stark Enterprises", "size": 3812},
+  {"name": "Stark Industries", "size": 3812},
   {"name": "Acme Corp", "size": 6714},
   {"name": "Dunder Mifflin", "size": 743}
  ]

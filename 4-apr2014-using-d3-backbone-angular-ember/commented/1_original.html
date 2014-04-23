@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
+<head>
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/original.css">
+</head>
 
-h1 {
-  color: #3182bd;
-  margin-left: 1em;
-}
-
-text {
-  font: 10px sans-serif;
-  fill: white;
-}
-
-</style>
 <body>
   <h1>Let's get it done</h1>
+  <ul>
+    <li><a href="/1_original.html">Raw D3</a></li>
+    <li><a href="/2_oop.html">D3 Objectized</a></li>
+    <li><a href="/3_backbone_basics.html">Backbone basics</a></li>
+    <li><a href="/4_backbone_d3.html">Backbone d3</a></li>
+    <li><a href="/5_angular_basics.html">Angular basics</a></li>
+    <li><a href="/6_angular_d3.html">Angular D3</a></li>
+    <li><a href="/7_ember_basics.html">Ember basics</a></li>
+    <li><a href="/8_ember_d3.html">Ember D3</a></li>
+  </ul>
 </body>
+
 <script src="/bower_components/d3/d3.js"></script>
 <script>
 
@@ -33,7 +36,7 @@ var svg = d3.select("body").append("svg")
     .attr("height", diameter)
     .attr("class", "bubble");
 
-d3.json("companies.json", function(error, root) {
+d3.json("/companies.json", function(error, root) {
   console.log(root);
   console.log(bubble.nodes(classes(root)));
   var node = svg.selectAll(".node")
