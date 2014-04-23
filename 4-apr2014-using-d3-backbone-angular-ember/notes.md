@@ -152,7 +152,15 @@ Ember
     - Start off with routes
     - Making a master/detail type app
 
+** Basics **
 
+** D3 **
+  
+  - As you may have guessed, component is where we'll put our D3 code
+  - Understanding routes is important to Ember
+    - We want our components to honor this relationship
+
+  - Enhancing the chart has nothing to do with Ember
 
 
 

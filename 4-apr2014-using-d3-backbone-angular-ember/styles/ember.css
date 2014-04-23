@@ -1,0 +1,66 @@
+body {
+  width: 960px;
+  margin: 0 auto;
+  padding: 1em;
+}
+
+body, a, a:focus, a:active {
+  color: #333;
+}
+
+.company-list {
+  width: 400px;
+  float: left;
+  margin: 1em;
+  padding: 0;
+  list-style-type: none;
+}
+  .company-list a {
+    display: block;
+    padding: 0.4em;
+    text-decoration: none;
+  }
+  .company-list a:hover {
+    background-color: #eee;
+  }
+  .company-list a.active {
+    background-color: #f86c55;
+    color: white;
+  }
+
+select {
+  float: left;
+  margin-top: 1em;
+}
+
+.bubble-chart {
+  float: left;
+  width: 400px;
+
+}
+  .bubble-chart .node {
+    cursor: pointer;
+  }
+  .bubble-chart circle {
+    fill: #f8f8f8 !important;
+    stroke: #bbb;
+    stroke-width: 2px;
+  }
+  .bubble-chart .node:hover circle {
+    stroke: #f86c55;
+  }
+  .bubble-chart text {
+    fill: #f86c55 !important;
+  }
+  .bubble-chart .node.active circle {
+    fill: #f86c55 !important;
+  }
+  .bubble-chart .node.active text {
+    fill: white !important;
+  }
+.detail {
+  clear: both;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1em;
+}

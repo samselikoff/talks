@@ -11,6 +11,9 @@ d3.charts.bubble = function() {
         .size([diameter-margin.left, diameter-margin.top])
         .padding(1.5),
       emptyMessage = 'No data',
+      /*
+        Step 1: Dispatch
+      */
       dispatch = d3.dispatch('select'),
       nodes;
 
@@ -55,7 +58,6 @@ d3.charts.bubble = function() {
       nodesEnter.append("title")
         .text(function(d) { return d.className + ": " + format(d.value); });
       nodesEnter.append("circle")
-        // .style("fill", function(d) { return color(d.packageName); })
         .style("fill", function(d) { return '#FF9C4F'; })
         .attr("r", 0);
       nodesEnter.append("text");
@@ -78,6 +80,9 @@ d3.charts.bubble = function() {
       nodesExit.select("text").attr('opacity', 0);
       nodesExit.remove();
 
+      /*
+        Step 2: Dispatch the event
+      */
       // Events
       nodes.on('click', function(d, i) {
         dispatch.select(this, d, i);
@@ -99,6 +104,9 @@ d3.charts.bubble = function() {
     return {children: _classes};
   }
 
+  /*
+    Step 4: Enhancement
+  */
   chart.selectItem = function(index) {
     nodes.classed('active', function(d, i) {
       return i === index;
@@ -114,6 +122,9 @@ d3.charts.bubble = function() {
     return chart;
   };
 
+  /*
+    Step 3: Add an accessor
+  */
   chart.dispatch = function(_) {
     if (!arguments.length) return dispatch;
 

@@ -1244,6 +1244,8 @@ App.BubbleChartComponent = Em.Component.extend({
     .emptyMessage('No companies.'),
 
 + didInsertElement: function() {
++   var self = this;
++
 +   this.get('chart').dispatch().on('select', function(el, d, i) {
 +     self.sendAction('action', d, i);
 +   });
@@ -1293,7 +1295,7 @@ Instead, let's abstract away from _what_ may trigger a new selected company, and
 
 ```js
 // bubble-chart.js
-chart.select = function(index) {
+chart.selectItem = function(index) {
   nodes.classed('active', function(d, i) {
     return i === index;
   });

@@ -4,8 +4,9 @@
 <html>
 
   <head>
+    <link rel="stylesheet" href="/styles/ember.css">
     <style>
-      body, a, a:focus, a:active {
+/*      body, a, a:focus, a:active {
         color: #333;
       }
 
@@ -29,7 +30,7 @@
         border-radius: 4px;
         padding: 1em;
       }
-    </style>
+*/    </style>
   </head>
 
   <body>
@@ -60,7 +61,7 @@
       </div> 
     </script>-->
 
-    <!-- Step 5: Add links -->
+    <!-- Step 6: Add links -->
     <!--<script type="text/x-handlebars" id="companies">
       <ul class="company-list">
         {{#each}}
@@ -78,25 +79,28 @@
     </script>-->
 
     <!-- Step 4: Add detail route -->
-    <!--<script type="text/x-handlebars" id="company">
+    <!-- <script type="text/x-handlebars" id="company">
       <h2>{{name}}</h2>
 
-      <p>Last year we made {{revenue}}. Costs were {{cost}}.<p>
-    </script>-->
+      <p>Last year we made {{revenue}}. Costs were {{cost}}.</p>-->
+
+      <!-- Step 5: decorate the model -->
+      <!-- <p>The profit was <strong>{{profit}}</strong></p>. -->
+    <!--</script> -->
 
 
-    <!-- Step 6: Make a component -->
+    <!-- Step 7: Make a component -->
     <!-- <script type="text/x-handlebars" id="company">
       {{company-detail company=this}}
     </script> -->
 
 
-    <!-- Step 6: Make a component -->
+    <!-- Step 7: Make a component -->
     <!--<script type="text/x-handlebars" id="components/company-detail">
       {{#with company}}
         <h2>{{name}}</h2>
 
-        <p>Last year we made {{revenue}}. Costs were {{cost}}.<p>
+        <p>Last year we made {{revenue}}. Costs were {{cost}}.</p>
       {{/with}} 
     </script>-->
 
@@ -129,6 +133,15 @@
       // });
 
       /*
+        Step 5: Decorate the model
+      */
+      // App.CompanyController = Em.ObjectController.extend({
+      //   profit: function() {
+      //     return this.get('revenue') - this.get('cost');
+      //   }.property('revenue')
+      // });
+
+      /*
         Step 4: Add detail route. Specify model - comes from parent
       */
       // App.CompanyRoute = Em.Route.extend({
@@ -138,7 +151,7 @@
       // });
 
       /*
-        Step 6: Make a component
+        Step 7: Make a component
       */
       // App.CompanyDetailComponent = Em.Component.extend({});
 
