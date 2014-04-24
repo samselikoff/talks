@@ -11,10 +11,6 @@ d3.charts.bubble = function() {
         .size([diameter-margin.left, diameter-margin.top])
         .padding(1.5),
       emptyMessage = 'No data',
-      /*
-        Step 1: Dispatch
-      */
-      dispatch = d3.dispatch('select'),
       nodes;
 
   function chart(selection) {
@@ -80,15 +76,6 @@ d3.charts.bubble = function() {
       nodesExit.select("text").attr('opacity', 0);
       nodesExit.remove();
 
-      /*
-        Step 2: Dispatch the event
-      */
-      // Events
-      nodes.on('click', function(d, i) {
-        dispatch.select(this, d, i);
-      });
-
-
     });
   }
 
@@ -105,7 +92,7 @@ d3.charts.bubble = function() {
   }
 
   /*
-    Step 4: Enhancement
+    Enhancement
   */
   chart.selectItem = function(index) {
     nodes.classed('active', function(d, i) {
@@ -118,17 +105,6 @@ d3.charts.bubble = function() {
 
     margin = _;
     bubble.size([diameter-margin.left, diameter-margin.top]);
-
-    return chart;
-  };
-
-  /*
-    Step 3: Add an accessor
-  */
-  chart.dispatch = function(_) {
-    if (!arguments.length) return dispatch;
-
-    dispatch = _;
 
     return chart;
   };

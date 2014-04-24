@@ -53,10 +53,10 @@
   // });
 
   /*
-    Step 1: Redefine
+    Step 1: Redefine the collection
   */
-  var companies = new Backbone.Collection([
   // var companies = new CompanyCollection([
+  var companies = new Backbone.Collection([
     {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
     {name: "Stark Enterprises", revenue: 3812, cost: 823},
     {name: "Acme Corp", revenue: 6714, cost: 2990},
@@ -128,7 +128,7 @@
   });
 
   $('.remove').click(function() {
-    companies.at(Math.floor(Math.random()*companies.length)).destroy();
+    companies.at(0).destroy();
   });
   </script>
 </body>

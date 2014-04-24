@@ -10,7 +10,7 @@
   <script src="/bower_components/ember/ember.js"></script>
   <script src="/bower_components/d3/d3.js"></script>
     <!-- Our bubble chart -->
-    <!--<script src="bubble-chart2.js"></script>-->
+    <script src="bubble-chart2.js"></script>
 
     <!-- Step 5: Send an action -->
     <!--<script src="bubble-chart3.js"></script>-->
@@ -53,8 +53,8 @@
 
       {{!-- Step 7.4: Selected company state --}}
       {{!-- {{bubble-chart data=chartData
-          selectedBubble=selectedCompanyIndex
-          action='selectCompany' }} --}}
+          action='selectCompany'
+          selectedBubble=selectedCompanyIndex}} --}}
 
       <div class="detail">
         {{outlet}}
@@ -102,7 +102,7 @@
           Step 6: Link the action 
         */
         // actions: {
-        //   selectCompany: function(d, i) {
+        //   selectCompany: function(i) {
         //     this.transitionTo('company', this.controller.objectAt(i));
         //   }
         // }
@@ -147,11 +147,11 @@
         //     children: this.map(function(c) {
         //       return {
         //         name: c.name,
-        //         // size: c.revenue
+        //         size: c.revenue
         //         /*
         //           Step 4: Bind to select box
         //         */
-        //         size: c[self.get('selectedItem')]
+        //         // size: c[self.get('selectedItem')]
         //       };
         //     })
         //   };
@@ -185,8 +185,8 @@
       //   // didInsertElement: function() {
       //   //   var self = this;
 
-      //   //   this.get('chart').dispatch().on('select', function(el, d, i) {
-      //   //     self.sendAction('action', d, i);
+      //   //   d3.select(this.get('element')).selectAll('.node').on('click', function(i) {
+      //   //     self.sendAction('action', i);
       //   //   });
       //   // },
       
