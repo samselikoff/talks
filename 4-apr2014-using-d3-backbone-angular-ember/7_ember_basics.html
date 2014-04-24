@@ -25,17 +25,8 @@
     <a href="8_ember_d3.html"></a>
   </div>
 
-    <!-- Step 3: Initial view -->
-    <!--<script type="text/x-handlebars" id="companies">
-      <ul class="company-list">
-        {{#each}}
-          <li>{{name}}</li>
-        {{/each}}
-      </ul>
-    </script>-->
-
     <!-- Step 4: Add detail route -->
-    <!--<script type="text/x-handlebars" id="companies">
+    <script type="text/x-handlebars" id="companies">
       <ul class="company-list">
         {{#each}}
           <li>{{name}}</li>
@@ -45,7 +36,7 @@
       <div class="detail">
         {{outlet}}
       </div> 
-    </script>-->
+    </script>
 
     <!-- Step 6: Add links -->
     <!--<script type="text/x-handlebars" id="companies">
@@ -65,14 +56,14 @@
     </script>-->
 
     <!-- Step 4: Add detail route -->
-    <!-- <script type="text/x-handlebars" id="company">
+    <script type="text/x-handlebars" id="company">
       <h2>{{name}}</h2>
 
-      <p>Last year we made {{revenue}}. Costs were {{cost}}.</p>-->
+      <p>Last year we made {{revenue}}. Costs were {{cost}}.</p>
 
       <!-- Step 5: decorate the model -->
       <!-- <p>The profit was <strong>{{profit}}</strong>.</p> -->
-    <!--</script> -->
+    </script>
 
 
     <!-- Step 7: Make a component -->
@@ -94,29 +85,29 @@
       /* 
         Step 1: Kick off + router
       */
-      // App = Ember.Application.create();
+      App = Ember.Application.create();
 
-      // App.Router.map(function() {
-      //   this.resource('companies', { path: '/' }, function() {
-      //     this.resource('company', { path: '/:company_id' });
-      //   });
-      // });
+      App.Router.map(function() {
+        this.resource('companies', { path: '/' }, function() {
+          this.resource('company', { path: '/:company_id' });
+        });
+      });
 
       /*
         Step 2: Data comes from routes
       */
-      // App.CompaniesRoute = Em.Route.extend({
+      App.CompaniesRoute = Em.Route.extend({
 
-      //   model: function() {
-      //     return [
-      //       {id: 1, name: "Wayne Enterprises", revenue: 3938, cost: 1423},
-      //       {id: 2, name: "Stark Industries", revenue: 3812, cost: 823},
-      //       {id: 3, name: "Acme Corp", revenue: 6714, cost: 2990},
-      //       {id: 4, name: "Dunder Mifflin", revenue: 743, cost: 1304}
-      //     ];
-      //   }
+        model: function() {
+          return [
+            {id: 1, name: "Wayne Enterprises", revenue: 3938, cost: 1423},
+            {id: 2, name: "Stark Industries", revenue: 3812, cost: 823},
+            {id: 3, name: "Acme Corp", revenue: 6714, cost: 2990},
+            {id: 4, name: "Dunder Mifflin", revenue: 743, cost: 1304}
+          ];
+        }
 
-      // });
+      });
 
       /*
         Step 5: Decorate the model
@@ -130,11 +121,11 @@
       /*
         Step 4: Add detail route. Specify model - comes from parent
       */
-      // App.CompanyRoute = Em.Route.extend({
-      //   model: function(params) {
-      //     return this.modelFor('companies').findBy('id', +params.company_id);
-      //   }
-      // });
+      App.CompanyRoute = Em.Route.extend({
+        model: function(params) {
+          return this.modelFor('companies').findBy('id', +params.company_id);
+        }
+      });
 
       /*
         Step 7: Make a component

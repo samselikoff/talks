@@ -40,14 +40,14 @@
         <input type="radio" ng-model="selectedItem" value="cost">Cost
 
         <!-- Step 3: Share filtered companies -->
-        <company-info ng-repeat="c in companies | filter:query" company="c" selected-item="selectedItem"></company-info>
+        <company-info ng-repeat="c in filteredCompanies" company="c" selected-item="selectedItem"></company-info>
       </div>
 
       <div class="chart-panel">
 
         <!-- Step 1: Bubble chart directive -->
         <!-- Step 5: Chart enhancement -->
-        <!-- <bubble-chart data="chartData"></bubble-chart> -->
+        <bubble-chart data="chartData"></bubble-chart>
       </div>
     </div>
   </div>
@@ -70,9 +70,9 @@
       /*
         Step 3: Share filtered companies
       */
-      // $scope.$watch('query', function(q) {
-      //   $scope.filteredCompanies = $filter('filter')($scope.companies, q);
-      // });
+      $scope.$watch('query', function(q) {
+        $scope.filteredCompanies = $filter('filter')($scope.companies, q);
+      });
 
       /*
         Step 2: Massage the data 
@@ -99,14 +99,14 @@
       /*
         Step 4: Respond to selected item
       */
-      // $scope.$watchCollection('[filteredCompanies, selectedItem]', function(arr) {
-      //   $scope.chartData = {
-      //     name: 'companies',
-      //     children: arr[0].map(function(c) { 
-      //       return {name: c.name, size: c[arr[1]]};
-      //     })
-      //   };
-      // });
+      $scope.$watchCollection('[filteredCompanies, selectedItem]', function(arr) {
+        $scope.chartData = {
+          name: 'companies',
+          children: arr[0].map(function(c) { 
+            return {name: c.name, size: c[arr[1]]};
+          })in companies | filter:query
+        };
+      });
 
     }])
 
@@ -124,31 +124,31 @@
     /*
       Step 1: Bubble chart directive - link, not template
     */
-    // .directive('bubbleChart', function() {
-    //   var chart = d3.charts.bubble();
+    .directive('bubbleChart', function() {
+      var chart = d3.charts.bubble();
 
-    //   return {
-    //     restrict: 'E',
-    //     scope: {
-    //       data: '='
-    //     },
+      return {
+        restrict: 'E',
+        scope: {
+          data: '='
+        },
 
-    //     link: function(scope, element, attrs) {
-    //       /*
-    //         Step 5: Chart enhancement
-    //       */
-    //       // chart.emptyMessage(attrs.emptyMessage);
+        link: function(scope, element, attrs) {
+          /*
+            Step 5: Chart enhancement
+          */
+          // chart.emptyMessage(attrs.emptyMessage);
 
-    //       scope.$watch('data', function(data) {
+          scope.$watch('data', function(data) {
 
-    //         d3.select(element[0])
-    //           .datum(data)
-    //           .call(chart);
+            d3.select(element[0])
+              .datum(data)
+              .call(chart);
 
-    //       });
-    //     }
-    //   };
-    // })
+          });
+        }
+      };
+    })
     ;
 
   </script>

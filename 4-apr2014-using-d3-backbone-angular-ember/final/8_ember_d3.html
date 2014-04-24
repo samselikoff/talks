@@ -11,7 +11,6 @@
   <script src="/bower_components/d3/d3.js"></script>
 
     <!-- Our bubble chart -->
-    <!--<script src="bubble-chart2.js"></script>-->
 
     <!-- Step 5: Send an action -->
     <script src="/bubble-chart3.js"></script>
@@ -103,7 +102,7 @@
           Step 6: Link the action 
         */
         actions: {
-          selectCompany: function(d, i) {
+          selectCompany: function(i) {
             this.transitionTo('company', this.controller.objectAt(i));
           }
         }
@@ -186,8 +185,9 @@
         didInsertElement: function() {
           var self = this;
 
-          this.get('chart').dispatch().on('select', function(el, d, i) {
-            self.sendAction('action', d, i);
+          d3.select(this.get('element')).selectAll('.node').on('click', function(d, i) {
+            debugger;
+            self.sendAction('action', i);
           });
         },
       
