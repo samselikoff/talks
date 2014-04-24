@@ -15,25 +15,25 @@
   <script src="/bower_components/d3/d3.js"></script>
 
   <!-- Our bubble chart -->
-  <script src="bubble-chart.js"></script>
+  <script src="/bubble-chart.js"></script>
 
   <script>
 
   /*
     Step 1: Redefine the collection
   */
-  // var CompanyCollection = Backbone.Collection.extend({
+  var CompanyCollection = Backbone.Collection.extend({
   
-  //   chartData: function() {
-  //     return {
-  //       name: 'compaines',
-  //       children: this.map(function(c) { 
-  //         return {name: c.get('name'), size: c.get('revenue')};
-  //       })
-  //     }
-  //   }
+    chartData: function() {
+      return {
+        name: 'compaines',
+        children: this.map(function(c) { 
+          return {name: c.get('name'), size: c.get('revenue')};
+        })
+      }
+    }
   
-  // });
+  });
 
   var companies = new CompanyCollection([
     {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
@@ -71,32 +71,32 @@
   /*
     Step 2: Define the Bubble chart view
   */
-  // var BubbleChartView = Backbone.View.extend({
+  var BubbleChartView = Backbone.View.extend({
 
-  //   chart: d3.charts.bubble(),
+    chart: d3.charts.bubble(),
 
-  //   initialize: function() {
-  //     this.listenTo(this.collection, "change add remove", this.render);
-  //     this.render();
-  //   },
+    initialize: function() {
+      this.listenTo(this.collection, "change add remove", this.render);
+      this.render();
+    },
 
-  //   render: function() {
-  //     d3.select(this.el)
-  //       .datum(this.collection.chartData())
-  //       .call(this.chart);
+    render: function() {
+      d3.select(this.el)
+        .datum(this.collection.chartData())
+        .call(this.chart);
 
-  //     return this;
-  //   }
+      return this;
+    }
 
-  // });
+  });
 
   /*
     Step 3: Instatiate
   */
-  // var bubbles = new BubbleChartView({
-  //   el: '.chart',
-  //   collection: companies
-  // });
+  var bubbles = new BubbleChartView({
+    el: '.chart',
+    collection: companies
+  });
   
 
   /*

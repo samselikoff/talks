@@ -1,0 +1,37 @@
+h1 {
+  color: #0071B5;
+}
+
+ul {
+  list-style-type: none;
+  width: 400px;
+  padding-left: 0;
+}
+
+li:hover {
+  background-color: #0071B5;
+  color: white;
+}
+li {
+  margin-bottom: 0.6em;
+  border: 1px solid #ddd;
+  padding: 1em;
+  border-radius: 4px;
+}
+
+.chart {
+  float: right;
+}
+
+.chart circle {
+  fill: #0071B5 !important;
+  stroke: #002A41;
+  stroke-width: 3px;
+}
+
+.chart text {
+  fill: white !important;
+  /*fill: #0071B5 !important;*/
+  font-size: 13px;
+  /*font-weight: bold;*/
+}

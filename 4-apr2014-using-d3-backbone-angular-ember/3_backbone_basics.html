@@ -1,73 +1,98 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
 <html>
+<meta charset="utf-8">
+<head>
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/backbone.css">
+</head>
 
-<body>
+<body class='backbone'>
+  <div class="nav">
+    <h1>Backbone basics</h1>
+    <a href="1_original.html"></a>
+    <a href="2_oop.html"></a>
+    <a class='active' href="3_backbone_basics.html"></a>
+    <a href="4_backbone_d3.html"></a>
+    <a href="5_angular_basics.html"></a>
+    <a href="6_angular_d3.html"></a>
+    <a href="7_ember_basics.html"></a>
+    <a href="8_ember_d3.html"></a>
+  </div>
+
   <div id="demo">
+    <button class='add'>Add company</button>
+    <button class='remove'>Remove company</button>
     <div class="company-list"></div>
   </div>
 
   <!-- Dependencies -->
-  <script src="bower_components/jquery/dist/jquery.js"></script>
-  <script src="bower_components/underscore/underscore.js"></script>
-  <script src="bower_components/backbone/backbone.js"></script>
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/underscore/underscore.js"></script>
+  <script src="/bower_components/backbone/backbone.js"></script>
 
   <script>
 
   /* 
     Step 1: Create a collection
   */
-  // var companies = new Backbone.Collection([
-  //   {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
-  //   {name: "Stark Enterprises", revenue: 3812, cost: 823},
-  //   {name: "Acme Corp", revenue: 6714, cost: 2990},
-  //   {name: "Dunder Mifflin", revenue: 743, cost: 1304}
-  // ]);
+  var companies = new Backbone.Collection([
+    {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
+    {name: "Stark Enterprises", revenue: 3812, cost: 823},
+    {name: "Acme Corp", revenue: 6714, cost: 2990},
+    {name: "Dunder Mifflin", revenue: 743, cost: 1304}
+  ]);
 
   /* 
     Step 2: Create a view
   */
-  // var CompaniesView = Backbone.View.extend({
+  var CompaniesView = Backbone.View.extend({
 
-  //   initialize: function() {
-  //     this.listenTo( this.collection, "change add remove", this.render );
-  //     this.render();
-  //   },
+    initialize: function() {
+      this.listenTo( this.collection, "change add remove", this.render );
+      this.render();
+    },
 
-  //   /* 
-  //    Step 3: Render
-  //   */
-  //   // render: function() {
-  //   //   this.$el.html(this.template({
-  //   //     companies: this.collection.toJSON()
-  //   //   }));
+    /* 
+     Step 3: Render
+    */
+    render: function() {
+      this.$el.html(this.template({
+        companies: this.collection.toJSON()
+      }));
 
-  //   //   return this;
-  //   // },
+      return this;
+    },
 
-  //   // template: _.template(
-  //   //   '<ul><% _.each(companies, function(company) { %>' +
-  //   //     '<li><strong><%= company.name %></strong>: revenue: <%= company.revenue %>, cost: <%= company.cost %></li>' +
-  //   //   '<% }); %></ul>'
-  //   // )
+    template: _.template(
+      '<ul><% _.each(companies, function(company) { %>' +
+        '<li><strong><%= company.name %></strong> revenue: <%= company.revenue %>, cost: <%= company.cost %></li>' +
+      '<% }); %></ul>'
+    )
 
-  // });
+  });
 
 
   /*
     Step 4: Instantiate
   */
-  // var list = new CompaniesView({
-  //   el: '.company-list',
-  //   collection: companies
-  // });
+  var list = new CompaniesView({
+    el: '.company-list',
+    collection: companies
+  });
 
   /*
     Step 5: See the events work
   */
   // companies.at(3).set('name', "Schrute Farms");
   // companies.at(3).destroy()
-  // companies.push({name: 'sam', revenue: 100})
+  // companies.push({name: 'Corp ' + Math.floor(Math.random()*100), revenue: Math.floor(Math.random()*10000), cost: Math.floor(Math.random()*10000)})
+  $('.add').click(function() {
+    companies.push({name: 'Corp ' + Math.floor(Math.random()*100), revenue: Math.floor(Math.random()*10000), cost: Math.floor(Math.random()*10000)});
+  });
+
+  $('.remove').click(function() {
+    companies.at(Math.floor(Math.random()*companies.length)).destroy();
+  });
 
   </script>
 </body>

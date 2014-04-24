@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-
 <html>
+<meta charset="utf-8">
+<head>
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/backbone.css">
+</head>
 
-<body>
+<body class='backbone'>
+  <div class="nav">
+    <h1>Backbone & D3</h1>
+    <a href="1_original.html"></a>
+    <a href="2_oop.html"></a>
+    <a href="3_backbone_basics.html"></a>
+    <a class='active' href="4_backbone_d3.html"></a>
+    <a href="5_angular_basics.html"></a>
+    <a href="6_angular_d3.html"></a>
+    <a href="7_ember_basics.html"></a>
+    <a href="8_ember_d3.html"></a>
+  </div>
+
   <div id="demo">
+    <button class='add'>Add company</button>
+    <button class='remove'>Remove company</button>
     <div class="chart"></div>
     <div class="company-list"></div>
   </div>
@@ -102,8 +119,13 @@
   /*
     Step 4: Play!
   */
-  // companies.push({name: "Sam's Club "+Math.floor(Math.random()*100), revenue: Math.random()*100000, cost: 1423})
+  $('.add').click(function() {
+    companies.push({name: 'Corp ' + Math.floor(Math.random()*100), revenue: Math.floor(Math.random()*10000), cost: Math.floor(Math.random()*10000)});
+  });
 
+  $('.remove').click(function() {
+    companies.at(Math.floor(Math.random()*companies.length)).destroy();
+  });
   </script>
 </body>
 </html>

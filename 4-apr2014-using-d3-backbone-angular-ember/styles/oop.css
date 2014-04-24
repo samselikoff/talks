@@ -1,0 +1,16 @@
+.oop {
+  text-align: center;
+}
+
+.oop h1 {
+  color: rgb(25, 184, 19);
+  margin-left: 1em;
+}
+
+.oop text {
+  font: 12px sans-serif;
+}
+
+.oop circle {
+  fill: rgb(25, 184, 19) !important;
+}

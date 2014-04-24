@@ -1,9 +1,14 @@
-h1 {
-  color: #3182bd;
-  margin-left: 1em;
+.original {
+  text-align: center;
+}
+.original h1 {
+  color: rgb(189, 49, 49);
 }
 
-text {
-  fill: white;
+.original text {
   font-size: 12px;
+}
+
+.original circle {
+  fill: rgb(189, 49, 49) !important;
 }

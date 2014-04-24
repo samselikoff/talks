@@ -2,26 +2,35 @@
 <meta charset="utf-8">
 
 <html>
-
-  <head>
-    <link rel="stylesheet" href="/styles/ember.css">
-  </head>
-
-  <body>
-
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/handlebars/handlebars.js"></script>
-    <script src="/bower_components/ember/ember.js"></script>
-
-    <script src="/bower_components/d3/d3.js"></script>
+<head>
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/ember.css">
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/handlebars/handlebars.js"></script>
+  <script src="/bower_components/ember/ember.js"></script>
+  <script src="/bower_components/d3/d3.js"></script>
 
     <!-- Our bubble chart -->
     <!--<script src="bubble-chart2.js"></script>-->
 
     <!-- Step 5: Send an action -->
-    <!--<script src="bubble-chart3.js"></script>-->
+    <script src="bubble-chart3.js"></script>
+</head>
 
-    
+<body class='ember'>
+
+  <div class="nav">
+    <h1>Ember & D3</h1>
+    <a href="1_original.html"></a>
+    <a href="2_oop.html"></a>
+    <a href="3_backbone_basics.html"></a>
+    <a href="4_backbone_d3.html"></a>
+    <a href="5_angular_basics.html"></a>
+    <a href="6_angular_d3.html"></a>
+    <a href="7_ember_basics.html"></a>
+    <a class='active' href="8_ember_d3.html"></a>
+  </div>
+
     <script type="text/x-handlebars" id="companies">
 
       <ul class="company-list">
@@ -31,9 +40,9 @@
       </ul>
 
       {{!-- Step 4: Bind to select box --}}
-      {{!-- {{view Em.Select 
+      {{view Em.Select 
           content=items 
-          value=selectedItem}} --}}
+          value=selectedItem}}
 
       {{!-- Step 3: Pass in the data --}}
       {{!-- Step 4: Bind to select box --}}
@@ -44,9 +53,9 @@
           action='selectCompany' }} --}}
 
       {{!-- Step 7.4: Selected company state --}}
-      {{!-- {{bubble-chart data=chartData
+      {{bubble-chart data=chartData
           selectedBubble=selectedCompanyIndex
-          action='selectCompany' }} --}}
+          action='selectCompany' }}
 
       <div class="detail">
         {{outlet}}
@@ -84,7 +93,7 @@
           // Typically, make an AJAX request
           return [
             {id: 1, name: "Wayne Enterprises", revenue: 3938, cost: 1423},
-            {id: 2, name: "Stark Enterprises", revenue: 3812, cost: 823},
+            {id: 2, name: "Stark Industries", revenue: 3812, cost: 823},
             {id: 3, name: "Acme Corp", revenue: 6714, cost: 2990},
             {id: 4, name: "Dunder Mifflin", revenue: 743, cost: 1304}
           ];
@@ -93,11 +102,11 @@
         /*
           Step 6: Link the action 
         */
-        // actions: {
-        //   selectCompany: function(d, i) {
-        //     this.transitionTo('company', this.controller.objectAt(i));
-        //   }
-        // }
+        actions: {
+          selectCompany: function(d, i) {
+            this.transitionTo('company', this.controller.objectAt(i));
+          }
+        }
       });
 
       App.CompanyRoute = Em.Route.extend({
@@ -108,9 +117,9 @@
         /*
           Step 7.2: Selected company state
         */
-        // deactivate: function() {
-        //   this.controller.set('content', null);
-        // },
+        deactivate: function() {
+          this.controller.set('content', null);
+        },
       });
 
       App.CompaniesController = Em.ArrayController.extend({
@@ -118,40 +127,40 @@
         /*
           Step 7.1: Selected company state
         */
-        // needs: ['company'],
-        // selectedCompanyIndex: function() {
-        //   return this.indexOf(this.get('controllers.company.model'));
-        // }.property('controllers.company.model'),
+        needs: ['company'],
+        selectedCompanyIndex: function() {
+          return this.indexOf(this.get('controllers.company.model'));
+        }.property('controllers.company.model'),
 
         /*
           Step 4: Bind to select box
         */
-        // items: ['revenue', 'cost'],
+        items: ['revenue', 'cost'],
 
         /*
           Step 3: Pass in the data
         */
-        // chartData: function() {
-        //   var self = this;
+        chartData: function() {
+          var self = this;
 
-        //   return {
-        //     name: 'companies',
-        //     children: this.map(function(c) {
-        //       return {
-        //         name: c.name,
-        //         // size: c.revenue
-        //         /*
-        //           Step 4: Bind to select box
-        //         */
-        //         size: c[self.get('selectedItem')]
-        //       };
-        //     })
-        //   };
+          return {
+            name: 'companies',
+            children: this.map(function(c) {
+              return {
+                name: c.name,
+                // size: c.revenue
+                /*
+                  Step 4: Bind to select box
+                */
+                size: c[self.get('selectedItem')]
+              };
+            })
+          };
         // }.property('content')
         /*
           Step 4: Bind to select box
         */
-        // }.property('content', 'selectedItem')
+        }.property('content', 'selectedItem')
       });
 
       /*
@@ -165,42 +174,42 @@
       /*
         Step 1: Create bubble component
       */
-      // App.BubbleChartComponent = Em.Component.extend({
-      //   classNames: 'bubble-chart',
+      App.BubbleChartComponent = Em.Component.extend({
+        classNames: 'bubble-chart',
 
-      //   chart: d3.charts.bubble()
-      //     .emptyMessage('No companies.'),
+        chart: d3.charts.bubble()
+          .emptyMessage('No companies.'),
 
-      //   /*
-      //     Step 5: Send an action (update bubble chart first)
-      //   */
-      //   // didInsertElement: function() {
-      //   //   var self = this;
+        /*
+          Step 5: Send an action (update bubble chart first)
+        */
+        didInsertElement: function() {
+          var self = this;
 
-      //   //   this.get('chart').dispatch().on('select', function(el, d, i) {
-      //   //     self.sendAction('action', d, i);
-      //   //   });
-      //   // },
+          this.get('chart').dispatch().on('select', function(el, d, i) {
+            self.sendAction('action', d, i);
+          });
+        },
       
-      //   // Step 2: Write draw function. (where does data come from?)
-      //   // draw: function() {
-      //   //   d3.select(this.get('element'))
-      //   //     .data([ this.get('data') ])
-      //   //     .call(this.get('chart'));
+        // Step 2: Write draw function. (where does data come from?)
+        draw: function() {
+          d3.select(this.get('element'))
+            .data([ this.get('data') ])
+            .call(this.get('chart'));
 
-      //   //   /*
-      //   //     Step 7.3: Selected company state
-      //   //   */
-      //   //   // this.update();
-      //   // }.observes('data').on('didInsertElement'),
+          /*
+            Step 7.3: Selected company state
+          */
+          this.update();
+        }.observes('data').on('didInsertElement'),
 
-      //   /*
-      //     Step 7.3: Selected company state
-      //   */
-      //   // update: function() {
-      //   //   this.get('chart').selectItem(this.get('selectedBubble'));
-      //   // }.observes('selectedBubble')
-      // });
+        /*
+          Step 7.3: Selected company state
+        */
+        update: function() {
+          this.get('chart').selectItem(this.get('selectedBubble'));
+        }.observes('selectedBubble')
+      });
 
     </script>
   </body>

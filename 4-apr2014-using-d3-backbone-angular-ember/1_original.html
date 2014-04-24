@@ -5,22 +5,19 @@
   <link rel="stylesheet" href="/styles/original.css">
 </head>
 
-<body>
+<body class='original'>
   <div class="nav">
     <h1>Let's get it done</h1>
-    <ul>
-      <li><a href="/1_original.html">Raw D3</a></li>
-      <li><a href="/2_oop.html">D3 Objectized</a></li>
-      <li><a href="/3_backbone_basics.html">Backbone basics</a></li>
-      <li><a href="/4_backbone_d3.html">Backbone d3</a></li>
-      <li><a href="/5_angular_basics.html">Angular basics</a></li>
-      <li><a href="/6_angular_d3.html">Angular D3</a></li>
-      <li><a href="/7_ember_basics.html">Ember basics</a></li>
-      <li><a href="/8_ember_d3.html">Ember D3</a></li>
-    </ul>
+    <a class='active' href="1_original.html"></a>
+    <a href="2_oop.html"></a>
+    <a href="3_backbone_basics.html"></a>
+    <a href="4_backbone_d3.html"></a>
+    <a href="5_angular_basics.html"></a>
+    <a href="6_angular_d3.html"></a>
+    <a href="7_ember_basics.html"></a>
+    <a href="8_ember_d3.html"></a>
   </div>
 
-</body>
 
 <script src="/bower_components/d3/d3.js"></script>
 <script>
@@ -39,9 +36,7 @@ var svg = d3.select("body").append("svg")
     .attr("height", diameter)
     .attr("class", "bubble");
 
-d3.json("companies.json", function(error, root) {
-  console.log(root);
-  console.log(bubble.nodes(classes(root)));
+d3.json("/companies.json", function(error, root) {
   var node = svg.selectAll(".node")
     .data(
       bubble.nodes(classes(root))
@@ -81,3 +76,6 @@ d3.select(self.frameElement).style("height", diameter + "px");
 
 
 </script>
+
+</body>
+</html>

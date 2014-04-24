@@ -1,17 +1,11 @@
-body {
-  width: 960px;
-  margin: 0 auto;
-  padding: 1em;
-}
-
-body, a, a:focus, a:active {
-  color: #333;
+h1 {
+  color: #f86c55;  
 }
 
 .company-list {
   width: 400px;
   float: left;
-  margin: 1em;
+  margin-bottom: 2em;
   padding: 0;
   list-style-type: none;
 }
@@ -29,14 +23,15 @@ body, a, a:focus, a:active {
   }
 
 select {
-  float: left;
+  float: right;
   margin-top: 1em;
+  position: relative;
 }
 
 .bubble-chart {
   float: left;
   width: 400px;
-
+  margin-top: -40px;
 }
   .bubble-chart .node {
     cursor: pointer;
@@ -51,6 +46,7 @@ select {
   }
   .bubble-chart text {
     fill: #f86c55 !important;
+    font-size: 12px;
   }
   .bubble-chart .node.active circle {
     fill: #f86c55 !important;
@@ -63,4 +59,8 @@ select {
   border: 1px solid #ddd;
   border-radius: 4px;
   padding: 1em;
+  margin-top: 2em;
 }
+  .detail h2 {
+    margin-top: 0;
+  }

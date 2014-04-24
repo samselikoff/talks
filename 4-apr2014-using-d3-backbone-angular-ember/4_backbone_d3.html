@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-
 <html>
+<meta charset="utf-8">
+<head>
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/backbone.css">
+</head>
 
-<body>
+<body class='backbone'>
+  <div class="nav">
+    <h1>Backbone + D3</h1>
+    <a href="1_original.html"></a>
+    <a href="2_oop.html"></a>
+    <a href="3_backbone_basics.html"></a>
+    <a class='active' href="4_backbone_d3.html"></a>
+    <a href="5_angular_basics.html"></a>
+    <a href="6_angular_d3.html"></a>
+    <a href="7_ember_basics.html"></a>
+    <a href="8_ember_d3.html"></a>
+  </div>
+
   <div id="demo">
+    <button class='add'>Add company</button>
+    <button class='remove'>Remove company</button>
     <div class="chart"></div>
     <div class="company-list"></div>
   </div>
@@ -22,18 +39,18 @@
   /*
     Step 1: Redefine the collection
   */
-  // var CompanyCollection = Backbone.Collection.extend({
+  var CompanyCollection = Backbone.Collection.extend({
   
-  //   chartData: function() {
-  //     return {
-  //       name: 'compaines',
-  //       children: this.map(function(c) { 
-  //         return {name: c.get('name'), size: c.get('revenue')};
-  //       })
-  //     }
-  //   }
+    chartData: function() {
+      return {
+        name: 'compaines',
+        children: this.map(function(c) { 
+          return {name: c.get('name'), size: c.get('revenue')};
+        })
+      }
+    }
   
-  // });
+  });
 
   var companies = new CompanyCollection([
     {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
@@ -71,38 +88,44 @@
   /*
     Step 2: Define the Bubble chart view
   */
-  // var BubbleChartView = Backbone.View.extend({
+  var BubbleChartView = Backbone.View.extend({
 
-  //   chart: d3.charts.bubble(),
+    chart: d3.charts.bubble(),
 
-  //   initialize: function() {
-  //     this.listenTo(this.collection, "change add remove", this.render);
-  //     this.render();
-  //   },
+    initialize: function() {
+      this.listenTo(this.collection, "change add remove", this.render);
+      this.render();
+    },
 
-  //   render: function() {
-  //     d3.select(this.el)
-  //       .datum(this.collection.chartData())
-  //       .call(this.chart);
+    render: function() {
+      d3.select(this.el)
+        .datum(this.collection.chartData())
+        .call(this.chart);
 
-  //     return this;
-  //   }
+      return this;
+    }
 
-  // });
+  });
 
   /*
     Step 3: Instatiate
   */
-  // var bubbles = new BubbleChartView({
-  //   el: '.chart',
-  //   collection: companies
-  // });
+  var bubbles = new BubbleChartView({
+    el: '.chart',
+    collection: companies
+  });
   
 
   /*
     Step 4: Play!
   */
-  // companies.push({name: "Sam's Club "+Math.floor(Math.random()*100), revenue: Math.random()*100000, cost: 1423})
+  $('.add').click(function() {
+    companies.push({name: 'Corp ' + Math.floor(Math.random()*100), revenue: Math.floor(Math.random()*10000), cost: Math.floor(Math.random()*10000)});
+  });
+
+  $('.remove').click(function() {
+    companies.at(Math.floor(Math.random()*companies.length)).destroy();
+  });
 
   </script>
 </body>

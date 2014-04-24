@@ -2,26 +2,34 @@
 <meta charset="utf-8">
 
 <html>
-
-  <head>
-    <link rel="stylesheet" href="/styles/ember.css">
-  </head>
-
-  <body>
-
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/handlebars/handlebars.js"></script>
-    <script src="/bower_components/ember/ember.js"></script>
-
-    <script src="/bower_components/d3/d3.js"></script>
-
+<head>
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/ember.css">
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/handlebars/handlebars.js"></script>
+  <script src="/bower_components/ember/ember.js"></script>
+  <script src="/bower_components/d3/d3.js"></script>
     <!-- Our bubble chart -->
     <!--<script src="bubble-chart2.js"></script>-->
 
     <!-- Step 5: Send an action -->
     <!--<script src="bubble-chart3.js"></script>-->
+</head>
 
-    
+<body class='ember'>
+
+  <div class="nav">
+    <h1>Ember & D3</h1>
+    <a href="1_original.html"></a>
+    <a href="2_oop.html"></a>
+    <a href="3_backbone_basics.html"></a>
+    <a href="4_backbone_d3.html"></a>
+    <a href="5_angular_basics.html"></a>
+    <a href="6_angular_d3.html"></a>
+    <a href="7_ember_basics.html"></a>
+    <a class='active' href="8_ember_d3.html"></a>
+  </div>
+
     <script type="text/x-handlebars" id="companies">
 
       <ul class="company-list">
@@ -84,7 +92,7 @@
           // Typically, make an AJAX request
           return [
             {id: 1, name: "Wayne Enterprises", revenue: 3938, cost: 1423},
-            {id: 2, name: "Stark Enterprises", revenue: 3812, cost: 823},
+            {id: 2, name: "Stark Industries", revenue: 3812, cost: 823},
             {id: 3, name: "Acme Corp", revenue: 6714, cost: 2990},
             {id: 4, name: "Dunder Mifflin", revenue: 743, cost: 1304}
           ];
@@ -203,5 +211,6 @@
       // });
 
     </script>
-  </body>
 
+</body>
+</html>

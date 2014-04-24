@@ -3,42 +3,28 @@
 
 <html>
 
-  <head>
-    <link rel="stylesheet" href="/styles/ember.css">
-    <style>
-/*      body, a, a:focus, a:active {
-        color: #333;
-      }
+<head>
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/ember.css">
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/handlebars/handlebars.js"></script>
+  <script src="/bower_components/ember/ember.js"></script>
+</head>
 
-      .company-list {
-        list-style-type: none;
-      }
-        .company-list a {
-          display: block;
-          padding: 1em;
-          text-decoration: none;
-        }
-        .company-list a:hover {
-          background-color: #eee;
-        }
-        .company-list a.active {
-          background-color: #f86c55;
-          color: white;
-        }
-      .detail {
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 1em;
-      }
-*/    </style>
-  </head>
+<body class='ember'>
 
-  <body>
+  <div class="nav">
+    <h1>Ember basics</h1>
+    <a href="1_original.html"></a>
+    <a href="2_oop.html"></a>
+    <a href="3_backbone_basics.html"></a>
+    <a href="4_backbone_d3.html"></a>
+    <a href="5_angular_basics.html"></a>
+    <a href="6_angular_d3.html"></a>
+    <a class='active' href="7_ember_basics.html"></a>
+    <a href="8_ember_d3.html"></a>
+  </div>
 
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/handlebars/handlebars.js"></script>
-    <script src="/bower_components/ember/ember.js"></script>
-    
     <!-- Step 3: Initial view -->
     <!--<script type="text/x-handlebars" id="companies">
       <ul class="company-list">
@@ -85,7 +71,7 @@
       <p>Last year we made {{revenue}}. Costs were {{cost}}.</p>-->
 
       <!-- Step 5: decorate the model -->
-      <!-- <p>The profit was <strong>{{profit}}</strong></p>. -->
+      <!-- <p>The profit was <strong>{{profit}}</strong>.</p> -->
     <!--</script> -->
 
 

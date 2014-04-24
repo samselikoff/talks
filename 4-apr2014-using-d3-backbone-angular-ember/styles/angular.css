@@ -1,0 +1,43 @@
+h1 {
+  color: #DD1B16;
+}
+.left-panel {
+  float: left;
+  width: 300px;
+}
+
+company-info div {
+  border: 2px solid #DD1B16;
+  border-radius: 4px;
+  padding: 0 1em;
+  margin: 1em 0;
+}
+
+company-info h3 {
+  color: #DD1B16;
+}
+
+.chart-panel {
+  border: 1px solid #999;
+  padding: 1em;
+  float: right;
+  width: 430px;
+  height: 450px;
+}
+
+.chart-panel circle {
+  /*fill: #f8f8f8 !important;
+  stroke: #bbb;*/
+  fill: #E52A3A !important;
+  stroke: #B3B3B3;
+  stroke-width: 2px;
+}
+
+.chart-panel .node text {
+  fill: white;
+}
+
+.chart-panel .message {
+  fill: #DD1B16 !important;
+  font-weight: bold;
+}
