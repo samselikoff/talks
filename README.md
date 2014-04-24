@@ -1,5 +1,12 @@
 Materials related to various talks I've given.
 
+Using D3 with Backbone, Angular and Ember
+-----------------------------------------
+> 4-apr2014-usign-d3-backbone-angular-ember
+
+**Slides**: [https://slides.com/samselikoff/using-d3-with-backbone-angular-and-ember](https://slides.com/samselikoff/using-d3-with-backbone-angular-and-ember)
+
+
 An Introduction to D3, with application to big data
 ---------------------------------------------------
 D3.js is a Javascript library primarily used to create interactive data visualizations in the browser.  Despite its growing popularity and warm community, getting started with D3 can be tricky.  This talk covers the basics of D3 and sheds light on some of its main conceptual hurdles. It concludes by discussing some applications of D3 to big data. 
