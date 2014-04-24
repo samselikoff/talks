@@ -17,7 +17,9 @@
     - But frameworks help you avoid this
 
 **4. Backbone**
+
 **4. Angular**
+
 **4. Ember**
   
   - All three frameworks provide solutions - in varying degrees -
@@ -111,8 +113,10 @@ Backbone
   - GUI is isolated chunks, backed by objects
   - Core idea is to keep template in sync with data
 
-**16. Some things to consider**
+** Some things to consider**
 
+  - React cuts down the amount of code you need to write to glue your models to views, clean up listeners, etc. 
+  - Can use with Backbone
 
 Angular
 --------
@@ -163,12 +167,19 @@ Ember
   - Enhancing the chart has nothing to do with Ember
 
 
+Wrapping up
+-----------
 
+- Iterative process
 
+  - Real-world use shows you how to expose your chart (primitives, etc.)
 
+- Another approach
 
-
-
+  - Build charts inside the framework, using the framework's primitives
+  - Less complex, if you know what you're doing
+  - But not reusable across frameworks/projects
+  - Also, nice to just see how the chart is customized within a view/component/directive.
 
 
 

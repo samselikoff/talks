@@ -3,52 +3,85 @@
 
 <html>
 <head>
-  <style>
-    .active {
-      background-color: #eee;
-    }
-  </style>
+  <link rel="stylesheet" href="/styles/base.css">
+  <link rel="stylesheet" href="/styles/angular.css">
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
 </head>
-<body ng-app="d3-demo">
 
-  <div ng-controller="CompaniesCtrl">
 
-    <div class="left-panel">
-      <input type="text" ng-model="query" placeholder="Filter">
-      <form>
+<body class='angular'>
+  <div class="nav">
+    <h1>Angular basics</h1>
+    <a href="1_original.html"></a>
+    <a href="2_oop.html"></a>
+    <a href="3_backbone_basics.html"></a>
+    <a href="4_backbone_d3.html"></a>
+    <a class='active' href="5_angular_basics.html"></a>
+    <a href="6_angular_d3.html"></a>
+    <a href="7_ember_basics.html"></a>
+    <a href="8_ember_d3.html"></a>
+  </div>
+  
+  <!-- Step 2: Specify areas of the DOM to be managed -->
+  <div ng-app="d3-demo">
+    <div ng-controller="CompaniesCtrl"> 
+
+      <div class="left-panel">
+
+        <!-- Step 5: Add a search box & model -->
+        <input type="text" ng-model="query" placeholder="Filter">
+
+        <!-- Step 6: Add a selector (& model to scope below) -->
         <input type="radio" ng-model="selectedItem" value="revenue">Revenue
         <input type="radio" ng-model="selectedItem" value="cost">Cost
-      </form> 
 
-      <company-info ng-repeat="c in companies | filter:query" company="c" selected-item="selectedItem" ></company-info>
+        <!-- Step 3: Create list of companies -->
+        <!-- Step 4: Add a filter -->
+        <!-- Step 6: Add a selector & model -->
+        <!-- <div ng-repeat="c in companies">
+          <h3>{{c.name}}</h3><p>The revenue was {{c.revenue}}</p>
+        </div> -->
+
+        <!-- Step 7: Directive -->
+        <company-info ng-repeat="c in companies | filter:query" company="c" selected-item="selectedItem" ></company-info>
+
+      </div>
 
     </div>
-
   </div>
 
-  <script src="/bower_components/jquery/dist/jquery.js"></script>
-  <script src="/bower_components/angular/angular.js"></script>
+
   <script>
+
     angular.module('d3-demo', [])
 
-      .controller('CompaniesCtrl', ['$scope', function($scope) {
+    /*
+      Step 1: Controllers present data to the template
+    */
+    .controller('CompaniesCtrl', ['$scope', function($scope) {
 
-        // $scope.query = "miff";
-        $scope.selectedItem = "revenue";
+      /*
+        Step 6: Add a selector
+      */
+      $scope.selectedItem = "revenue";
 
-        $scope.companies = [
-          {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
-          {name: "Stark Enterprises", revenue: 3812, cost: 823},
-          {name: "Acme Corp", revenue: 6714, cost: 2990},
-          {name: "Dunder Mifflin", revenue: 743, cost: 1304}
-        ];
+      $scope.companies = [
+        {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
+        {name: "Stark Industries", revenue: 3812, cost: 823},
+        {name: "Acme Corp", revenue: 6714, cost: 2990},
+        {name: "Dunder Mifflin", revenue: 743, cost: 1304}
+      ];
 
     }])
 
+    /*
+      Step 7: Directive
+    */
     .directive('companyInfo', function() {
       return {
         restrict: 'E',
-        template: '<h3>{{company.name}}</h3><p>The {{selectedItem}} was {{company[selectedItem] | currency}}</p>',
+        template: '<div><h3>{{company.name}}</h3><p>The {{selectedItem}} was {{company[selectedItem] | currency}}</p></div>',
         scope: {
           company: '=',
           selectedItem: '='

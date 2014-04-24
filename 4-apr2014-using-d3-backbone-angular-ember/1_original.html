@@ -37,6 +37,8 @@ var svg = d3.select("body").append("svg")
     .attr("class", "bubble");
 
 d3.json("/companies.json", function(error, root) {
+  console.log(root);
+  console.log(bubble.nodes(classes(root)));
   var node = svg.selectAll(".node")
     .data(
       bubble.nodes(classes(root))

@@ -52,7 +52,11 @@
   
   // });
 
-  var companies = new CompanyCollection([
+  /*
+    Step 1: Redefine the collection
+  */
+  // var companies = new CompanyCollection([
+  var companies = new Backbone.Collection([
     {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
     {name: "Stark Enterprises", revenue: 3812, cost: 823},
     {name: "Acme Corp", revenue: 6714, cost: 2990},

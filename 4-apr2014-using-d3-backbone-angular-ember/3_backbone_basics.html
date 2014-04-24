@@ -35,50 +35,50 @@
   /* 
     Step 1: Create a collection
   */
-  var companies = new Backbone.Collection([
-    {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
-    {name: "Stark Enterprises", revenue: 3812, cost: 823},
-    {name: "Acme Corp", revenue: 6714, cost: 2990},
-    {name: "Dunder Mifflin", revenue: 743, cost: 1304}
-  ]);
+  // var companies = new Backbone.Collection([
+  //   {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
+  //   {name: "Stark Enterprises", revenue: 3812, cost: 823},
+  //   {name: "Acme Corp", revenue: 6714, cost: 2990},
+  //   {name: "Dunder Mifflin", revenue: 743, cost: 1304}
+  // ]);
 
   /* 
     Step 2: Create a view
   */
-  var CompaniesView = Backbone.View.extend({
+  // var CompaniesView = Backbone.View.extend({
 
-    initialize: function() {
-      this.listenTo( this.collection, "change add remove", this.render );
-      this.render();
-    },
+  //   initialize: function() {
+  //     this.listenTo( this.collection, "change add remove", this.render );
+  //     this.render();
+  //   },
 
-    /* 
-     Step 3: Render
-    */
-    render: function() {
-      this.$el.html(this.template({
-        companies: this.collection.toJSON()
-      }));
+  //   /* 
+  //    Step 3: Render
+  //   */
+  //   // render: function() {
+  //   //   this.$el.html(this.template({
+  //   //     companies: this.collection.toJSON()
+  //   //   }));
 
-      return this;
-    },
+  //   //   return this;
+  //   // },
 
-    template: _.template(
-      '<ul><% _.each(companies, function(company) { %>' +
-        '<li><strong><%= company.name %></strong> revenue: <%= company.revenue %>, cost: <%= company.cost %></li>' +
-      '<% }); %></ul>'
-    )
+  //   // template: _.template(
+  //   //   '<ul><% _.each(companies, function(company) { %>' +
+  //   //     '<li><strong><%= company.name %></strong> revenue: <%= company.revenue %>, cost: <%= company.cost %></li>' +
+  //   //   '<% }); %></ul>'
+  //   // )
 
-  });
+  // });
 
 
   /*
     Step 4: Instantiate
   */
-  var list = new CompaniesView({
-    el: '.company-list',
-    collection: companies
-  });
+  // var list = new CompaniesView({
+  //   el: '.company-list',
+  //   collection: companies
+  // });
 
   /*
     Step 5: See the events work
@@ -86,6 +86,7 @@
   // companies.at(3).set('name', "Schrute Farms");
   // companies.at(3).destroy()
   // companies.push({name: 'Corp ' + Math.floor(Math.random()*100), revenue: Math.floor(Math.random()*10000), cost: Math.floor(Math.random()*10000)})
+
   $('.add').click(function() {
     companies.push({name: 'Corp ' + Math.floor(Math.random()*100), revenue: Math.floor(Math.random()*10000), cost: Math.floor(Math.random()*10000)});
   });
@@ -93,7 +94,6 @@
   $('.remove').click(function() {
     companies.at(Math.floor(Math.random()*companies.length)).destroy();
   });
-
   </script>
 </body>
 

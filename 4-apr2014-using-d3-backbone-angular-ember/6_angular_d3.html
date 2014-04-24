@@ -8,7 +8,11 @@
   <script src="/bower_components/jquery/dist/jquery.js"></script>
   <script src="/bower_components/d3/d3.js"></script>
   <script src="/bower_components/angular/angular.js"></script>
-  <script src="/bubble-chart2.js"></script>
+
+  <!-- Our bubble chart -->
+  <!--<script src="/bubble-chart.js"></script>-->
+  <!--<script src="/bubble-chart2.js"></script>-->
+
 </head>
 
 
@@ -42,7 +46,7 @@
 
         <!-- Step 1: Bubble chart directive -->
         <!-- Step 5: Chart enhancement -->
-        <bubble-chart data="chartData" empty-message="No companies"></bubble-chart>
+        <!-- <bubble-chart data="chartData"></bubble-chart> -->
       </div>
     </div>
   </div>
@@ -65,50 +69,50 @@
       /*
         Step 3: Share filtered companies
       */
-      $scope.$watch('query', function(q) {
-        $scope.filteredCompanies = $filter('filter')($scope.companies, q);
-      });
+      // $scope.$watch('query', function(q) {
+      //   $scope.filteredCompanies = $filter('filter')($scope.companies, q);
+      // });
 
       /*
         Step 2: Massage the data 
       */
-      $scope.chartData = {
-        name: 'companies',
-        children: $scope.companies.map(function(c) { 
-          return {name: c.name, size: c.revenue};
-        })
-      };
+      // $scope.chartData = {
+      //   name: 'companies',
+      //   children: $scope.companies.map(function(c) { 
+      //     return {name: c.name, size: c.revenue};
+      //   })
+      // };
 
       /*
         Step 3: Share filtered companies
       */
-      $scope.$watch('filteredCompanies', function(comps) {
-        $scope.chartData = {
-          name: 'companies',
-          children: comps.map(function(c) { 
-            return {name: c.name, size: c.revenue};
-          })
-        };
-      });
+      // $scope.$watch('filteredCompanies', function(comps) {
+      //   $scope.chartData = {
+      //     name: 'companies',
+      //     children: comps.map(function(c) { 
+      //       return {name: c.name, size: c.revenue};
+      //     })
+      //   };
+      // });
 
       /*
         Step 4: Respond to selected item
       */
-      $scope.$watchCollection('[filteredCompanies, selectedItem]', function(arr) {
-        $scope.chartData = {
-          name: 'companies',
-          children: arr[0].map(function(c) { 
-            return {name: c.name, size: c[arr[1]]};
-          })
-        };
-      });
+      // $scope.$watchCollection('[filteredCompanies, selectedItem]', function(arr) {
+      //   $scope.chartData = {
+      //     name: 'companies',
+      //     children: arr[0].map(function(c) { 
+      //       return {name: c.name, size: c[arr[1]]};
+      //     })
+      //   };
+      // });
 
     }])
 
     .directive('companyInfo', function() {
       return {
         restrict: 'E',
-        template: '<div><h3>{{company.name}}</h3><p>The {{selectedItem}} was {{company[selectedItem] | currency}}</p></div>',
+        template: '<div><h3>{{company.name}}</h3><p>The {{selectedItem}} was {{company[selectedItem]}}</p></div>',
         scope: {
           company: '=',
           selectedItem: '='
@@ -119,31 +123,31 @@
     /*
       Step 1: Bubble chart directive - link, not template
     */
-    .directive('bubbleChart', function() {
-      var chart = d3.charts.bubble();
+    // .directive('bubbleChart', function() {
+    //   var chart = d3.charts.bubble();
 
-      return {
-        restrict: 'E',
-        scope: {
-          data: '='
-        },
+    //   return {
+    //     restrict: 'E',
+    //     scope: {
+    //       data: '='
+    //     },
 
-        link: function(scope, element, attrs) {
-          /*
-            Step 5: Chart enhancement
-          */
-          chart.emptyMessage(attrs.emptyMessage);
+    //     link: function(scope, element, attrs) {
+    //       /*
+    //         Step 5: Chart enhancement
+    //       */
+    //       // chart.emptyMessage(attrs.emptyMessage);
 
-          scope.$watch('data', function(data) {
+    //       scope.$watch('data', function(data) {
 
-            d3.select(element[0])
-              .datum(data)
-              .call(chart);
+    //         d3.select(element[0])
+    //           .datum(data)
+    //           .call(chart);
 
-          });
-        }
-      };
-    })
+    //       });
+    //     }
+    //   };
+    // })
     ;
 
   </script>

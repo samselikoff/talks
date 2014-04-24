@@ -8,7 +8,7 @@
 
 <body class='backbone'>
   <div class="nav">
-    <h1>Backbone + D3</h1>
+    <h1>Backbone & D3</h1>
     <a href="1_original.html"></a>
     <a href="2_oop.html"></a>
     <a href="3_backbone_basics.html"></a>
@@ -39,20 +39,24 @@
   /*
     Step 1: Redefine the collection
   */
-  var CompanyCollection = Backbone.Collection.extend({
+  // var CompanyCollection = Backbone.Collection.extend({
   
-    chartData: function() {
-      return {
-        name: 'compaines',
-        children: this.map(function(c) { 
-          return {name: c.get('name'), size: c.get('revenue')};
-        })
-      }
-    }
+  //   chartData: function() {
+  //     return {
+  //       name: 'compaines',
+  //       children: this.map(function(c) { 
+  //         return {name: c.get('name'), size: c.get('revenue')};
+  //       })
+  //     }
+  //   }
   
-  });
+  // });
 
-  var companies = new CompanyCollection([
+  /*
+    Step 1: Redefine
+  */
+  var companies = new Backbone.Collection([
+  // var companies = new CompanyCollection([
     {name: "Wayne Enterprises", revenue: 3938, cost: 1423},
     {name: "Stark Enterprises", revenue: 3812, cost: 823},
     {name: "Acme Corp", revenue: 6714, cost: 2990},
@@ -88,32 +92,32 @@
   /*
     Step 2: Define the Bubble chart view
   */
-  var BubbleChartView = Backbone.View.extend({
+  // var BubbleChartView = Backbone.View.extend({
 
-    chart: d3.charts.bubble(),
+  //   chart: d3.charts.bubble(),
 
-    initialize: function() {
-      this.listenTo(this.collection, "change add remove", this.render);
-      this.render();
-    },
+  //   initialize: function() {
+  //     this.listenTo(this.collection, "change add remove", this.render);
+  //     this.render();
+  //   },
 
-    render: function() {
-      d3.select(this.el)
-        .datum(this.collection.chartData())
-        .call(this.chart);
+  //   render: function() {
+  //     d3.select(this.el)
+  //       .datum(this.collection.chartData())
+  //       .call(this.chart);
 
-      return this;
-    }
+  //     return this;
+  //   }
 
-  });
+  // });
 
   /*
     Step 3: Instatiate
   */
-  var bubbles = new BubbleChartView({
-    el: '.chart',
-    collection: companies
-  });
+  // var bubbles = new BubbleChartView({
+  //   el: '.chart',
+  //   collection: companies
+  // });
   
 
   /*
@@ -126,7 +130,6 @@
   $('.remove').click(function() {
     companies.at(Math.floor(Math.random()*companies.length)).destroy();
   });
-
   </script>
 </body>
 </html>
