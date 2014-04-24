@@ -2,7 +2,9 @@ Materials related to various talks I've given.
 
 Using D3 with Backbone, Angular and Ember
 -----------------------------------------
-> 4-apr2014-usign-d3-backbone-angular-ember
+> 4-apr2014-using-d3-backbone-angular-ember
+
+Start a local server from this directory, and browse to /final
 
 **Slides**: [https://slides.com/samselikoff/using-d3-with-backbone-angular-and-ember](https://slides.com/samselikoff/using-d3-with-backbone-angular-and-ember)
 
