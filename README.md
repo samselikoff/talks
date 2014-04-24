@@ -8,6 +8,8 @@ Start a local server from this directory, and browse to /final
 
 **Slides**: [https://slides.com/samselikoff/using-d3-with-backbone-angular-and-ember](https://slides.com/samselikoff/using-d3-with-backbone-angular-and-ember)
 
+**Demos**: [http://www.samselikoff.com/tutorials/d3-backbone-angular-ember/1_original.html](http://www.samselikoff.com/tutorials/d3-backbone-angular-ember/1_original.html)
+
 
 An Introduction to D3, with application to big data
 ---------------------------------------------------
