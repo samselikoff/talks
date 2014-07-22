@@ -9,11 +9,12 @@
   <script src="/bower_components/handlebars/handlebars.js"></script>
   <script src="/bower_components/ember/ember.js"></script>
   <script src="/bower_components/d3/d3.js"></script>
+
     <!-- Our bubble chart -->
-    <script src="bubble-chart2.js"></script>
+    <!--<script src="bubble-chart2.js"></script>-->
 
     <!-- Step 5: Send an action -->
-    <!--<script src="bubble-chart3.js"></script>-->
+    <script src="bubble-chart3.js"></script>
 </head>
 
 <body class='ember'>
@@ -39,22 +40,22 @@
       </ul>
 
       {{!-- Step 4: Bind to select box --}}
-      {{!-- {{view Em.Select 
+      {{view Ember.Select 
           content=items 
-          value=selectedItem}} --}}
+          value=selectedItem}}
 
       {{!-- Step 3: Pass in the data --}}
       {{!-- Step 4: Bind to select box --}}
-      {{bubble-chart data=chartData}}
+      {{!-- {{bubble-chart data=chartData}} --}}
 
       {{!-- Step 6: Link the action --}}
-      {{!-- {{bubble-chart data=chartData
-          action='selectCompany' }} --}}
+      {{!-- {{bubble-chart data=chartData --}}
+          {{!-- action='selectCompany' }} --}}
 
       {{!-- Step 7.4: Selected company state --}}
-      {{!-- {{bubble-chart data=chartData
+      {{bubble-chart data=chartData
           action='selectCompany'
-          selectedBubble=selectedCompanyIndex}} --}}
+          selectedBubble=selectedCompanyIndex}}
 
       <div class="detail">
         {{outlet}}
@@ -101,11 +102,11 @@
         /*
           Step 6: Link the action 
         */
-        // actions: {
-        //   selectCompany: function(i) {
-        //     this.transitionTo('company', this.controller.objectAt(i));
-        //   }
-        // }
+        actions: {
+          selectCompany: function(i) {
+            this.transitionTo('company', this.controller.objectAt(i));
+          }
+        }
       });
 
       App.CompanyRoute = Em.Route.extend({
@@ -116,29 +117,16 @@
         /*
           Step 7.2: Selected company state
         */
-        // deactivate: function() {
-        //   this.controller.set('content', null);
-        // },
+        deactivate: function() {
+          this.controller.set('content', null);
+        },
       });
 
+      /*
+        Step 3: Pass in the data
+      */
       App.CompaniesController = Em.ArrayController.extend({
 
-        /*
-          Step 7.1: Selected company state
-        */
-        // needs: ['company'],
-        // selectedCompanyIndex: function() {
-        //   return this.indexOf(this.get('controllers.company.model'));
-        // }.property('controllers.company.model'),
-
-        /*
-          Step 4: Bind to select box
-        */
-        // items: ['revenue', 'cost'],
-
-        /*
-          Step 3: Pass in the data
-        */
         chartData: function() {
           var self = this;
 
@@ -147,15 +135,30 @@
             children: this.map(function(c) {
               return {
                 name: c.name,
-                size: c.revenue
+                // size: c.revenue
                 /*
                   Step 4: Bind to select box
                 */
-                // size: c[self.get('selectedItem')]
+                size: c[self.get('selectedItem')]
               };
             })
           };
-        }.property('content')
+        }.property('content', 'selectedItem'),
+
+        /*
+          Step 4: Bind to select box
+        */
+        items: ['revenue', 'cost'],
+
+        /*
+          Step 7.1: Selected company state
+        */
+        needs: ['company'],
+        selectedCompanyIndex: function() {
+          return this.indexOf(this.get('controllers.company.model'));
+        }.property('controllers.company.model'),
+
+
         /*
           Step 4: Bind to select box
         */
@@ -182,13 +185,13 @@
         /*
           Step 5: Send an action (update bubble chart first)
         */
-        // didInsertElement: function() {
-        //   var self = this;
+        didInsertElement: function() {
+          var self = this;
 
-        //   d3.select(this.get('element')).selectAll('.node').on('click', function(i) {
-        //     self.sendAction('action', i);
-        //   });
-        // },
+          d3.select(this.get('element')).selectAll('.node').on('click', function(d, i) {
+            self.sendAction('action', i);
+          });
+        },
       
         // Step 2: Write draw function. (where does data come from?)
         draw: function() {
@@ -199,15 +202,15 @@
           /*
             Step 7.3: Selected company state
           */
-          // this.update();
+          this.update();
         }.observes('data').on('didInsertElement'),
 
         /*
           Step 7.3: Selected company state
         */
-        // update: function() {
-        //   this.get('chart').selectItem(this.get('selectedBubble'));
-        // }.observes('selectedBubble')
+        update: function() {
+          this.get('chart').selectItem(this.get('selectedBubble'));
+        }.observes('selectedBubble')
       });
 
     </script>

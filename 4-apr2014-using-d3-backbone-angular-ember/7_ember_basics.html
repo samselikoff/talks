@@ -26,7 +26,7 @@
   </div>
 
     <!-- Step 4: Add detail route -->
-    <script type="text/x-handlebars" id="companies">
+    <!--<script type="text/x-handlebars" id="companies">
       <ul class="company-list">
         {{#each}}
           <li>{{name}}</li>
@@ -36,10 +36,11 @@
       <div class="detail">
         {{outlet}}
       </div> 
-    </script>
+    
+    </script>-->
 
     <!-- Step 6: Add links -->
-    <!--<script type="text/x-handlebars" id="companies">
+    <script type="text/x-handlebars" id="companies">
       <ul class="company-list">
         {{#each}}
           <li>{{link-to name 'company' this}}</li>
@@ -49,7 +50,7 @@
       <div class="detail">
         {{outlet}}
       </div> 
-    </script>-->
+    </script>
 
     <!--<script type="text/x-handlebars" id="companies/index">
       <p>Select a company</p>
@@ -57,29 +58,20 @@
 
     <!-- Step 4: Add detail route -->
     <script type="text/x-handlebars" id="company">
-      <h2>{{name}}</h2>
-
-      <p>Last year we made {{revenue}}. Costs were {{cost}}.</p>
-
-      <!-- Step 5: decorate the model -->
-      <!-- <p>The profit was <strong>{{profit}}</strong>.</p> -->
+      {{company-detail company=this}}
     </script>
 
 
     <!-- Step 7: Make a component -->
-    <!-- <script type="text/x-handlebars" id="company">
-      {{company-detail company=this}}
-    </script> -->
-
-
-    <!-- Step 7: Make a component -->
-    <!--<script type="text/x-handlebars" id="components/company-detail">
+    <script type="text/x-handlebars" id="components/company-detail">
       {{#with company}}
         <h2>{{name}}</h2>
 
         <p>Last year we made {{revenue}}. Costs were {{cost}}.</p>
+
+        <p>The profit was <strong>{{profit}}</strong>.</p>
       {{/with}} 
-    </script>-->
+    </script>
 
     <script>
       /* 
@@ -112,11 +104,13 @@
       /*
         Step 5: Decorate the model
       */
-      // App.CompanyController = Em.ObjectController.extend({
-      //   profit: function() {
-      //     return this.get('revenue') - this.get('cost');
-      //   }.property('revenue')
-      // });
+      App.CompanyController = Em.ObjectController.extend({
+
+        profit: function() {
+          return this.get('revenue') - this.get('cost');
+        }.property('revenue', 'cost')
+
+      });
 
       /*
         Step 4: Add detail route. Specify model - comes from parent
@@ -130,7 +124,7 @@
       /*
         Step 7: Make a component
       */
-      // App.CompanyDetailComponent = Em.Component.extend({});
+      App.CompanyDetailComponent = Em.Component.extend({});
 
     </script>
   </body>
