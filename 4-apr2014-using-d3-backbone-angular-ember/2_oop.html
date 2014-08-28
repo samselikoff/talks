@@ -2,8 +2,8 @@
 <html>
 <meta charset="utf-8">
 <head>
-  <link rel="stylesheet" href="/styles/base.css">
-  <link rel="stylesheet" href="/styles/oop.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/oop.css">
 </head>
 
 <body class='oop'>
@@ -21,7 +21,7 @@
 
   <div id="demo"></div>
 
-<script src="/bower_components/d3/d3.js"></script>
+<script src="bower_components/d3/d3.js"></script>
 <script>
 /*
   Step 2
@@ -29,7 +29,7 @@
 var chart = bubbleChart()
   .margin({top: 0, right: 20, bottom: 0, left: 20});
 
-d3.json("/companies.json", function(error, data) {
+d3.json("companies.json", function(error, data) {
 
   d3.select('#demo')
     .datum(data)
