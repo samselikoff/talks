@@ -13,6 +13,7 @@ This talk will discuss specifics of using D3 within the context of three popular
 
 Sam will also discuss reusability of D3-based code across the three frameworks.
 
+- [Video](https://www.youtube.com/watch?v=ca3pQWc2-Xs) and [Ember screencast](https://www.youtube.com/watch?v=rvPwv40O9LE)
 - [Slides](https://slides.com/samselikoff/using-d3-with-backbone-angular-and-ember)
 - [Demos](http://www.samselikoff.com/tutorials/d3-backbone-angular-ember/1_original.html)
 - [Code](4-apr2014-using-d3-backbone-angular-ember)
@@ -27,6 +28,7 @@ Boston, MA
 
 D3.js is a Javascript library primarily used to create interactive data visualizations in the browser.  Despite its growing popularity and warm community, getting started with D3 can be tricky.  This talk covers the basics of D3 and sheds light on some of its main conceptual hurdles. It concludes by discussing some applications of D3 to big data. 
 
+- [Video](https://www.youtube.com/watch?v=kFCDA1uzGFo)
 - [Slides](http://slid.es/samselikoff/big-data-intro-to-d3-jan-2014)
 - [Code](3-feb2014-big-data-intro-to-d3)
 
@@ -39,6 +41,7 @@ Boston, MA
 
 This talk will explore using Ember to manage a simple dashboard built in D3.
 
+- [Video](https://www.youtube.com/watch?v=gz7Jy2abm10)
 - [Slides](http://slid.es/samselikoff/ember-and-d3-sep-2013)
 - [Demos](http://www.samselikoff.com/talks/)
 - [Code](2-sep2013-d3-ember-simple-dashboard)
