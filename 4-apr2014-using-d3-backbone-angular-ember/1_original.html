@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <head>
-  <link rel="stylesheet" href="/styles/base.css">
-  <link rel="stylesheet" href="/styles/original.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/original.css">
 </head>
 
 <body class='original'>
@@ -19,7 +19,7 @@
   </div>
 
 
-<script src="/bower_components/d3/d3.js"></script>
+<script src="bower_components/d3/d3.js"></script>
 <script>
 
 var diameter = 400,
@@ -36,7 +36,7 @@ var svg = d3.select("body").append("svg")
     .attr("height", diameter)
     .attr("class", "bubble");
 
-d3.json("/companies.json", function(error, root) {
+d3.json("companies.json", function(error, root) {
   console.log(root);
   console.log(bubble.nodes(classes(root)));
   var node = svg.selectAll(".node")
