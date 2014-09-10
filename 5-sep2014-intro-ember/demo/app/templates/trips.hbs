@@ -1,0 +1,15 @@
+<div class="left-panel">
+  <div class="list-group">
+    {{#each trip in controller}}
+      {{#link-to 'trip' trip.id class='list-group-item'}}
+        <h4 class="list-group-item-heading">{{trip.name}}</h4>
+      {{/link-to}}
+    {{else}}
+      <a>No trips!</a>
+    {{/each}}
+  </div>
+</div>
+
+<div class="center-panel">
+  {{outlet}}
+</div>

@@ -197,9 +197,9 @@ JSP):
 
 {{#each contact in contacts}}
   <div class='contact-card'>
-    {{contact.name}}
-    <img href="mailto:{{contact.email}}">{{contact.email}}</a>
-  </contact>
+    <h2>{{contact.name}}</h2>
+    <h3>{{contact.email}}</h3>
+  </div>
 {{/each}}
 ```
 
@@ -241,9 +241,11 @@ properties are also made available in our templates.
 
 ```js
 App.ContactController = Ember.Controller.extend({
+
   fullName: function() {
     return this.get('firstName') + ' ' + this.get('lastName');
-  }
+  }.property('firstName', 'lastname')
+
 });
 ```
 
@@ -280,7 +282,23 @@ calendar widget). They're essentially used for things you can't do in
 Handlebars templates alone. Templates in Ember are surprisingly
 powerful, though, so you'll seldom need your own views.
 
-### Compoments
+```js
+export default Ember.View.extend({
+  didInsertElement: function() {
+    this.$().somePlugin();
+  }
+});
+```
+
+```hbs
+{{#each contact in contacts}}
+  {{view 'profile-card' contact
+    classBinding='expired'}}
+{{/each}}
+```
+
+
+### Components
 
 Components are actually a subclass of view - they have the same hooks,
 and they render a template - but they differ in a few ways. The main
@@ -291,6 +309,13 @@ controller, instead of accessing data from the outside controller.
 This makes components completely reusable throughout your appliaction,
 making them prime candidates for things like datepickers, tab
 navigations, etc.
+
+```hbs
+<div class="sidebar">
+  <label >Select a date</label> 
+  {{date-picker selectedDate=currentMonth mode='month'}}
+</div>
+```
 
 ### Actions
 
@@ -357,18 +382,38 @@ example, a contact has many addresses.
 Ember data is still in beta and is optional, but many (if not most)
 Ember apps use it.
 
----
+```js
+// models/contact.js
+export default DS.Model.extend({
+  firstName: DS.attr('string'),
+  lastName: DS.attr('string'),
+  age: DS.attr('number'),
+
+  addresses: DS.hasMany('address')
+});
+```
+
+----
 
 Alright, enough intro. In the next section we'll build something using
-Ember-CLI.
+ember-cli.
 
-
-# Part 2 (30-45 mins): Building [iTunes/Gmail/something else] with Ember
+## Part 2 (30-45 mins): Building Budgetr with Ember
 
  - We'll build something with Ember
 
 
-
+  - Explain app
+  - Show mockup
+  - Explain UI is tied to routes
+    - nested ui -> nested routes
+  - Define routes
+    - index
+  - Create http-mock for trips
+  - Visit /trips
+  - Show {{link-to}}
+  - npm install --save-dev ember-cli-bootstrap
+    - restart server
 
 
 

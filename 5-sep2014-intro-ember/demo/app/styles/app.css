@@ -1,0 +1,37 @@
+html,
+body,
+body > .ember-view {
+  margin: 0;
+  height: 100%;
+}
+.title {
+  background-color: black;
+  margin: 0;
+  padding: 20px 10px;
+}
+.title a:link,
+.title a:visited {
+  color: white;
+  border-bottom: 1px solid black;
+  padding: 1px 0;
+  text-decoration: none;
+}
+.title a:hover,
+.title a:visited:hover {
+  border-color: white;
+}
+.left-panel {
+  height: 100%;
+  width: 299px;
+  border-right: 1px solid #999;
+  float: left;
+  background-color: whitesmoke;
+}
+.center-panel {
+  margin-left: 320px;
+  padding: 10px;
+
+}
+.center-panel h1 {
+  margin: 10px;
+}
