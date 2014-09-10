@@ -6,14 +6,14 @@ module.exports = function(app) {
       {
         id: 1,
         name: 'My summer trip',
-        date: new Date(),
+        date: '2015-06-01',
         months: 6,
         cost: 6000
       },
       {
         id: 2,
         name: 'Paris',
-        date: new Date(),
+        date: '2015-06-01',
         months: 3,
         cost: 4000
       },

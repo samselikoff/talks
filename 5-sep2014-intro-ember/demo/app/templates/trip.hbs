@@ -1,9 +1,33 @@
-<h1>{{name}}</h1>
 
-<p>Travel date: {{input type='date' value=date}}</p>
-<p>Months out: {{input type='number' value=months}}</p>
-<p>Cost: {{input type='number' value=cost}}</p>
+{{#if isEditing}}
+  <h2>
+    {{input value=name}}
+    <button class="pull-right" {{action 'toggleEditing'}}>Save</button>
+  </h2>
+
+  <label>Travel date: {{input type='date' value=date}}</label>
+  <label>Cost: {{input type='number' value=cost}}</label>
+{{else}}
+  <h2>
+    {{name}}
+    <button class="pull-right" {{action 'toggleEditing'}}>Edit</button>
+  </h2>
+
+  <label>Travel date: {{moment-format date 'MMM D, YYYY'}}</label>
+  <label>Cost: ${{cost}}</label>
+{{/if}}
 
 <hr>
 
-<p>You'll need to save <strong>${{monthlySavingsRequired}}</strong> per month for your trip.</p>
+<div class="container">
+  <div class="block">
+    <h3 class='large'>{{monthsLeft}}</h3>
+    <aside>months left</aside>
+  </div>
+
+  <div class="block">
+    <aside class='top'>You need to save</aside>
+    <h3>${{monthlySavingsRequired}}</h3>
+    <aside>per month</aside>
+  </div>
+</div>

@@ -412,9 +412,14 @@ ember-cli.
   - Create http-mock for trips
   - Visit /trips
   - Show {{link-to}}
-  - npm install --save-dev ember-cli-bootstrap
+  - bower install --save moment
+    - update brocfile
     - restart server
 
+  - references
+    - ember-cli
+    - ember-inspector
+    - ember guides
 
 
 

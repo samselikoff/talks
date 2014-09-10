@@ -3,35 +3,119 @@ body,
 body > .ember-view {
   margin: 0;
   height: 100%;
+  font-family: 'Helvetica Neue', sans-serif;
 }
 .title {
-  background-color: black;
+  background-color: #FF6B66;
   margin: 0;
-  padding: 20px 10px;
+  padding: 20px;
+  font-size: 32px;
+  font-weight: 100;
+  box-shadow: 0 2px 6px #ddd;
+  border-bottom: 2px solid #BBB;
 }
 .title a:link,
 .title a:visited {
   color: white;
-  border-bottom: 1px solid black;
   padding: 1px 0;
   text-decoration: none;
 }
 .title a:hover,
 .title a:visited:hover {
-  border-color: white;
+  border-bottom: 1px solid white;
 }
 .left-panel {
   height: 100%;
-  width: 299px;
+  width: 279px;
   border-right: 1px solid #999;
   float: left;
   background-color: whitesmoke;
 }
+.left-panel > a {
+  display: block;
+  border-bottom: 1px solid #999;
+  padding: 13px 20px;
+  text-decoration: none;
+  color: #666;
+  font-weight: 300;
+  font-size: 17px; 
+}
+.left-panel > a:before {
+  border-left: 7px solid whitesmoke;
+  content: '';
+  margin-left: -10px;
+  padding-left: 20px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  margin-left: -20px;
+}
+.left-panel > a:hover:before {
+  border-left-color: #bbb;
+}
+.left-panel > a.active:before {
+  border-left-color: #59ACE8
+}
 .center-panel {
-  margin-left: 320px;
-  padding: 10px;
+  margin-left: 280px;
+  padding: 0 20px;
 
 }
-.center-panel h1 {
-  margin: 10px;
+
+label {
+  color: #888;
+  display: block;
+  height: 28px;
+}
+.container {
+  text-align: center;
+}
+.block {
+  position: relative;
+  width: 150px;
+  height: 130px;
+  border: 1px solid #999;
+  margin: 20px;
+  border-radius: 15%;
+  text-align: center;
+  display: inline-block;
+}
+.block h3 {
+  font-size: 40px;
+  margin: 0;
+  line-height: 130px;
+  color: #E83558;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+.block h3.large {
+  font-size: 60px;
+  line-height: 100px;
+}
+.block aside {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+}
+.block aside.top {
+  top: 10px;
+}
+
+/*
+  Base
+*/
+input {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/*
+  Utilities
+*/
+.margin-left {
+  margin-left: 25px;
+}
+.pull-right {
+  float: right;
 }

@@ -23,7 +23,6 @@
     "broccoli-ember-hbs-template-compiler": "^1.6.1",
     "connect-restreamer": "^1.0.0",
     "ember-cli": "0.0.44",
-    "ember-cli-bootstrap": "0.0.11",
     "ember-cli-ember-data": "0.1.0",
     "ember-cli-ic-ajax": "0.1.1",
     "ember-cli-inject-live-reload": "^1.0.2",
