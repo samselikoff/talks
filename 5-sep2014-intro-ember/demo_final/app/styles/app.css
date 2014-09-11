@@ -13,6 +13,7 @@ body > .ember-view {
   font-weight: 100;
   box-shadow: 0 2px 6px #ddd;
   border-bottom: 2px solid #BBB;
+  color: white;
 }
 .title a:link,
 .title a:visited {

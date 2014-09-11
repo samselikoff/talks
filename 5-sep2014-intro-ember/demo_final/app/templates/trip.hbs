@@ -1,20 +1,22 @@
 
 {{#if isEditing}}
-  <h2>
-    {{input value=name}}
-    <button class="pull-right" {{action 'toggleEditing'}}>Save</button>
-  </h2>
+
+  <h2>{{input value=name}}</h2>
 
   <label>Travel date: {{input type='date' value=date}}</label>
   <label>Cost: {{input type='number' value=cost}}</label>
+  
+  <button {{action 'toggleEditing'}}>Save</button>
+
 {{else}}
-  <h2>
-    {{name}}
-    <button class="pull-right" {{action 'toggleEditing'}}>Edit</button>
-  </h2>
+
+  <h2>{{name}}</h2>
 
   <label>Travel date: {{moment-format date 'MMM D, YYYY'}}</label>
   <label>Cost: ${{cost}}</label>
+
+  <button {{action 'toggleEditing'}}>Edit</button>
+
 {{/if}}
 
 <hr>

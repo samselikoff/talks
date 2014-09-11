@@ -405,8 +405,11 @@ ember-cli.
 
   - Explain app
   - Show mockup
+  - `npm new demo`
+    - while installing, explain npm, bower
   - Explain UI is tied to routes
     - nested ui -> nested routes
+  - Update app template
   - Define routes
     - index
   - Create http-mock for trips
@@ -424,27 +427,192 @@ ember-cli.
 
 
 
+Demo app
+--------
+
+1. app template
+--------------
+
+// templates/application.hbs
+<h2 class='title'>Budgetr</h2>
+
+{{outlet}}
+
+
+2. URLs
+---------
+
+// app/router.js
+
+import Ember from 'ember';
+
+var Router = Ember.Router.extend({
+  location: DemoENV.locationType
+});
+
+Router.map(function() {
+  this.resource('trips', {path: '/'}, function() {
+    this.resource('trip', {path: '/:trip_id'});
+  });
+});
+
+export default Router;
+
+
+3. trips route
+--------------
+
+ember g route trips
+
+// templates/trips.hbs
+
+<div class="left-panel">
+  <a href='#'>Trip A</z> 
+  <a href='#'>Trip B</z> 
+</div>
+
+<div class="center-panel">
+  <p>center</p> 
+</div>
+
+
+4. trips.index
+---------------
+
+// templates/trips/index.hbs
+<h1>Select a trip!</h1>
+
+5. data
+-------
+
+// routes/trip.js
+
+import Ember from 'ember';
+
+export default Ember.Route.extend({
+
+  model: function() {
+    return this.store.find('trip');
+  }
+
+});
+
+
+5. ember g model trip name:string cost:number date:date
+---------------------
+
+// model/trip.js
+
+import DS from 'ember-data';
+
+export default DS.Model.extend({
+
+  name: DS.attr('string'),
+  cost: DS.attr('number'),
+  date: DS.attr('date')
+  
+});
+
+
+6. ember g http-mock trips
+--------------------------
+
+module.exports = function(app) {
+  var express = require('express');
+  var tripsRouter = express.Router();
+  tripsRouter.get('/', function(req, res) {
+    res.send({"trips":[
+      {
+        id: 1,
+        name: 'Paris',
+        cost: 6000,
+        date: '2015-01-01'
+      },
+      {
+        id: 2,
+        name: 'My Summer trip',
+        cost: 2000,
+        date: '2015-06-01'
+      },
+    ]});
+  });
+  app.use('/api/trips', tripsRouter);
+};
+
+// adapters/application.js
+import DS from 'ember-data';
+
+export default DS.RESTAdapter.extend({
+  namespace: 'api'
+});
 
 
 
+7. update trips.hbs
+-------------------
+
+<div class="left-panel">
+  {{#each trip in controller}}
+    {{link-to trip.name 'trip' trip}}
+  {{/each}}
+</div>
+
+<div class="center-panel">
+  {{outlet}}
+</div>
 
 
+8. templates/trip.hbs
+----------------------
+
+<h2>{{name}}</h2>
+
+<label>Travel date: {{date}}</label>
+<label>Cost: ${{cost}}</label>
+
+<hr>
+
+<div class="container">
+  <div class="block">
+    <h3 class='large'>8</h3>
+    <aside>months left</aside>
+  </div>
+
+  <div class="block">
+    <aside class='top'>You need to save</aside>
+    <h3>$100</h3>
+    <aside>per month</aside>
+  </div>
+</div>
 
 
+9. ember g controller trip
+--------------------------
+
+10. bower install --save moment
+--------------------------
+- app.import('bower_components/moment/moment.js');
+- restart server
 
 
+11. update controller
+---------------------
+// controllers/trip
 
+/* global moment */
+import Ember from 'ember';
 
+export default Ember.ObjectController.extend({
 
+  monthsLeft: function() {
+    return moment(this.get('date')).diff(moment(), 'months');
+  }.property('date'),
 
+  monthlySavingsRequired: function() {
+    return Math.floor(+this.get('cost') / +this.get('monthsLeft'));
+  }.property('cost', 'monthsLeft'),
 
-
-
-
-
-
-
-
+});
 
 
 
