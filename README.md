@@ -1,6 +1,18 @@
 Materials related to various talks I've given.
 
 ---
+**Building Modern Javascript Applications with Ember.js**  
+September 11, 2014  
+[NEJUG](http://www.nejug.org/)  
+Waltham, MA
+
+This talk explores building modern JavaScript web applications with the Ember.js framework. It starts with a brief discussion on JavaScript's evolving role in web applications, then introduces the Ember framework at a high level, and concludes with some live coding examples.
+
+- [Slides](http://slides.com/samselikoff/building-modern-js-apps-with-emberjs)
+- [Code](5-sep2014-intro-ember)
+    - `cd` into `budgetr_final` and after `npm install && bower install` run `ember serve`
+
+---
 
 **Using D3 with Backbone, Angular and Ember**  
 April 24, 2014  
