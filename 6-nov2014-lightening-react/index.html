@@ -1,0 +1,45 @@
+<!-- https://www.ted.com/profiles/239263/translator -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv='Content-type' content='text/html; charset=utf-8'>
+    <title>Basic Example with JSX</title>
+    <style>
+      ul {
+        list-style-type: none;
+      }
+      li {
+        display: inline-block;
+        padding-right: 15px;
+      }
+      li::after {
+        content: '|';
+        padding-left: 15px;
+        color: #ccc;
+      }
+      a, a:active, a:visited, a:visited:active, a:hover, a:visited:hover {
+        text-decoration: none;
+        color: #333;
+      }
+      a:hover, a:visited:hover, li.active a {
+        color: #e62b1e;
+      }
+      .box {
+        border: 1px solid #ddd;
+        padding: 1em 2em;
+      }
+      .hide {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Example</h2>
+    <div id="content"></div>
+    <script src="bower_components/react/react.js"></script>
+    <script src="bower_components/react/JSXTransformer.js"></script>
+    <script type="text/jsx" src='example.js'></script>
+  </body>
+</html>
+
