@@ -47,3 +47,5 @@ Example
 
 - tree diffing to change DOM
 
+- Original: https://www.ted.com/profiles/239263/translator
+- React: http://jsfiddle.net/samselikoff/kb3gN/7777/
